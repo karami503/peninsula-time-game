@@ -1,7 +1,11 @@
-# 반도의 시간
+# 반도의 시간 — 한국 도시 건설 시범판
 
-한반도 역사와 도시 건설을 소재로 한 Unity 3D 시범 게임입니다. [최신 배포판](https://github.com/karami503/peninsula-time-game/releases/latest)에서 macOS, Windows, Android용 파일을 받을 수 있습니다.
+최신 버전: **0.4.0**. [macOS·Windows·Android 설치 파일과 Unity 원본](https://github.com/karami503/peninsula-time-game/releases/latest)을 받으세요.
 
-현재 버전은 0.3.0 시범판입니다. 지도·자원·건설 화면을 다시 디자인했고, 목록 스크롤과 지도 확대 입력을 분리했습니다. 지도 확대는 오른쪽 `+`·`−` 버튼을 사용합니다. 실제 교통 노선 전체, 역사 사건 전체, 실시간 국제 정세, 정밀 서울 재현은 아직 구현 중입니다. 강남·서울역·홍대·김포공항의 현시대 3D 화면은 © OpenStreetMap contributors 데이터를 기초로 만들었습니다. ODbL: https://www.openstreetmap.org/copyright
+한반도의 실제 해안선을 바탕으로 도시를 고르고, 도시별 3D 설계 화면에서 도로와 건물을 건설합니다. 마산·창원·진해를 별도 플레이 도시로 선택할 수 있습니다. 5가지 건설 분류, 인구·행복도·세금·도시 예산, 버스·도시철도 시범 탑승, 국가를 클릭하는 세계 지도가 들어 있습니다.
 
-`status.json`은 게임 내 점검 및 업데이트 안내에 사용합니다. `maintenance`를 `true`로 변경하면 실행 중인 게임이 최대 약 60초 뒤 점검 화면으로 전환됩니다. 새로운 배포판을 올릴 때 `version`과 `downloadUrl`을 변경하면 게임 내 다운로드 안내가 나타납니다. 설치는 수동입니다.
+이 버전은 시범판입니다. 도시 설계 격자는 실측 필지와 도로가 아니고 건물 모델·교통·운영 규칙은 시티즈 스카이라인 수준으로 완성된 것이 아닙니다. 자세한 내용은 배포 파일의 `README-0.4.0.md`를 확인하세요.
+
+한반도 지도 경계: [Natural Earth](https://www.naturalearthdata.com/about/terms-of-use/) 공개 영역. 지명·서울 3D 기초 자료: © [OpenStreetMap 기여자](https://www.openstreetmap.org/copyright), ODbL.
+
+`status.json`은 점검 화면과 새 버전 다운로드 안내에 사용됩니다. 파일 자동 설치나 멀티플레이 서버 기능은 아닙니다.
