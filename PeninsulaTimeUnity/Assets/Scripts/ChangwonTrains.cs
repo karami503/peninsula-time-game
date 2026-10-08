@@ -269,6 +269,19 @@ namespace PeninsulaTime
             ride=t;from=a;to=b;chase=false;lookYaw=lookPitch=0;hudAt=0;ChangwonSession.Ride=this;
             ChangwonSession.Toast(a.name+" → "+b.name+" 열차가 출발합니다 · T 시점 · Space 빨리 가기");Sfx.Play("chime",.6f);
         }
+        // Isolated QA entry point; requires --playtest and a separate save directory.
+        public bool StartPlaytestRide()
+        {
+            if(!ready||ride!=null)return false;
+            var a=stations.Find(s=>s.name=="창원중앙역");
+            var b=stations.Find(s=>s.name=="마산역");
+            if(a==null||b==null)return false;
+            Dijkstra(a.v);
+            if(dist[b.v]==float.MaxValue)return false;
+            Depart(a,b);
+            return ride!=null;
+        }
+        public string PlaytestStatus{get{return "ready="+ready+" stations="+stations.Count+" model="+(ChangwonSession.Builder!=null);}}
         void Arrive()
         {
             var t=ride;var st=to;ride=null;if(ReferenceEquals(ChangwonSession.Ride,this))ChangwonSession.Ride=null;

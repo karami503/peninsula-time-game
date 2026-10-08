@@ -45,7 +45,7 @@ namespace PeninsulaTime.Editor
             var path="Assets/Scenes/Main.unity";Directory.CreateDirectory("Assets/Scenes");EditorSceneManager.SaveScene(scene,path);
             EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(path,true)};
             PlayerSettings.companyName="Kim Garam";PlayerSettings.productName="반도의 시간";
-            PlayerSettings.bundleVersion="0.9.9-preview.1";
+            PlayerSettings.bundleVersion="0.9.9-preview.2";
             // Online servers on a LAN or home PC speak plain HTTP; public servers should sit behind HTTPS.
             PlayerSettings.insecureHttpOption=InsecureHttpOption.AlwaysAllowed;
             PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.Standalone,"com.kimgaram.peninsulatime");

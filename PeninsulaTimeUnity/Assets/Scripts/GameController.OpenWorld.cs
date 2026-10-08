@@ -106,7 +106,31 @@ namespace PeninsulaTime
             ChangwonParkedCars(spawn,facing);
             var cli=Environment.GetCommandLineArgs();int ts=Array.IndexOf(cli,"--changwon-tour-start");int t0;if(ts>=0&&ts+1<cli.Length&&int.TryParse(cli[ts+1],out t0))cwTour=t0-1;
             cwReady=true;cwStage="";fade=1;
+            if(playtest&&Array.IndexOf(cli,"--changwon-qa-train")>=0)StartCoroutine(ChangwonPlaytestTrain());
+            if(playtest&&Array.IndexOf(cli,"--changwon-qa-bus")>=0)StartCoroutine(ChangwonPlaytestBus());
             Toast("창원특례시에 오신 것을 환영합니다 · F: 차 타기/상호작용 · M: 지도 · Esc: 메뉴");
+        }
+        IEnumerator ChangwonPlaytestTrain()
+        {
+            ChangwonTrains trains=null;
+            for(int i=0;i<3600;i++)
+            {
+                trains=world.root.GetComponent<ChangwonTrains>();
+                if(trains!=null&&trains.StartPlaytestRide()){Debug.Log("Changwon QA train ride started");yield break;}
+                if(i==600||i==1800)Debug.Log("Changwon QA train waiting: "+(trains!=null?trains.PlaytestStatus:"component missing"));
+                yield return null;
+            }
+            Debug.LogError("Changwon QA train ride could not start: "+(trains!=null?trains.PlaytestStatus:"component missing"));
+        }
+        IEnumerator ChangwonPlaytestBus()
+        {
+            var buses=world.root.GetComponent<ChangwonBuses>();
+            for(int i=0;i<1800&&buses!=null;i++)
+            {
+                if(buses.StartPlaytestRide()){Debug.Log("Changwon QA bus ride started");yield break;}
+                yield return null;
+            }
+            Debug.LogError("Changwon QA bus ride could not start");
         }
         // Default start: in front of 창원시청 by 창원광장, on the pavement of 중앙대로.
         void ChangwonSpawn(out Vector3 spawn,out Vector3 facing)

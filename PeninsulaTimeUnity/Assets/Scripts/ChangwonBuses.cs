@@ -302,6 +302,20 @@ namespace PeninsulaTime
             ChangwonSession.Toast(route.number+"번 버스에 탔습니다 · "+Short(route.title)+(b.next<sa.Length?" · 다음 정류장 "+route.stopNames[b.next]:"")+" · F 하차 벨 · T 시점");
             Sfx.Play("tap",.7f);
         }
+        // Explicit QA route, isolated behind --playtest and a separate save directory.
+        public bool StartPlaytestRide()
+        {
+            if(!ready||riding!=null||routes==null)return false;
+            for(int r=0;r<routes.Count;r++)
+            {
+                if(routes[r].length<500f)continue;
+                var bus=SpawnBus(r,Mathf.Min(100f,routes[r].length*.1f));
+                if(bus==null)continue;
+                Board(bus);
+                return riding!=null;
+            }
+            return false;
+        }
         void Alight(Bus b,string note)
         {
             riding=null;if(ReferenceEquals(ChangwonSession.Ride,this))ChangwonSession.Ride=null;
@@ -338,8 +352,13 @@ namespace PeninsulaTime
             if(bell&&b.dwell>0&&b.dwell<DwellTime-1.5f){Alight(b,StopName(b)+"에서 내렸습니다");return;}
             lookYaw=Mathf.Clamp(lookYaw+Input.GetAxis("Mouse X")*2.2f,-160f,160f);lookPitch=Mathf.Clamp(lookPitch-Input.GetAxis("Mouse Y")*1.6f,-35f,35f);
             var cam=camera.transform;
-            // Sit just behind the windscreen; the midpoint is hidden by the destination panel.
-            if(!chase){cam.position=b.pos+Vector3.up*2.45f+b.fwd*4.35f;cam.rotation=Quaternion.LookRotation(b.fwd)*Quaternion.Euler(lookPitch,lookYaw,0);}
+            // The front destination panel blocks the windscreen. Sit beside a passenger window.
+            if(!chase)
+            {
+                var right=new Vector3(b.fwd.z,0,-b.fwd.x);
+                cam.position=b.pos+Vector3.up*1.95f+b.fwd*1f+right*.45f;
+                cam.rotation=Quaternion.LookRotation((b.fwd+right*.85f).normalized)*Quaternion.Euler(lookPitch,lookYaw,0);
+            }
             else
             {
                 var orbit=Quaternion.LookRotation(b.fwd)*Quaternion.Euler(12f+lookPitch*.5f,lookYaw,0);var want=b.pos+Vector3.up*2f-orbit*Vector3.forward*15f;
