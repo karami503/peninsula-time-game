@@ -13,7 +13,7 @@ namespace PeninsulaTime
         TrafficVehicle ridingCar;
         bool undergroundWalk;
 
-        bool StreetView(){return cityStreet||mode=="interior"||mode=="rail"||(mode=="district"&&!world.aerialDistrict);}
+        bool StreetView(){return cityStreet||mode=="interior"||mode=="rail"||(mode=="district"&&!world.aerialDistrict)||(mode=="openworld"&&cwCar==null);}
         bool InVehicle(){return ridingCar!=null;}
         int CurrentHappiness()
         {
@@ -59,6 +59,7 @@ namespace PeninsulaTime
                 undergroundWalk=portal.destination.y<-1f;
                 Toast(undergroundWalk?"지하철 대합실입니다 · 자동 개찰구를 지나 승강장으로 이동하세요":portal.arrival.Length>0?portal.arrival:portal.label);
             }
+            else if(target is ChangwonThing)UseChangwonThing((ChangwonThing)target);
             else if(target is VehicleInteract)BoardVehicle(target.GetComponent<TrafficVehicle>(),((VehicleInteract)target).bus);
         }
         // First-person walking: blocked by walls, gates and vehicles; follows floors, stairs, ramps and bridges.

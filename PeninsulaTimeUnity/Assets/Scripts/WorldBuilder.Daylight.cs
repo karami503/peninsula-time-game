@@ -39,7 +39,7 @@ namespace PeninsulaTime
         void ApplyDaylight(Vector3 eye)
         {
             if(sun==null)return;
-            bool inside=eye.y<-2f||IsDomesticAirportInterior(eye)||IsInternationalAirportInterior(eye);
+            bool inside=!openWorld&&(eye.y<-2f||IsDomesticAirportInterior(eye)||IsInternationalAirportInterior(eye));
             bool map=!dayNight||worldCamera.orthographic;
             SetLamps(!map&&DayCycle.Night&&!inside,eye);
             // The sky takes twenty minutes to cycle. Refreshing its material and

@@ -144,7 +144,7 @@ namespace PeninsulaTime
         // Keep purchases and the last place when the app is closed or sent to the background.
         void OnApplicationQuit(){if(state!=null)Save();}
         void OnApplicationPause(bool paused){if(paused&&state!=null)Save();}
-        void Save(){try{Directory.CreateDirectory(SaveDirectory);File.WriteAllText(SavePath,JsonUtility.ToJson(state,true));}catch(Exception e){Toast("저장 실패: "+e.Message);}}
+        void Save(){if(InOpenWorld)SaveChangwonProgress();try{Directory.CreateDirectory(SaveDirectory);File.WriteAllText(SavePath,JsonUtility.ToJson(state,true));}catch(Exception e){Toast("저장 실패: "+e.Message);}}
         void Toast(string message){notice=message;noticeUntil=Time.time+3.5f;}
         void Log(string message){state.log.Insert(0,message);if(state.log.Count>7)state.log.RemoveAt(state.log.Count-1);Save();Toast(message);}
         CityEconomy Economy(string city)
@@ -262,7 +262,7 @@ namespace PeninsulaTime
             state.district=index;if(save)Save();ClearRides();mode="district";riding=false;undergroundWalk=false;world.BuildDistrict(index,state.era);world.SetDistrictView(index,false);eye.SetPositionAndRotation(viewCamera.transform.position,viewCamera.transform.rotation);world.dayNight=true;tab="서울 3D";
             Toast((state.era<9?"시대별 지역 시범: ":GameContent.DistrictNames[index]+": ")+"WASD 이동 · 마우스 시선 · B 정류장 · G 지하철 · P 주차장");
         }
-        void ReturnMap(bool selectMap=true){ClearRides();ridingCar=null;flight=null;fade=0;undergroundWalk=false;mode="map";riding=false;cityStreet=false;spectating=null;spectateSession++;world.BuildMap(state);world.dayNight=false;if(selectMap)tab="지도";}
+        void ReturnMap(bool selectMap=true){if(InOpenWorld)LeaveOpenWorldState();ClearRides();ridingCar=null;flight=null;fade=0;undergroundWalk=false;mode="map";riding=false;cityStreet=false;spectating=null;spectateSession++;world.BuildMap(state);world.dayNight=false;if(selectMap)tab="지도";}
         void EnterCityPlot(){ClearRides();mode="city";riding=false;cityStreet=false;tab="지도";world.BuildCityPlot(state);world.SetRoadCandidates(roadTool);Toast(GameContent.City(state.selectedCity).name+" 도시 설계 화면");}
         void ToggleCityStreet()
         {
@@ -290,7 +290,7 @@ namespace PeninsulaTime
             undergroundWalk=false;
         }
         // Left edge of the 3D view in GUI units (the side panel covers the rest).
-        static float WorldLeft(){return 548f;}
+        float WorldLeft(){return InOpenWorld?0f:548f;}
         bool PointerOverWorld()
         {
             // Same scale as the GUI matrix in OnGUI.
@@ -368,12 +368,12 @@ namespace PeninsulaTime
             if(maintenance)return;
             if(showIntro&&(Input.GetKeyDown(KeyCode.Return)||Input.GetKeyDown(KeyCode.Space)))showIntro=false;
             bool typing=GUIUtility.keyboardControl!=0;
-            if(Input.GetKeyDown(KeyCode.Escape)){if(ReleaseCursorOnEscape()){}else if(typing)GUIUtility.keyboardControl=0;else if(TransitRideActive()){}else if(InVehicle())LeaveVehicle();else if(cityStreet)ToggleCityStreet();else if(mode=="spectate")StopSpectating();else if(mode!="map")ReturnMap();}
+            if(Input.GetKeyDown(KeyCode.Escape)){if(OpenWorldEscape()){}else if(ReleaseCursorOnEscape()){}else if(typing)GUIUtility.keyboardControl=0;else if(TransitRideActive()){}else if(InVehicle())LeaveVehicle();else if(cityStreet)ToggleCityStreet();else if(mode=="spectate")StopSpectating();else if(mode!="map")ReturnMap();}
             if(!showIntro&&!typing)
             {
-                for(int i=0;i<tabs.Length;i++)if(Input.GetKeyDown((KeyCode)((int)KeyCode.F1+i)))SelectTab(i);
+                if(!InOpenWorld)for(int i=0;i<tabs.Length;i++)if(Input.GetKeyDown((KeyCode)((int)KeyCode.F1+i)))SelectTab(i);
                 if((mode=="city"||mode=="spectate")&&Input.GetKeyDown(KeyCode.V))ToggleCityStreet();
-                if(Input.GetKeyDown(KeyCode.F8)&&state.era>=9)
+                if(Input.GetKeyDown(KeyCode.F8)&&state.era>=9&&!InOpenWorld)
                 {
                     var target=selectedStation??TransitSchedule.RailStation("서울");
                     if(target!=null)VisitNetworkStation(target,target.lines.Find(l=>l.kind=="ktx")??target.lines.Find(l=>l.kind=="metro"||l.kind=="mugunghwa"));
@@ -405,6 +405,7 @@ namespace PeninsulaTime
                     }
                 }
             }
+            if(InOpenWorld){UpdateOpenWorld(typing);return;}
             if(playtest&&Input.GetKeyDown(KeyCode.F11))NextPlaytestPoint();
             if(playtest&&Input.GetKeyDown(KeyCode.F10))Debug.Log("Playtest position feet="+Feet.ToString("F3")+" yaw="+Yaw+" pitch="+Pitch+" cabin="+(cabin!=null));
             UpdateCursor();
@@ -460,9 +461,18 @@ namespace PeninsulaTime
             }
         }
         Texture2D Solid(Color color){var t=new Texture2D(1,1);t.SetPixel(0,0,color);t.Apply();return t;}
+        // The IMGUI text engine only tries the first family name, so put a Korean font that is installed first
+        // (macOS: Apple SD Gothic Neo, Windows: Malgun Gothic, Android/Linux: Noto Sans CJK KR).
+        static string[] KoreanFontNames()
+        {
+            var wanted=new[]{"Apple SD Gothic Neo","Malgun Gothic","Noto Sans CJK KR","Noto Sans KR","NanumGothic","Arial Unicode MS"};
+            var installed=new HashSet<string>(Font.GetOSInstalledFontNames());
+            foreach(var name in wanted)if(installed.Contains(name))return new[]{name};
+            return wanted;
+        }
         void SetupStyles()
         {
-            koreanFont=Font.CreateDynamicFontFromOSFont(new[]{"Apple SD Gothic Neo","Arial Unicode MS"},18);
+            koreanFont=Font.CreateDynamicFontFromOSFont(KoreanFontNames(),18);
             panelTexture=Solid(new Color(.045f,.071f,.077f,.97f));
             cardTexture=Solid(new Color(.085f,.12f,.127f,.97f));
             goldTexture=Solid(new Color(.78f,.55f,.28f));
@@ -496,7 +506,7 @@ namespace PeninsulaTime
             returnToCityAfterBuild=mode=="city"&&i==1;
             tab=tabs[i];scroll=Vector2.zero;
             if(tab=="지도")ReturnMap();
-            else if(tab=="서울 3D"){if(mode!="district")EnterDistrict(state.district);}
+            else if(tab=="서울 3D"){if(mode!="district"&&mode!="openworld")EnterDistrict(state.district);}
             else if(tab=="세계·외교"){if(mode!="world")EnterWorld();}
             else if(tab=="온라인"){if(mode!="map"&&mode!="spectate")ReturnMap(false);}
             else if(mode!="map")ReturnMap(false);
@@ -509,6 +519,13 @@ namespace PeninsulaTime
             GUI.enabled=!maintenance;
             float scale=Mathf.Min(Screen.width/1440f,Screen.height/860f);scale=Mathf.Max(.55f,scale);GUI.matrix=Matrix4x4.TRS(Vector3.zero,Quaternion.identity,new Vector3(scale,scale,1));
             float w=Screen.width/scale,h=Screen.height/scale;
+            if(InOpenWorld)
+            {
+                if(viewCamera!=null)viewCamera.rect=new Rect(0,0,1,1);
+                DrawOpenWorldGUI(w,h);if(cwReady&&!cwMapOpen&&!cwMenuOpen)DrawHoverHint();
+                DrawFade(w,h);if(Time.time<noticeUntil)GUI.Box(new Rect(w*.5f-280,h-113,560,42),notice,cardStyle);
+                GUI.enabled=true;return;
+            }
             bool scenic=tab=="지도"||tab=="교통"||tab=="서울 3D"||tab=="세계·외교"||tab=="온라인";
             if(viewCamera!=null)viewCamera.rect=scenic?new Rect(548f/w,0f,1f-548f/w,1f):new Rect(0f,0f,1f,1f);
             if(!scenic)GUI.DrawTexture(new Rect(0,0,w,h),inkTexture);
@@ -863,6 +880,7 @@ namespace PeninsulaTime
             {
                 if(state.era>=9&&Button(world.aerialDistrict?"거리로 내려가기 (V)":"항공 시점으로 보기 (V)",true))world.SetDistrictView(state.district,!world.aerialDistrict);
                 for(int i=0;i<GameContent.DistrictNames.Length;i++)if(Button(GameContent.DistrictNames[i]+(state.district==i&&mode=="district"?"  ●":""),i==state.district&&mode=="district"))EnterDistrict(i);
+                if(state.era>=9&&Button("창원 오픈월드 · 시 전체 자유 탐험",true)){EnterOpenWorld();return;}
                 if(state.era>=9&&Button("창원 · 실제 도로와 버스")){
                     var changwon=TransitNetwork.Lines.Find(l=>l.id.StartsWith("cw-bus-")&&l.shortName=="105");
                     if(changwon!=null){var stop=changwon.stops.Find(s=>s.lat>35.2f&&s.lon>128.65f&&s.lon<128.7f)??changwon.stops[0];VisitNetworkStation(stop,changwon);return;}

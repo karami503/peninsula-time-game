@@ -1,0 +1,53 @@
+# id|name|gu|x|z|kind|height|description|activity — see AssetSources/Changwon/landmarks_research.json for sources
+lm00|창원시청|성산구|5623.0|3101.1|government|30|Seat of the Changwon Special City government. Nominatim also returns the city's admin point here.|Civic job board and save point: pick up taxi, delivery and festival-helper side jobs; pay parking fines.
+lm01|창원광장|성산구|5657.0|2932.9|plaza|0|One of Korea's largest roundabouts and the symbolic center of the planned city. City Hall sits on its north side, Lotte Dept Store on the south, 정우상가 on the west.|Racing checkpoint: timed laps of the giant roundabout. Festival stage and New Year events in the centre island.
+lm02|용지호수|성산구|5548.8|3617.9|lake|0|Changwon's signature downtown lake park, between City Hall and the provincial office. The point is the park centroid; the lake fills most of the park.|Night music-fountain show, jogging-loop time trial, 누비자 bike dock pickup.
+lm03|경상남도청|의창구|6407.6|4073.3|government|25|Capitol of South Gyeongsang Province, at 중앙대로 300.|Start of the 중앙대로 boulevard cruise; photo spot; civic-quest giver.
+lm04|창원NC파크|마산회원구|-3471.8|2498.5|stadium|35|Home of the KBO NC Dinos, at 삼호로 63.|Buy a ticket and watch an NC Dinos game: batting/catching minigame, mascot photo, fried-chicken stand.
+lm05|창원종합운동장|성산구|4070.9|3787.1|stadium|25|Opened 1993; hosted the 1997 National Sports Festival and 2007 FIFA U-17 World Cup matches. Address 원이대로 450.|Track time trial or jogging; LG Sakers basketball at the adjacent gym.
+lm06|성산아트홀|성산구|5685.3|3283.9|other|25|Changwon's main municipal performing-arts centre. The coordinate is approximate (±150 m), placed from the OSM '성산아트홀' bus stop at 35.22926, 128.68157 on 용지로.|Buy a concert or theatre ticket; evening event spawn point.
+lm07|창원컨벤션센터 CECO|성산구|3337.8|4295.6|other|30|Convention and exhibition centre at 원이대로 362, 반지동.|Visit trade fairs; an indoor expo stall-hopping mission.
+lm08|상남동 상업지구|성산구|5764.2|2475.5|street|40|Changwon's busiest nightlife and shopping district, just south-east of 창원광장. Wikidata places 상남동 at 35.21522, 128.68638.|Night district: karaoke, street food and arcade minigames. Busy taxi rank for late-night fare jobs.
+lm09|창원중앙역|의창구|7446.7|4705.2|station|12|KTX/경전선 station serving central Changwon.|Fast-travel KTX trips; taxi pickups of arriving passengers.
+lm10|창원역|의창구|-1225.7|6405.2|station|15|Historic 1905 station at 의창대로 67, at the west end of the Changwon grid.|Board trains toward Masan, Jinhae (festival shuttle) or Busan; parcel delivery job.
+lm11|마산역|마산회원구|-3886.5|3996.1|station|15|KTX and SRT stop at 마산역광장로 18, 석전동.|KTX/SRT arrivals; taxi rank fares into old Masan.
+lm12|진해역|진해구|3649.7|-5185.7|station|6|Unstaffed halt at 충장로 71; regular passenger service is suspended and it is used mainly for the cherry festival.|Ride the cherry-festival shuttle train; start of the blossom walking quest.
+lm13|경화역 벚꽃길|진해구|6073.9|-4545.1|station|0|Most photographed spot of 진해군항제; trains slow down through the blossom tunnel.|Cherry-blossom photo spot on the rails, posing with the display train.
+lm14|여좌천|진해구|3688.8|-4021.3|park|0|Main blossom corridor of the 진해군항제.|Blossom walk photo quest at 로망스다리; spring night-light stroll.
+lm15|제황산공원 & 진해탑|진해구|4062.8|-5716.0|tower|28|Jinhae's symbol, with a lookout over the radial old town and the navy port. The point is an OSM park feature near the summit (approximate).|Ride the monorail up, then the tower lift to the observation deck for a city viewpoint and map reveal.
+lm16|중원로터리|진해구|3608.1|-5633.1|plaza|0|Heart of Jinhae's colonial-era radial town plan and main 군항제 parade hub.|Watch the military-band parade during the festival; scenic taxi loop.
+lm17|진해루 해변공원|진해구|5966.5|-5873.0|park|15|Seaside park at 진희로 142, 경화동, next to the 속천 waterfront.|Sunset promenade walk, kite flying, fishing off the seawall.
+lm18|속천항|진해구|4866.6|-6623.5|port|0|Part of 진해항, opened 1968. The coordinate is approximate, placed between the OSM 속천동 node (35.14256, 128.66996) and the shoreline south of 속천로.|Buy fresh seafood at the co-op stalls; boat charter to the bay islands.
+lm19|해군사관학교|진해구|4075.7|-7919.4|campus|20|Korea's naval academy inside the Jinhae navy base; parts open to visitors during the cherry festival.|Festival-only guided base tour: board the turtle-ship replica and watch the navy ships.
+lm20|창원해양공원 & 창원솔라타워|진해구|9023.9|-12218.6|tower|136|Landmark of the 진해 해양공원 complex, with an observation deck.|Observation-deck viewpoint; zip-track ride over the water to 소쿠리섬.
+lm21|소쿠리섬|진해구|8313.2|-13203.8|island|40|Island off 명동 reached by boat or zip-track from the marine park.|Zip-track landing; beach picnic; kayak circuit.
+lm22|웅천읍성|진해구|12002.3|-10946.5|other|5|Historic heart of 진해 웅천 (웅천동 centroid 35.10787, 128.73908).|History stamp walk around the walls and gate; photo quest.
+lm23|부산항 신항|진해구|18920.6|-13692.4|port|80|Korea's main container port, straddling the 진해구/부산 강서구 boundary. The Wikidata point is coarse; the 진해 terminals lie on the west side.|Container-truck delivery job: timed haul from the terminal to the 국가산단.
+lm24|안민터널|성산구/진해구|7273.5|-3259.4|other|0|Main road link from central Changwon to Jinhae.|Racing checkpoint on the 성산 to 진해 run; alternative scenic route over 안민고개 cherry road.
+lm25|창원터널|성산구|11497.2|-1474.1|other|0|Main eastern exit of Changwon toward 김해/부산. The OSM centroid falls just inside 김해; use the west portal at about 128.734 for in-city placement.|Map-edge highway exit; commuter-traffic timed run.
+lm26|장복산|진해구/성산구|3637.3|-2247.1|mountain|582|Ridge mountain with views over 진해만 and the navy port.|Hike to a viewpoint over 진해만; downhill drive on the 안민고개 cherry road.
+lm27|불모산|성산구/진해구|10963.5|-3599.2|mountain|801.7|Tallest mountain of the city; the 창원터널 passes under its northern flank.|Summit hike to the transmitter viewpoint for a full-map vista.
+lm28|정병산|의창구|6576.5|7040.1|mountain|566.7|Northern guardian mountain of the planned city.|Ridge hike 정병산 to 비음산 with a city-grid viewpoint.
+lm29|천주산|의창구/마산회원구|-2616.1|7962.1|mountain|638.8|Famous for the April azalea festival.|Azalea-season hike to 용지봉 for a viewpoint over Masan and the Changwon basin.
+lm30|무학산|마산합포구/마산회원구|-7661.6|1231.5|mountain|761.4|Masan's guardian mountain, with views over 마산만 and 돝섬.|Sunrise summit hike with a 마산만 panorama viewpoint.
+lm31|팔용산|마산회원구|-1730.8|3640.1|mountain|328|Neighbourhood mountain on the Masan to Changwon border.|Stone-tower trail walk; collectible stacked-stone markers.
+lm32|마창대교|마산합포구/성산구|-2274.1|-4074.3|bridge|164|Opened 2008 on 국도 2/77. Cuts the trip from 16 km/35 min to 9 km/7 min.|Scenic toll-bridge drive; night-light photo; racing checkpoint between Masan and Changwon.
+lm33|귀산동 카페거리|성산구|-1046.1|-3729.2|street|10|Popular sunset and car-meet coast. The coordinate is approximate, between the OSM 귀산동 node (35.16582, 128.61499) and the bridge landing.|Sunset café stop; car-meet photo spot with the bridge backdrop.
+lm34|돝섬|마산합포구|-3411.2|-2381.1|island|50|Island marine park about 10 minutes by hourly ferry from the 마산 passenger terminal.|Take the ferry to 돝섬, then a flower-garden photo hunt and island walking loop.
+lm35|마산항|마산합포구|-4776.4|-1078.4|port|40|Historic port opened in 1899; the 마산항해상교통관제센터 stands at 35.1949, 128.5733.|Harbour cargo delivery job; ferry boarding point.
+lm36|3·15해양누리공원 (마산가고파국화축제장)|마산합포구|-5062.1|-1568.5|park|0|Main site of the 마산가고파국화축제 chrysanthemum festival (26th edition: 2026-10-31 to 11-08), with giant chrysanthemum sculptures.|Chrysanthemum festival photo hunt; night market food stalls; waterfront 누비자 ride.
+lm37|마산어시장|마산합포구|-4093.4|334.0|market|8|Market since 1760, with 30,000-50,000 visitors a day and an autumn 전어 festival. The coordinate is approximate, offset seaward from the OSM '어시장' bus stop (35.20376, 128.57615).|Fish-market shopping minigame: haggle for 전어 and 아귀, then eat 아구찜 nearby in 오동동.
+lm38|부림시장|마산합포구|-4246.0|683.9|market|10|Classic old-Masan market. The coordinate is the OSM '부림시장' bus stop at the market entrance (approximate).|Street-food alley tasting; outfit and fabric shopping.
+lm39|창동 예술촌|마산합포구|-4160.7|709.1|street|8|Revived old downtown art quarter of Masan. The point is the OSM 창동 neighbourhood node; the art village alleys lie within about 200 m.|Mural photo-collection walk; buy art prints; café stop.
+lm40|3·15아트센터 (3.15 Art Center)|마산회원구|-3866.0|2983.4|other|25|Masan's main theatre complex, named for the 1960 3·15 democracy uprising. The coordinate is approximate, from the OSM '3.15아트센터' bus stop (35.22677, 128.57709).|Buy a show ticket; night concert event.
+lm41|경남대학교|마산합포구|-6059.2|-2186.2|campus|30|Major private university of Masan.|Campus tour; student food-delivery side job.
+lm42|국립창원대학교|의창구|6542.2|5074.0|campus|30|National university in 사림동.|Campus jog, then start of the 정병산 hike; student delivery job.
+lm43|창원국가산업단지|성산구|3734.3|758.5|industrial|25|Korea's flagship machinery industrial park, founded in the 1970s.|Freight truck delivery jobs; shift-change traffic event; forklift minigame.
+lm44|롯데백화점 창원점|성산구|5625.5|2739.2|other|40|Main department store of central Changwon on 중앙대로.|Clothing and outfit shop; gift-shopping mission.
+lm45|정우상가|성산구|5415.7|3159.8|other|20|Classic Changwon meeting landmark ('meet at 정우상가').|Meet-up point for missions; BIS bus stop hub.
+lm46|용호동 가로수길|성산구|5321.4|4063.2|street|25|Changwon's tree-lined café street north of 용지호수. The coordinate is placed along the northern half of 용호로 (approximate).|Café-hopping; 누비자 bike ride under the metasequoias; autumn-foliage photo.
+lm47|북면 마금산온천|의창구|-935.7|17200.7|other|20|Changwon's hot-spring town (북면온천).|Hot-spring soak to rest and restore stamina; country-road drive.
+lm48|저도 콰이강의 다리|마산합포구|-5240.8|-14830.3|bridge|14|Nicknamed 'Bridge on the River Kwai'; start of the 저도 비치로드 coastal trail.|Walk the glass skywalk; 저도 비치로드 coastal hike; romantic photo spot.
+lm49|의창구 동읍|의창구|4447.3|11665.2|other|10|Farming town in north Changwon.|Farm-produce delivery job; country bus terminus.
+lm50|주남저수지|의창구|4793.2|12780.6|lake|0|One of Korea's largest migratory-bird wintering sites (swans, white-naped cranes, spoonbills from November to March).|Winter birdwatching photo mission; embankment bike loop.
+lm51|주남돌다리|의창구|6574.7|12758.5|bridge|2|Old stone bridge, a small heritage stop near the wetlands.|Heritage photo stamp on the 주남 bike loop.

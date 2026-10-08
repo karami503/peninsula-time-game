@@ -7,6 +7,7 @@ namespace PeninsulaTime {
         void StartPlaytest(){
             var args=Environment.GetCommandLineArgs();
             playtest=Array.IndexOf(args,"--playtest")>=0&&Array.IndexOf(args,"--save-directory")>=0;
+            if(Array.IndexOf(args,"--changwon")>=0&&Array.IndexOf(args,"--save-directory")>=0){showIntro=false;EnterOpenWorld();return;}
             if(playtest)NextPlaytestPoint();
         }
         void NextPlaytestPoint(){

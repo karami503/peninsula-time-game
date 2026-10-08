@@ -52,7 +52,7 @@ namespace PeninsulaTime
         {
             var o=GameObject.CreatePrimitive(type);o.name=name;o.transform.SetParent(parent,false);o.transform.localPosition=position;o.transform.localScale=scale;o.GetComponent<Renderer>().sharedMaterial=material;return o;
         }
-        void Clear(){walkGraph=null;MapMarkers.Clear();if(root!=null)DestroyImmediate(root);root=new GameObject("Generated World");root.transform.SetParent(transform,false);vehicle=null;globePivot=null;labels.Clear();cityMarkers.Clear();markerCities.Clear();mapBuildings.Clear();networkLines.Clear();networkWeights.Clear();networkLayer=highlightLayer=null;}
+        void Clear(){openWorld=false;walkGraph=null;MapMarkers.Clear();if(root!=null)DestroyImmediate(root);root=new GameObject("Generated World");root.transform.SetParent(transform,false);vehicle=null;globePivot=null;labels.Clear();cityMarkers.Clear();markerCities.Clear();mapBuildings.Clear();networkLines.Clear();networkWeights.Clear();networkLayer=highlightLayer=null;}
         Light sun;Color outdoorAmbient;
         static readonly Color IndoorAmbient=new Color(.46f,.46f,.47f);
         // Underground stations and the terminal (far east of the map) are lit by their own lamps, not the sun,
@@ -60,14 +60,14 @@ namespace PeninsulaTime
         public void UpdateInteriorLighting(Vector3 eye)
         {
             if(sun==null)return;
-            bool inside=eye.y<-2f||IsDomesticAirportInterior(eye)||IsInternationalAirportInterior(eye);
+            bool inside=!openWorld&&(eye.y<-2f||IsDomesticAirportInterior(eye)||IsInternationalAirportInterior(eye));
             if(sun.enabled==!inside)return;
             sun.enabled=!inside;RenderSettings.ambientLight=inside?IndoorAmbient:outdoorAmbient;
         }
         void LateUpdate()
         {
             if(worldCamera==null)return;
-            if(root!=null&&!worldCamera.orthographic&&root.GetComponent<SceneRenderBudget>()==null){var budget=root.AddComponent<SceneRenderBudget>();budget.world=this;}
+            if(root!=null&&!worldCamera.orthographic&&!openWorld&&root.GetComponent<SceneRenderBudget>()==null){var budget=root.AddComponent<SceneRenderBudget>();budget.world=this;}
             ApplyDaylight(Viewer.position);
             foreach(var label in labels)if(label!=null){var renderer=label.GetComponent<Renderer>();if(renderer.enabled&&!renderer.forceRenderingOff)label.transform.rotation=Quaternion.LookRotation(worldCamera.transform.position-label.transform.position);}
             if(worldCamera.orthographic&&cityMarkers.Count>0)UpdateMapMarkers();

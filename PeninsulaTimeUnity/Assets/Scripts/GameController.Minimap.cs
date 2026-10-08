@@ -114,6 +114,7 @@ namespace PeninsulaTime
         string PlaceName()
         {
             var eye=this.eye.position;
+            if(mode=="openworld"){var a=ChangwonAreas.Name(eye.x,eye.z);return a.Length>0?a:"창원";}
             if(mode=="rail"&&stationJourney!=null){
                 if(stationJourney.Bus)return stationJourney.Current.name+" · 정류장 주변";
                 string name=world.NetworkHubStation!=null?world.NetworkHubStation.name:stationJourney.Current.name;
