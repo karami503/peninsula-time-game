@@ -1,0 +1,16 @@
+{
+  "rows": [
+    {
+      "id": "15041163",
+      "name": "국가철도공단_우이신설_역구조_데이터",
+      "source": "https://www.data.go.kr/data/15041163/fileData.do",
+      "downloadURL": "https://www.data.go.kr/cmm/cmm/fileDownload.do?atchFileId=FILE_000000003544075&fileDetailSn=1&insertDataPrcus=N",
+      "modified": "2025-11-26",
+      "published": "2025-09-18",
+      "license": "이용허락범위 제한 없음",
+      "file": "15041163.csv",
+      "sha256": "b6fe73a760d38497a83d5ee4c0c9f304b148e680568e507c38c13a68f52b9c0a",
+      "bytes": 1696
+    }
+  ]
+}

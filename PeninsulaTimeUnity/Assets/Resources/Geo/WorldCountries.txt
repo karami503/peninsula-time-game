@@ -1,0 +1,259 @@
+# index	name_ko	iso2	admin
+0	대한민국	KR	South Korea
+1	조선민주주의인민공화국	KP	North Korea
+2	중화인민공화국	CN	China
+3	일본	JP	Japan
+4	미국	US	United States of America
+5	러시아	RU	Russia
+6	독일	DE	Germany
+7	인도	IN	India
+8	인도네시아	ID	Indonesia
+9	말레이시아	MY	Malaysia
+10	칠레	CL	Chile
+11	볼리비아	BO	Bolivia
+12	페루	PE	Peru
+13	아르헨티나	AR	Argentina
+14	데켈리아 지역	-99	Dhekelia Sovereign Base Area
+15	키프로스	CY	Cyprus
+16	이스라엘	IL	Israel
+17	팔레스타인	PS	Palestine
+18	레바논	LB	Lebanon
+19	에티오피아	ET	Ethiopia
+20	남수단	SS	South Sudan
+21	소말리아	SO	Somalia
+22	케냐	KE	Kenya
+23	말라위	MW	Malawi
+24	탄자니아	TZ	United Republic of Tanzania
+25	시리아	SY	Syria
+26	소말릴란드	-99	Somaliland
+27	프랑스	-99	France
+28	수리남	SR	Suriname
+29	가이아나	GY	Guyana
+30	모로코	MA	Morocco
+31	서사하라	EH	Western Sahara
+32	코스타리카	CR	Costa Rica
+33	니카라과	NI	Nicaragua
+34	콩고 공화국	CG	Republic of the Congo
+35	콩고 민주 공화국	CD	Democratic Republic of the Congo
+36	부탄	BT	Bhutan
+37	우크라이나	UA	Ukraine
+38	벨라루스	BY	Belarus
+39	나미비아	NA	Namibia
+40	남아프리카 공화국	ZA	South Africa
+41	생마르탱	MF	Saint Martin
+42	신트마르턴	SX	Sint Maarten
+43	오만	OM	Oman
+44	우즈베키스탄	UZ	Uzbekistan
+45	카자흐스탄	KZ	Kazakhstan
+46	타지키스탄	TJ	Tajikistan
+47	리투아니아	LT	Lithuania
+48	브라질	BR	Brazil
+49	우루과이	UY	Uruguay
+50	몽골	MN	Mongolia
+51	체코	CZ	Czechia
+52	에스토니아	EE	Estonia
+53	라트비아	LV	Latvia
+54	노르웨이	-99	Norway
+55	스웨덴	SE	Sweden
+56	핀란드	FI	Finland
+57	베트남	VN	Vietnam
+58	캄보디아	KH	Cambodia
+59	룩셈부르크	LU	Luxembourg
+60	아랍에미리트	AE	United Arab Emirates
+61	벨기에	BE	Belgium
+62	조지아	GE	Georgia
+63	북마케도니아	MK	North Macedonia
+64	알바니아	AL	Albania
+65	아제르바이잔	AZ	Azerbaijan
+66	코소보	-99	Kosovo
+67	터키	TR	Turkey
+68	스페인	ES	Spain
+69	라오스	LA	Laos
+70	키르기스스탄	KG	Kyrgyzstan
+71	아르메니아	AM	Armenia
+72	덴마크	DK	Denmark
+73	리비아	LY	Libya
+74	튀니지	TN	Tunisia
+75	루마니아	RO	Romania
+76	헝가리	HU	Hungary
+77	슬로바키아	SK	Slovakia
+78	폴란드	PL	Poland
+79	아일랜드	IE	Ireland
+80	영국	GB	United Kingdom
+81	그리스	GR	Greece
+82	잠비아	ZM	Zambia
+83	시에라리온	SL	Sierra Leone
+84	기니	GN	Guinea
+85	라이베리아	LR	Liberia
+86	중앙아프리카 공화국	CF	Central African Republic
+87	수단	SD	Sudan
+88	지부티	DJ	Djibouti
+89	에리트레아	ER	Eritrea
+90	오스트리아	AT	Austria
+91	이라크	IQ	Iraq
+92	이탈리아	IT	Italy
+93	스위스	CH	Switzerland
+94	이란	IR	Iran
+95	네덜란드	NL	Netherlands
+96	리히텐슈타인	LI	Liechtenstein
+97	코트디부아르	CI	Ivory Coast
+98	세르비아	RS	Republic of Serbia
+99	말리	ML	Mali
+100	세네갈	SN	Senegal
+101	나이지리아	NG	Nigeria
+102	베냉	BJ	Benin
+103	앙골라	AO	Angola
+104	크로아티아	HR	Croatia
+105	슬로베니아	SI	Slovenia
+106	카타르	QA	Qatar
+107	사우디아라비아	SA	Saudi Arabia
+108	보츠와나	BW	Botswana
+109	짐바브웨	ZW	Zimbabwe
+110	파키스탄	PK	Pakistan
+111	불가리아	BG	Bulgaria
+112	태국	TH	Thailand
+113	산마리노	SM	San Marino
+114	아이티	HT	Haiti
+115	도미니카 공화국	DO	Dominican Republic
+116	차드	TD	Chad
+117	쿠웨이트	KW	Kuwait
+118	엘살바도르	SV	El Salvador
+119	과테말라	GT	Guatemala
+120	동티모르	TL	East Timor
+121	브루나이	BN	Brunei
+122	모나코	MC	Monaco
+123	알제리	DZ	Algeria
+124	모잠비크	MZ	Mozambique
+125	에스와티니	SZ	eSwatini
+126	부룬디	BI	Burundi
+127	르완다	RW	Rwanda
+128	미얀마	MM	Myanmar
+129	방글라데시	BD	Bangladesh
+130	안도라	AD	Andorra
+131	아프가니스탄	AF	Afghanistan
+132	몬테네그로	ME	Montenegro
+133	보스니아 헤르체고비나	BA	Bosnia and Herzegovina
+134	우간다	UG	Uganda
+135	관타나모만 해군 기지	-99	US Naval Base Guantanamo Bay
+136	쿠바	CU	Cuba
+137	온두라스	HN	Honduras
+138	에콰도르	EC	Ecuador
+139	콜롬비아	CO	Colombia
+140	파라과이	PY	Paraguay
+141	브라질리안 아일랜드	-99	Brazilian Island
+142	포르투갈	PT	Portugal
+143	몰도바	MD	Moldova
+144	투르크메니스탄	TM	Turkmenistan
+145	요르단	JO	Jordan
+146	네팔	NP	Nepal
+147	레소토	LS	Lesotho
+148	카메룬	CM	Cameroon
+149	가봉	GA	Gabon
+150	니제르	NE	Niger
+151	부르키나파소	BF	Burkina Faso
+152	토고	TG	Togo
+153	가나	GH	Ghana
+154	기니비사우	GW	Guinea-Bissau
+155	지브롤터	GI	Gibraltar
+156	캐나다	CA	Canada
+157	멕시코	MX	Mexico
+158	벨리즈	BZ	Belize
+159	파나마	PA	Panama
+160	베네수엘라	VE	Venezuela
+161	파푸아뉴기니	PG	Papua New Guinea
+162	이집트	EG	Egypt
+163	예멘	YE	Yemen
+164	모리타니	MR	Mauritania
+165	적도 기니	GQ	Equatorial Guinea
+166	감비아	GM	Gambia
+167	홍콩	HK	Hong Kong S.A.R.
+168	바티칸 시국	VA	Vatican
+169	북키프로스	-99	Northern Cyprus
+170	유엔 키프로스 완충 지대	-99	Cyprus No Mans Area
+171	시아첸 빙하	-99	Siachen Glacier
+172	바이코누르	-99	Baykonur Cosmodrome
+173	아크로티리	-99	Akrotiri Sovereign Base Area
+174	사우던 파타고니안 아이스 필드	-99	Southern Patagonian Ice Field
+175	비르 타윌	-99	Bir Tawil
+176	남극	AQ	Antarctica
+177	오스트레일리아	AU	Australia
+178	그린란드	GL	Greenland
+179	피지	FJ	Fiji
+180	뉴질랜드	NZ	New Zealand
+181	누벨칼레도니	NC	New Caledonia
+182	마다가스카르	MG	Madagascar
+183	필리핀	PH	Philippines
+184	스리랑카	LK	Sri Lanka
+185	퀴라소	CW	Curaçao
+186	아루바	AW	Aruba
+187	바하마	BS	The Bahamas
+188	터크스 케이커스 제도	TC	Turks and Caicos Islands
+189	중화민국	CN-TW	Taiwan
+190	생피에르 미클롱	PM	Saint Pierre and Miquelon
+191	아이슬란드	IS	Iceland
+192	핏케언 제도	PN	Pitcairn Islands
+193	프랑스령 폴리네시아	PF	French Polynesia
+194	프랑스령 남방 및 남극	TF	French Southern and Antarctic Lands
+195	세이셸	SC	Seychelles
+196	키리바시	KI	Kiribati
+197	마셜 제도	MH	Marshall Islands
+198	트리니다드 토바고	TT	Trinidad and Tobago
+199	그레나다	GD	Grenada
+200	세인트빈센트 그레나딘	VC	Saint Vincent and the Grenadines
+201	바베이도스	BB	Barbados
+202	세인트루시아	LC	Saint Lucia
+203	도미니카 연방	DM	Dominica
+204	미국령 군소 제도	UM	United States Minor Outlying Islands
+205	몬트세랫	MS	Montserrat
+206	앤티가 바부다	AG	Antigua and Barbuda
+207	세인트키츠 네비스	KN	Saint Kitts and Nevis
+208	미국령 버진아일랜드	VI	United States Virgin Islands
+209	생바르텔레미	BL	Saint Barthelemy
+210	푸에르토리코	PR	Puerto Rico
+211	앵귈라	AI	Anguilla
+212	영국령 버진아일랜드	VG	British Virgin Islands
+213	자메이카	JM	Jamaica
+214	케이맨 제도	KY	Cayman Islands
+215	버뮤다	BM	Bermuda
+216	허드 맥도널드 제도	HM	Heard Island and McDonald Islands
+217	세인트헬레나	SH	Saint Helena
+218	모리셔스	MU	Mauritius
+219	코모로	KM	Comoros
+220	상투메 프린시페	ST	São Tomé and Principe
+221	카보베르데	CV	Cabo Verde
+222	몰타	MT	Malta
+223	저지섬	JE	Jersey
+224	건지섬	GG	Guernsey
+225	맨섬	IM	Isle of Man
+226	올란드 제도	AX	Aland
+227	페로 제도	FO	Faroe Islands
+228	호주령 인도양 지역	-99	Indian Ocean Territories
+229	영국령 인도양 지역	IO	British Indian Ocean Territory
+230	싱가포르	SG	Singapore
+231	노퍽섬	NF	Norfolk Island
+232	쿡 제도	CK	Cook Islands
+233	통가	TO	Tonga
+234	왈리스 푸투나	WF	Wallis and Futuna
+235	사모아	WS	Samoa
+236	솔로몬 제도	SB	Solomon Islands
+237	투발루	TV	Tuvalu
+238	몰디브	MV	Maldives
+239	나우루	NR	Nauru
+240	미크로네시아 연방	FM	Federated States of Micronesia
+241	사우스조지아 사우스샌드위치 제도	GS	South Georgia and the Islands
+242	포클랜드 제도	FK	Falkland Islands
+243	바누아투	VU	Vanuatu
+244	니우에	NU	Niue
+245	아메리칸사모아	AS	American Samoa
+246	팔라우	PW	Palau
+247	괌	GU	Guam
+248	북마리아나 제도	MP	Northern Mariana Islands
+249	바레인	BH	Bahrain
+250	산호해 제도	-99	Coral Sea Islands
+251	웨이크섬	-99	Spratly Islands
+252	클리퍼턴섬	-99	Clipperton Island
+253	마카오	MO	Macao S.A.R
+254	애시모어 카르티에 제도	-99	Ashmore and Cartier Islands
+255	바호 누에보 뱅크	-99	Bajo Nuevo Bank (Petrel Is.)
+256	세라냐 뱅크	-99	Serranilla Bank
+257	스카버러 암초	-99	Scarborough Reef

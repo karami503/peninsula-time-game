@@ -1,0 +1,49 @@
+{
+  "stations": 1103,
+  "tiles": 2911,
+  "features": {
+    "r": 153696,
+    "b": 197546,
+    "rail": 8733,
+    "p": 1159,
+    "e": 4486
+  },
+  "heightSources": {
+    "default_estimate": 149056,
+    "levels_estimate": 22947,
+    "height": 25536,
+    "authored_photo_estimate": 7
+  },
+  "roadWidthSources": {
+    "default_estimate": 142597,
+    "lanes_estimate": 9889,
+    "width": 1210
+  },
+  "maxFeaturesPerTile": 2217,
+  "maxPointsPerFeature": 734,
+  "totalPoints": 2256093,
+  "errors": [],
+  "stationsWithoutBuildings": [],
+  "stationsWithoutPublishedBuildings": [
+    {
+      "id": "r368637440",
+      "name": "오수"
+    },
+    {
+      "id": "r4691566557",
+      "name": "반성"
+    }
+  ],
+  "stationsWithAuthoredExteriors": [
+    {
+      "id": "r368637440",
+      "name": "오수",
+      "parts": 3
+    },
+    {
+      "id": "r4691566557",
+      "name": "반성",
+      "parts": 4
+    }
+  ]
+}

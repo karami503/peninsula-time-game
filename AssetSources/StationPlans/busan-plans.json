@@ -1,0 +1,1147 @@
+{
+  "source": "https://www.humetro.busan.kr",
+  "retrieved": "2026-10-08",
+  "license": "Operator website; retain attribution; originals are reference material",
+  "rows": [
+    {
+      "line": 1,
+      "code": "95",
+      "name": "다대포해수욕장",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=95",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=95.gif&file_name_origin=95.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/95.gif",
+      "sha256": "7dfc89469d045542f4619b9766201addfbe32e06e0579a35241cf845b7ba7325",
+      "bytes": 102949
+    },
+    {
+      "line": 1,
+      "code": "96",
+      "name": "다대포항",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=96",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=96.gif&file_name_origin=96.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/96.gif",
+      "sha256": "84e0f70d8b4871b3addcc6f6862a188770a0a447e451eddbeacc5d294f08f1e5",
+      "bytes": 108278
+    },
+    {
+      "line": 1,
+      "code": "97",
+      "name": "낫개",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=97",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=97.gif&file_name_origin=97.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/97.gif",
+      "sha256": "6ecacd21f5ca0260948bf9258e7066aa715d06867aa27a923629697a3f4dc80f",
+      "bytes": 77177
+    },
+    {
+      "line": 1,
+      "code": "98",
+      "name": "신장림",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=98",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=98.gif&file_name_origin=98.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/98.gif",
+      "sha256": "1e7d010b09e6d0a9ea3d69dec8b1d03a7e7d2f2ac8e202b38b82d7af476d8fdd",
+      "bytes": 68026
+    },
+    {
+      "line": 1,
+      "code": "99",
+      "name": "장림",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=99",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=99.gif&file_name_origin=99.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/99.gif",
+      "sha256": "a5235704b61b537d4e8e9bf233dc582aead2ed9f2773e761e582705af9595891",
+      "bytes": 68141
+    },
+    {
+      "line": 1,
+      "code": "100",
+      "name": "동매",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=100",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=100.gif&file_name_origin=100.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/100.gif",
+      "sha256": "a6e01959c4a787edca5f02215e86926aca5f42a47cf86695fe23fa302116e726",
+      "bytes": 46430
+    },
+    {
+      "line": 1,
+      "code": "101",
+      "name": "신평",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=101",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=101.gif&file_name_origin=101.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/101.gif",
+      "sha256": "451961c416263776a82d94af8668bf73e858d5bc4e3791f0a8e353360ecedef0",
+      "bytes": 88968
+    },
+    {
+      "line": 1,
+      "code": "102",
+      "name": "하단",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=102",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=102.gif&file_name_origin=102.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/102.gif",
+      "sha256": "e9fc73b55e34e8ace1e057e00fb81b74231387e4f1f5c024b56ca86490d508d8",
+      "bytes": 217388
+    },
+    {
+      "line": 1,
+      "code": "103",
+      "name": "당리",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=103",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=103.gif&file_name_origin=103.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/103.gif",
+      "sha256": "6d2a2af36c1e58f724c0a6b481e2cb5d0688e0681f25c6baedd6026858ca6e9f",
+      "bytes": 80739
+    },
+    {
+      "line": 1,
+      "code": "104",
+      "name": "사하",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=104",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=104.gif&file_name_origin=104.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/104.gif",
+      "sha256": "f6dba379174e4a89e9ccffe4234d60fe8f817f3a43ddcaf633a714194f3407c5",
+      "bytes": 83954
+    },
+    {
+      "line": 1,
+      "code": "105",
+      "name": "괴정",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=105",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=105.gif&file_name_origin=105.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/105.gif",
+      "sha256": "eabf19a684f37a91e34f5a9d9225aedc44486a1ac3879c9cf5f2d6abeffc092e",
+      "bytes": 51391
+    },
+    {
+      "line": 1,
+      "code": "106",
+      "name": "대티",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=106",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=106.gif&file_name_origin=106.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/106.gif",
+      "sha256": "a13a7372aedd52f04d78fbf2807b6a562c175d0f3c399827d15d487e0496f540",
+      "bytes": 183730
+    },
+    {
+      "line": 1,
+      "code": "107",
+      "name": "서대신",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=107",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=107.gif&file_name_origin=107.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/107.gif",
+      "sha256": "dc2b884c1c9303a35147422f227ad0a4e20bb61d3949dd8382043ac5de0c780e",
+      "bytes": 60142
+    },
+    {
+      "line": 1,
+      "code": "108",
+      "name": "동대신",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=108",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=108.gif&file_name_origin=108.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/108.gif",
+      "sha256": "5068b9ff4c57f4b1fb1f98cf2a29cf39f3eb86a3d66bfaa6bd1e6ebdb385d1dc",
+      "bytes": 112213
+    },
+    {
+      "line": 1,
+      "code": "109",
+      "name": "토성",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=109",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=109.gif&file_name_origin=109.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/109.gif",
+      "sha256": "b93bc5d8c1b0498407e29dd6bbeaf933a8eafe2fe664faf7a87e50d79ce36257",
+      "bytes": 103296
+    },
+    {
+      "line": 1,
+      "code": "110",
+      "name": "자갈치",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=110",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=110.gif&file_name_origin=110.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/110.gif",
+      "sha256": "abdd5342d8cf304ca67b0774c1a39935946ff57e3f217649b86303a9d942ad2f",
+      "bytes": 7883904
+    },
+    {
+      "line": 1,
+      "code": "111",
+      "name": "남포",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=111",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=111.gif&file_name_origin=111.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/111.gif",
+      "sha256": "0cf82009b35cf9c936af4cbffcfab402b0574b4185f553a11bbca13e7aa11896",
+      "bytes": 58329
+    },
+    {
+      "line": 1,
+      "code": "112",
+      "name": "중앙",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=112",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=112.gif&file_name_origin=112.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/112.gif",
+      "sha256": "eeb23bdaf9773aa72c49c05143186ea34e1266b4683599770dabbd9556ab6b85",
+      "bytes": 59489
+    },
+    {
+      "line": 1,
+      "code": "113",
+      "name": "부산",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=113",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=113.gif&file_name_origin=113.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/113.gif",
+      "sha256": "eba1b4dd8467b34f884c43454aa59abd1cc9a9a4dceae9e3a83839f9fdc7c10a",
+      "bytes": 88626
+    },
+    {
+      "line": 1,
+      "code": "114",
+      "name": "초량",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=114",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=114.gif&file_name_origin=114.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/114.gif",
+      "sha256": "bb1dcb9f1375121fbb2bcc997a95a4f93ef5937836a390542ea8824994eb550a",
+      "bytes": 95508
+    },
+    {
+      "line": 1,
+      "code": "115",
+      "name": "부산진",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=115",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=115.gif&file_name_origin=115.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/115.gif",
+      "sha256": "d6fbbad59ae90885ce1f1390984a386ccaabbd471ee79a62bc961ee364275f3f",
+      "bytes": 61576
+    },
+    {
+      "line": 1,
+      "code": "116",
+      "name": "좌천",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=116",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=116.gif&file_name_origin=116.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/116.gif",
+      "sha256": "ab9a2aa316645893fdb0aed0d608bc13a2d24e48c933fe4e9555a0e7f4daca80",
+      "bytes": 281104
+    },
+    {
+      "line": 1,
+      "code": "117",
+      "name": "범일",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=117",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=117.gif&file_name_origin=117.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/117.gif",
+      "sha256": "f71c4317f984b89ecec2a18259d43746385835cf8ebe43b4d2b5745325116abc",
+      "bytes": 76911
+    },
+    {
+      "line": 1,
+      "code": "118",
+      "name": "범내골",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=118",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=118.gif&file_name_origin=118.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/118.gif",
+      "sha256": "6a43855262434000e08071fbe391788b598f95d388207e067b16aed6ec811748",
+      "bytes": 156867
+    },
+    {
+      "line": 1,
+      "code": "119",
+      "name": "서면(1)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=119",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=119.gif&file_name_origin=119.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/119.gif",
+      "sha256": "845c450c0289c72e7902847fd8629374eb3c6db9ddcdf6181c44db9b992bf252",
+      "bytes": 138918
+    },
+    {
+      "line": 1,
+      "code": "120",
+      "name": "부전",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=120",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=120.gif&file_name_origin=120.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/120.gif",
+      "sha256": "9cbd924d18eddd119e8f877acb5f63d1305276f5b68d42467d88269f99c0f528",
+      "bytes": 40382
+    },
+    {
+      "line": 1,
+      "code": "121",
+      "name": "양정",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=121",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=121.gif&file_name_origin=121.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/121.gif",
+      "sha256": "c591dbf8878a54f673a0638a0496dc09bfc0f6bdabf98f5f95279a31a7c502db",
+      "bytes": 61500
+    },
+    {
+      "line": 1,
+      "code": "122",
+      "name": "시청",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=122",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=122.gif&file_name_origin=122.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/122.gif",
+      "sha256": "328525acd63edbba6e2074e5c93d771e14e834e6eda48489f671beb2f5ed1e8e",
+      "bytes": 78496
+    },
+    {
+      "line": 1,
+      "code": "123",
+      "name": "연산(1)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=123",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=123.gif&file_name_origin=123.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/123.gif",
+      "sha256": "2b0469e5db4f34ebdd8f3d61e8db0b725cdd065fb08aea3de3d3118dde9177cb",
+      "bytes": 109466
+    },
+    {
+      "line": 1,
+      "code": "124",
+      "name": "교대(1)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=124",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=124.gif&file_name_origin=124.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/124.gif",
+      "sha256": "c1cfbd96263d16874c9170bbae0b758403598f3d85bf1a559e638283ea957350",
+      "bytes": 72923
+    },
+    {
+      "line": 1,
+      "code": "125",
+      "name": "동래(1)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=125",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=125.gif&file_name_origin=125.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/125.gif",
+      "sha256": "3c26eb581a5e74a0a363264755834f229fde49e445d6946f72917e215de4a654",
+      "bytes": 80742
+    },
+    {
+      "line": 1,
+      "code": "126",
+      "name": "명륜",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=126",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=126.gif&file_name_origin=126.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/126.gif",
+      "sha256": "7aacd7c55b0495c5a5d6dbfefdf6aedf302f0307532a9112f7e6494664858779",
+      "bytes": 119283
+    },
+    {
+      "line": 1,
+      "code": "127",
+      "name": "온천장",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=127",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=127.gif&file_name_origin=127.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/127.gif",
+      "sha256": "c7bb78ffc8b1903c2fa35559737160c27c1b56a0974154841d0923c17510ac0f",
+      "bytes": 78921
+    },
+    {
+      "line": 1,
+      "code": "128",
+      "name": "부산대",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=128",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=128.gif&file_name_origin=128.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/128.gif",
+      "sha256": "c9eb27b54651d9a825e8e01bbcab8131f9bfd030374f4329675a2c69725ce9b2",
+      "bytes": 90464
+    },
+    {
+      "line": 1,
+      "code": "129",
+      "name": "장전",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=129",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=129.gif&file_name_origin=129.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/129.gif",
+      "sha256": "c4cc41385927ae49cbc099edc02bdf315e4229df31a4ba95f8d8f8c5b35ee6f7",
+      "bytes": 421295
+    },
+    {
+      "line": 1,
+      "code": "130",
+      "name": "구서",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=130",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=130.gif&file_name_origin=130.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/130.gif",
+      "sha256": "77e7a7bf62d0c1c363822ed8a92d2ad197c748b3e6cf977348c74b70efdd96f8",
+      "bytes": 422108
+    },
+    {
+      "line": 1,
+      "code": "131",
+      "name": "두실",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=131",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=131.gif&file_name_origin=131.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/131.gif",
+      "sha256": "88e152f2982aa21f02260a4a323b6764daa532dea2fb954651dd692f177954f4",
+      "bytes": 81867
+    },
+    {
+      "line": 1,
+      "code": "132",
+      "name": "남산",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=132",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=132.gif&file_name_origin=132.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/132.gif",
+      "sha256": "576a29ae2ce8ec5205849736f2afbccb8da942ea4b4d5e56d3426cf1be219aea",
+      "bytes": 55926
+    },
+    {
+      "line": 1,
+      "code": "133",
+      "name": "범어사",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=133",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=133.gif&file_name_origin=133.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/133.gif",
+      "sha256": "0047eaff5aba2508b9e2b1d262c3ca8d0de0dc11948defb2e1cbcb70480116c7",
+      "bytes": 83297
+    },
+    {
+      "line": 1,
+      "code": "134",
+      "name": "노포",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=1&s_station=134",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=134.gif&file_name_origin=134.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/134.gif",
+      "sha256": "cc5880be4a49170a3f6e1c2498acf7a27d5805cbaeb84715b535667e6080f58e",
+      "bytes": 56785
+    },
+    {
+      "line": 2,
+      "code": "201",
+      "name": "장산",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=201",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=201.gif&file_name_origin=201.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/201.gif",
+      "sha256": "60549de444dbf14472c8e14a7443f946f7750e9351cfcab299380ca0b11a5b0d",
+      "bytes": 84897
+    },
+    {
+      "line": 2,
+      "code": "202",
+      "name": "중동",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=202",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=202.gif&file_name_origin=202.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/202.gif",
+      "sha256": "e9d88d46463622546d8dd5d0ce08b66cb10c9a8f5513b1f5a4de184b28e06ea0",
+      "bytes": 56457
+    },
+    {
+      "line": 2,
+      "code": "203",
+      "name": "해운대",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=203",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=203.gif&file_name_origin=203.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/203.gif",
+      "sha256": "7a927069c1970ea81a243695062872733066a60deb2a681d77916c46b34ce001",
+      "bytes": 91834
+    },
+    {
+      "line": 2,
+      "code": "204",
+      "name": "동백",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=204",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=204.gif&file_name_origin=204.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/204.gif",
+      "sha256": "a18d3e38a6cd11a862f60d90380b0f0d9530e32f7cbdb7768214a7f0b3d12ab6",
+      "bytes": 89457
+    },
+    {
+      "line": 2,
+      "code": "205",
+      "name": "벡스코(시립미술관)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=205",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=205.gif&file_name_origin=205.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/205.gif",
+      "sha256": "b301101ae57a1ca0ae531fbb07eef63fad9073fdc89bcab4b3ab0b7c9af6a18f",
+      "bytes": 60063
+    },
+    {
+      "line": 2,
+      "code": "206",
+      "name": "센텀시티",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=206",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=206.gif&file_name_origin=206.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/206.gif",
+      "sha256": "560e6bd30557cca6d5ea5145b8a51792458f4c79cab400924ac64bfa24f1c42c",
+      "bytes": 126333
+    },
+    {
+      "line": 2,
+      "code": "207",
+      "name": "민락",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=207",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=207.gif&file_name_origin=207.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/207.gif",
+      "sha256": "6339a55080de9ad8018691b24d00328535229c425dada4fd39377cbf21bff6c1",
+      "bytes": 51009
+    },
+    {
+      "line": 2,
+      "code": "208",
+      "name": "수영(2)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=208",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=208.gif&file_name_origin=208.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/208.gif",
+      "sha256": "90c1f7b132d4b20971d60a0a66529150417e0f3a81ccb3f77d55b9684f8fed0e",
+      "bytes": 76469
+    },
+    {
+      "line": 2,
+      "code": "209",
+      "name": "광안",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=209",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=209.gif&file_name_origin=209.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/209.gif",
+      "sha256": "6a58c634308c563328092144eb52dfa7a05281a092a197278c4c7f5c25b4ba4e",
+      "bytes": 79179
+    },
+    {
+      "line": 2,
+      "code": "210",
+      "name": "금련산",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=210",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=210.gif&file_name_origin=210.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/210.gif",
+      "sha256": "610428af025f912d4e4342efdbc66a5cd8f16e9ba24398a4cdb56afcf41de014",
+      "bytes": 229744
+    },
+    {
+      "line": 2,
+      "code": "211",
+      "name": "남천",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=211",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=211.gif&file_name_origin=211.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/211.gif",
+      "sha256": "28da6ac9942f6f9aec84bd524ae122e578a558277166f8c76aab506d1fedcddb",
+      "bytes": 72024
+    },
+    {
+      "line": 2,
+      "code": "212",
+      "name": "경성대·부경대",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=212",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=212.gif&file_name_origin=212.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/212.gif",
+      "sha256": "044650aaed3b6b5c23f585cf8af8afd4aa82d0d8629fb195d343d7a727f7af09",
+      "bytes": 82822
+    },
+    {
+      "line": 2,
+      "code": "213",
+      "name": "대연",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=213",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=213.gif&file_name_origin=213.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/213.gif",
+      "sha256": "9ffebefcfef0319d3930be0c38af1dbffece0c0f9f4abd1911ae891898695376",
+      "bytes": 91181
+    },
+    {
+      "line": 2,
+      "code": "214",
+      "name": "못골",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=214",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=214.gif&file_name_origin=214.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/214.gif",
+      "sha256": "da0bfbd3de1ee09454586bc45eae9929cb4a3342b8085f8aedb768562c3a4536",
+      "bytes": 2238504
+    },
+    {
+      "line": 2,
+      "code": "215",
+      "name": "지게골",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=215",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=215.gif&file_name_origin=215.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/215.gif",
+      "sha256": "059f14e59d11fa8de8b5127b79431d67c8d99ab7de66c281fafd26b651135b77",
+      "bytes": 85281
+    },
+    {
+      "line": 2,
+      "code": "216",
+      "name": "문현",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=216",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=216.gif&file_name_origin=216.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/216.gif",
+      "sha256": "09d125a210e97e288523c4b316b775fb06b172d0edd89e4ac47d22436c62a6c4",
+      "bytes": 2643553
+    },
+    {
+      "line": 2,
+      "code": "217",
+      "name": "국제금융센터·부산은행",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=217",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=217.gif&file_name_origin=217.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/217.gif",
+      "sha256": "f9014ef89cff2835ceec5c041ae1b06235f2431111fd3045a681f51740158a98",
+      "bytes": 98031
+    },
+    {
+      "line": 2,
+      "code": "218",
+      "name": "전포",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=218",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=218.gif&file_name_origin=218.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/218.gif",
+      "sha256": "3f5863f73bb4f31ab708dffcf67a6ea5a6df4bfa71e164afb8e6924b9111e0d1",
+      "bytes": 143181
+    },
+    {
+      "line": 2,
+      "code": "219",
+      "name": "서면(2)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=219",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=219.gif&file_name_origin=219.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/219.gif",
+      "sha256": "845c450c0289c72e7902847fd8629374eb3c6db9ddcdf6181c44db9b992bf252",
+      "bytes": 138918
+    },
+    {
+      "line": 2,
+      "code": "220",
+      "name": "부암",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=220",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=220.gif&file_name_origin=220.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/220.gif",
+      "sha256": "69e086baf6ef02590c3dd52d0847163781189bff0f554c335881a7d61b15f7f7",
+      "bytes": 57696
+    },
+    {
+      "line": 2,
+      "code": "221",
+      "name": "가야",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=221",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=221.gif&file_name_origin=221.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/221.gif",
+      "sha256": "b54f32c7e997567b19232b0adf266d265042066f8e286c05bbd70116fd256897",
+      "bytes": 96539
+    },
+    {
+      "line": 2,
+      "code": "222",
+      "name": "동의대",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=222",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=222.gif&file_name_origin=222.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/222.gif",
+      "sha256": "04d3aa09ef354d7aeba8391334346fac07d0d7b71bb1cba152da87e3093e0641",
+      "bytes": 166176
+    },
+    {
+      "line": 2,
+      "code": "223",
+      "name": "개금",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=223",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=223.gif&file_name_origin=223.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/223.gif",
+      "sha256": "52b77e11e21317fe38a1848f7c7ee40f5950acb5889c6b8325632559c742b44d",
+      "bytes": 3963648
+    },
+    {
+      "line": 2,
+      "code": "224",
+      "name": "냉정",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=224",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=224.gif&file_name_origin=224.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/224.gif",
+      "sha256": "43efe5cc2b845674d9d291a12332c7d0697aa0de31dde63c0ab9b8dad862c2dc",
+      "bytes": 95924
+    },
+    {
+      "line": 2,
+      "code": "225",
+      "name": "주례",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=225",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=225.gif&file_name_origin=225.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/225.gif",
+      "sha256": "d974af341b69877ee119ff90083fbde550443b2438eea6d718f8a5c5d119ecc0",
+      "bytes": 74640
+    },
+    {
+      "line": 2,
+      "code": "226",
+      "name": "감전",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=226",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=226.gif&file_name_origin=226.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/226.gif",
+      "sha256": "4712de902775bad119349972697483d0cdb0a06e5b1aa170dd2a629fe79b2835",
+      "bytes": 326722
+    },
+    {
+      "line": 2,
+      "code": "227",
+      "name": "사상(2)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=227",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=227.gif&file_name_origin=227.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/227.gif",
+      "sha256": "8f3710e402c91c71b3537938030c0746eaebfe847694a5ab742b7eda1a1c3d96",
+      "bytes": 76894
+    },
+    {
+      "line": 2,
+      "code": "228",
+      "name": "덕포",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=228",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=228.gif&file_name_origin=228.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/228.gif",
+      "sha256": "89524709a1f4f12ff8e6aeb7237e9805239622340b4ca9a2ad8978b923ed985f",
+      "bytes": 49391
+    },
+    {
+      "line": 2,
+      "code": "229",
+      "name": "모덕",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=229",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=229.gif&file_name_origin=229.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/229.gif",
+      "sha256": "b406d17551a2ffeb9948d2c2f3c764766cb7dd24ee0a222582b37d57dc309da9",
+      "bytes": 50690
+    },
+    {
+      "line": 2,
+      "code": "230",
+      "name": "모라",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=230",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=230.gif&file_name_origin=230.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/230.gif",
+      "sha256": "300c83408f6c4e786edc57b0a4f76bdbe85bbfdc47547e160ff31252f9c9b22f",
+      "bytes": 212344
+    },
+    {
+      "line": 2,
+      "code": "231",
+      "name": "구남",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=231",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=231.gif&file_name_origin=231.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/231.gif",
+      "sha256": "eab610dcaececd9cef29f61a91adb7aa1dbdcc43d1f36666fe62fadbad5321d9",
+      "bytes": 263900
+    },
+    {
+      "line": 2,
+      "code": "232",
+      "name": "구명",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=232",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=232.gif&file_name_origin=232.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/232.gif",
+      "sha256": "156026365fc7471491650f26fef983f7dbbd7b5434343ef3aa7a38504019bcd9",
+      "bytes": 76885
+    },
+    {
+      "line": 2,
+      "code": "233",
+      "name": "덕천(2)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=233",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=233.gif&file_name_origin=233.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/233.gif",
+      "sha256": "14454c4e985ff92d652f8dae3f5dfe9c3450e3278dabef5ba4aff7800b553b2e",
+      "bytes": 383385
+    },
+    {
+      "line": 2,
+      "code": "234",
+      "name": "수정",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=234",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=234.gif&file_name_origin=234.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/234.gif",
+      "sha256": "868a3dc321196e82cd01ca2c6901e00b2a8eb3d3f5148694520658dc4d6bf7be",
+      "bytes": 82227
+    },
+    {
+      "line": 2,
+      "code": "235",
+      "name": "화명",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=235",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=235.gif&file_name_origin=235.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/235.gif",
+      "sha256": "2af60d248ed79327df6eedb4cf01e9953614296275940d478e6225b52b7e5e7d",
+      "bytes": 251481
+    },
+    {
+      "line": 2,
+      "code": "236",
+      "name": "율리",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=236",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=236.gif&file_name_origin=236.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/236.gif",
+      "sha256": "bf7a076d894acb3455910b1d773c25c74654d63acb7dd7920db737afd095ec60",
+      "bytes": 390428
+    },
+    {
+      "line": 2,
+      "code": "237",
+      "name": "동원",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=237",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=237.gif&file_name_origin=237.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/237.gif",
+      "sha256": "b1202d2de6da352171f9f854e828fb1ce7b0eecc26f0d21c8e1ad35f832e628a",
+      "bytes": 151012
+    },
+    {
+      "line": 2,
+      "code": "238",
+      "name": "금곡",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=238",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=238.gif&file_name_origin=238.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/238.gif",
+      "sha256": "9a017146e652d483d80092a25ea4279c5fa4dcbe39c677ea0c1eb18f761c4cab",
+      "bytes": 168102
+    },
+    {
+      "line": 2,
+      "code": "239",
+      "name": "호포",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=239",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=239.gif&file_name_origin=239.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/239.gif",
+      "sha256": "9f0481a4cdc176dbbb42263d9762a9de8385fdd7f45720bd4a437e3cf1750d17",
+      "bytes": 255551
+    },
+    {
+      "line": 2,
+      "code": "240",
+      "name": "증산",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=240",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=240.gif&file_name_origin=240.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/240.gif",
+      "sha256": "32db1e95f3a45cd942f4c0d4d0ac20247d8bb6c145b349928d62981c385b8978",
+      "bytes": 181232
+    },
+    {
+      "line": 2,
+      "code": "241",
+      "name": "부산대양산캠퍼스",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=241",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=241.gif&file_name_origin=241.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/241.gif",
+      "sha256": "5897b4c33a4c546109060a3d40f141b61e81870edfd8496f5789388cf78c9e60",
+      "bytes": 59784
+    },
+    {
+      "line": 2,
+      "code": "242",
+      "name": "남양산",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=242",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=242.gif&file_name_origin=242.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/242.gif",
+      "sha256": "0c739e9a45a4894a4218c5f6d4cdc220b7ac3cad4cda0035a3fe8c34354eb1a7",
+      "bytes": 106500
+    },
+    {
+      "line": 2,
+      "code": "243",
+      "name": "양산",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=2&s_station=243",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=243.gif&file_name_origin=243.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/243.gif",
+      "sha256": "ae18d093e950a4e2b521b17efaa8cd7ce4df5419adf679833a3216edc977145e",
+      "bytes": 103299
+    },
+    {
+      "line": 3,
+      "code": "301",
+      "name": "수영(3)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=301",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=301.gif&file_name_origin=301.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/301.gif",
+      "sha256": "90c1f7b132d4b20971d60a0a66529150417e0f3a81ccb3f77d55b9684f8fed0e",
+      "bytes": 76469
+    },
+    {
+      "line": 3,
+      "code": "302",
+      "name": "망미",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=302",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=302.gif&file_name_origin=302.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/302.gif",
+      "sha256": "9fa2c4c4942ecd99e289909612601ac0c414472514b507387913c469d98b782f",
+      "bytes": 698893
+    },
+    {
+      "line": 3,
+      "code": "303",
+      "name": "배산",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=303",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=303.gif&file_name_origin=303.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/303.gif",
+      "sha256": "df4e0fb7515923a90e492af057540e30032034e63e17286e46176098210514ba",
+      "bytes": 1068549
+    },
+    {
+      "line": 3,
+      "code": "304",
+      "name": "물만골",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=304",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=304.gif&file_name_origin=304.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/304.gif",
+      "sha256": "8f1144ebfa4a9dec7fff8377885a5a3436182d85b29c17657cd85d0f292e5933",
+      "bytes": 736481
+    },
+    {
+      "line": 3,
+      "code": "305",
+      "name": "연산(3)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=305",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=305.gif&file_name_origin=305.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/305.gif",
+      "sha256": "2b0469e5db4f34ebdd8f3d61e8db0b725cdd065fb08aea3de3d3118dde9177cb",
+      "bytes": 109466
+    },
+    {
+      "line": 3,
+      "code": "306",
+      "name": "거제(3)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=306",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=306.gif&file_name_origin=306.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/306.gif",
+      "sha256": "39dd78daaa0cd0fb8e1b5ec56810201f4e3700940d13f36c62ac0483502b9277",
+      "bytes": 45925
+    },
+    {
+      "line": 3,
+      "code": "307",
+      "name": "종합운동장",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=307",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=307.gif&file_name_origin=307.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/307.gif",
+      "sha256": "0a3584934d6e790d7e8b6e994930a404cc80e00a34c9da5fd409af2237569043",
+      "bytes": 127944
+    },
+    {
+      "line": 3,
+      "code": "308",
+      "name": "사직",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=308",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=308.gif&file_name_origin=308.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/308.gif",
+      "sha256": "2a83cd87a25903be198384958f951eedfe84adf863c3fc332ad1abc6b8dbcea3",
+      "bytes": 95221
+    },
+    {
+      "line": 3,
+      "code": "309",
+      "name": "미남(3)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=309",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=309.gif&file_name_origin=309.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/309.gif",
+      "sha256": "0ad39523e3ac45849ec0166208526bfc84ea2fa7e91a25116efc07e0af40a251",
+      "bytes": 1113604
+    },
+    {
+      "line": 3,
+      "code": "310",
+      "name": "만덕",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=310",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=310.gif&file_name_origin=310.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/310.gif",
+      "sha256": "6ae76ce42610c4d655c2708ef71c62c7837a2dcfb80a32f957f6694c76fefd29",
+      "bytes": 830693
+    },
+    {
+      "line": 3,
+      "code": "311",
+      "name": "남산정",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=311",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=311.gif&file_name_origin=311.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/311.gif",
+      "sha256": "ba90eaa74f73c63e3c1ec103da6078d1dd86878cb0892c6235cfa90c43c4ca06",
+      "bytes": 46537
+    },
+    {
+      "line": 3,
+      "code": "312",
+      "name": "숙등",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=312",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=312.gif&file_name_origin=312.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/312.gif",
+      "sha256": "e0ff28f8d257815b8473f692271a8ea708d8a1fd8c9618950a0d415ae436f8fd",
+      "bytes": 48831
+    },
+    {
+      "line": 3,
+      "code": "313",
+      "name": "덕천(3)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=313",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=313.gif&file_name_origin=313.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/313.gif",
+      "sha256": "14454c4e985ff92d652f8dae3f5dfe9c3450e3278dabef5ba4aff7800b553b2e",
+      "bytes": 383385
+    },
+    {
+      "line": 3,
+      "code": "314",
+      "name": "구포",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=314",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=314.gif&file_name_origin=314.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/314.gif",
+      "sha256": "464ea52b9ed094b4a7e919357d76b44ec2200e033c915dbdf830da09821152dc",
+      "bytes": 49709
+    },
+    {
+      "line": 3,
+      "code": "315",
+      "name": "강서구청",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=315",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=315.gif&file_name_origin=315.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/315.gif",
+      "sha256": "8e0fd96f7cdf84115c41d17fae553c250885ca9c1656f3e380003ee0062a9344",
+      "bytes": 82296
+    },
+    {
+      "line": 3,
+      "code": "316",
+      "name": "체육공원",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=316",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=316.gif&file_name_origin=316.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/316.gif",
+      "sha256": "847c4e6d1da91f3dc05987284a281c093980a114801586af97ad2ffe516259ef",
+      "bytes": 75485
+    },
+    {
+      "line": 3,
+      "code": "317",
+      "name": "대저(3)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=3&s_station=317",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=317.gif&file_name_origin=317.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/317.gif",
+      "sha256": "215d6fe862e4883fdeb42d99b907c76bc8b618656ecd223fe5002b565ee141e6",
+      "bytes": 972675
+    },
+    {
+      "line": 4,
+      "code": "401",
+      "name": "미남(4)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=401",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=401.gif&file_name_origin=401.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/401.gif",
+      "sha256": "4a0a59ec535e2f1a02141cdd1671db93e1f4b9512d21a72de47769fe5b3b8be3",
+      "bytes": 54092
+    },
+    {
+      "line": 4,
+      "code": "402",
+      "name": "동래(4)",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=402",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=402.gif&file_name_origin=402.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/402.gif",
+      "sha256": "0f0cdd85ad9dbd403adc0680e3541446ea853b6517bd50bac9f069a3f8e954d5",
+      "bytes": 97421
+    },
+    {
+      "line": 4,
+      "code": "403",
+      "name": "수안",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=403",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=403.gif&file_name_origin=403.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/403.gif",
+      "sha256": "5de4448c79ae7ea101057f471ee41aed9a5ed02ca717fe3ec9a46f524efe2648",
+      "bytes": 95244
+    },
+    {
+      "line": 4,
+      "code": "404",
+      "name": "낙민",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=404",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=404.gif&file_name_origin=404.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/404.gif",
+      "sha256": "f56f9479e0a925e60748525d11571635278684b833d6b6ab309b72df9f4f9bbe",
+      "bytes": 101827
+    },
+    {
+      "line": 4,
+      "code": "405",
+      "name": "충렬사",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=405",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=405.gif&file_name_origin=405.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/405.gif",
+      "sha256": "c9d25a466ff233beebaf02958febd81d93f8c7a7f58e135bbbc3037c78241bd5",
+      "bytes": 106771
+    },
+    {
+      "line": 4,
+      "code": "406",
+      "name": "명장",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=406",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=406.gif&file_name_origin=406.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/406.gif",
+      "sha256": "467e570b21220b9d0087ee9304ba745a187891ec2daba07b1d5ec89b8093dbd9",
+      "bytes": 123918
+    },
+    {
+      "line": 4,
+      "code": "407",
+      "name": "서동",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=407",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=407.gif&file_name_origin=407.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/407.gif",
+      "sha256": "02e74e36814a7b6631f3bfc6cdafe7beb09ce8c609a1b4315e8f25161159d28a",
+      "bytes": 117930
+    },
+    {
+      "line": 4,
+      "code": "408",
+      "name": "금사",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=408",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=408.gif&file_name_origin=408.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/408.gif",
+      "sha256": "7c0806a99e8ca22343a74f34d5c0928a8361845dd631912b1bd542797cd66148",
+      "bytes": 107897
+    },
+    {
+      "line": 4,
+      "code": "409",
+      "name": "반여농산물시장",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=409",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=409.gif&file_name_origin=409.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/409.gif",
+      "sha256": "dc98d04372013067778526ebf7c7aa846c93d46801584d47016655d9e30ca8da",
+      "bytes": 88544
+    },
+    {
+      "line": 4,
+      "code": "410",
+      "name": "석대",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=410",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=410.gif&file_name_origin=410.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/410.gif",
+      "sha256": "6bcb6750b30a7785e3a464fabd99b328bc451d7cfc2e04f6de8b7e3f787e5d8a",
+      "bytes": 77468
+    },
+    {
+      "line": 4,
+      "code": "411",
+      "name": "영산대",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=411",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=411.gif&file_name_origin=411.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/411.gif",
+      "sha256": "e57551f6576ce55b6011ffbdb5b88de8ef3974186f3d0a4e0619236e7a682439",
+      "bytes": 144305
+    },
+    {
+      "line": 4,
+      "code": "412",
+      "name": "윗반송",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=412",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=412.gif&file_name_origin=412.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/412.gif",
+      "sha256": "1a1ca385b879f53857c6a5bcb93ad2ad5ee0890c0f5cd1e09cede4b738242b55",
+      "bytes": 134208
+    },
+    {
+      "line": 4,
+      "code": "413",
+      "name": "고촌",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=413",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=413.gif&file_name_origin=413.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/413.gif",
+      "sha256": "d2fc31fb0563aedd828461c66a1760c1ea61c327bcf6aa1571bbbfc6a5625c3f",
+      "bytes": 150321
+    },
+    {
+      "line": 4,
+      "code": "414",
+      "name": "안평",
+      "source": "https://www.humetro.busan.kr/homepage/default/stationinfo/page/list01.do?menu_no=1001010201&s_line=4&s_station=414",
+      "planURL": "https://www.humetro.busan.kr/servlet/DownloadServlet?file_name=414.gif&file_name_origin=414.gif&upload_dir=stationmap",
+      "file": "cache/busan-plans/414.gif",
+      "sha256": "003744ced651f69ff3736e7c3ccae85b4d3a6bdc824ccfa8bf7f04751c8083e4",
+      "bytes": 61900
+    }
+  ]
+}

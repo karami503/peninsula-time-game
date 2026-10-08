@@ -1,0 +1,249 @@
+{
+  "retrieved": "2026-10-08",
+  "method": "Human visual review of explicit platform labels in official diagrams. Floor labels never authorize depth or geometry.",
+  "rows": [
+    {
+      "region": "수도권",
+      "lineName": "경의중앙선",
+      "stationName": "문산",
+      "verifiedPlatformFloors": [
+        1
+      ],
+      "floorQuality": "source-conflict",
+      "floorQualityNote": "CSV 역층은 1~4F지만 KRIC 안내도에는 모든 승강장이 1F, 대합실이 4F로 표시됨. 원본 오류를 별도 보존.",
+      "floorEvidenceFile": "cache/kric-문산-map.png",
+      "floorEvidenceURL": "https://station.kric.go.kr/v2/altmInfoSys/index.do?areCd=01&lnCd=K4&railOprIsttCd=KR&prprStinCd=0207",
+      "evidenceSHA256": "04b6c6f4b277f57a832b0b02392d3b837d596b3a865f9df8995f5d742465b814",
+      "reviewedPlatformType": "섬식",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "수도권",
+      "lineName": "경의중앙선",
+      "stationName": "운천",
+      "verifiedPlatformFloors": [
+        1
+      ],
+      "floorQuality": "source-conflict",
+      "floorQualityNote": "CSV 역층은 1~4F지만 KRIC 안내도의 열차 타는 곳은 1F로 표시됨.",
+      "floorEvidenceFile": "cache/kric-운천-map.png",
+      "floorEvidenceURL": "https://station.kric.go.kr/v2/altmInfoSys/index.do?areCd=01&lnCd=K4&railOprIsttCd=KR&prprStinCd=1135",
+      "evidenceSHA256": "1cf219cf13e21ea67acf9f3970b9a55f5bfded7fbec5783c4fbf1a0ec724e41a",
+      "reviewedPlatformType": "",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "수도권",
+      "lineName": "경의중앙선",
+      "stationName": "가좌",
+      "verifiedPlatformFloors": [
+        -4,
+        1
+      ],
+      "floorQuality": "multi-level-reviewed",
+      "floorQualityNote": "KRIC 안내도에서 서울역 지선 승강장 1F와 홍대입구 방면 승강장 B4를 확인. 복수 층은 정상임.",
+      "floorEvidenceFile": "cache/kric-가좌-map.png",
+      "floorEvidenceURL": "https://station.kric.go.kr/v2/altmInfoSys/index.do?areCd=01&lnCd=K4&railOprIsttCd=KR&prprStinCd=0010",
+      "evidenceSHA256": "39990d278bbb7f08e1ee8554c30df79430ae8d085fe182e13ac36159e52e8b22",
+      "reviewedPlatformType": "",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "대전",
+      "lineName": "대전1호선",
+      "stationName": "대전",
+      "verifiedPlatformFloors": [
+        -5
+      ],
+      "floorQuality": "source-conflict",
+      "floorQualityNote": "대전교통공사 VR 안내도에서 승강장 층을 확인. CSV에는 위층 연결층도 방향별 승강장 층으로 기재됨.",
+      "floorEvidenceFile": "cache/djtc-daejeon-map.png",
+      "floorEvidenceURL": "https://www.djtc.kr/stationVR/104-vtour/tour.html",
+      "evidenceSHA256": "1be4739e8dabb89f54779e4a4bd5055bacdf5d595e069ba1ff838dd6c1a3e1dd",
+      "reviewedPlatformType": "",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "대전",
+      "lineName": "대전1호선",
+      "stationName": "중앙로",
+      "verifiedPlatformFloors": [
+        -5
+      ],
+      "floorQuality": "source-conflict",
+      "floorQualityNote": "대전교통공사 VR 안내도에서 승강장 층을 확인. CSV에는 위층 연결층도 방향별 승강장 층으로 기재됨.",
+      "floorEvidenceFile": "cache/djtc-105-map.png",
+      "floorEvidenceURL": "https://www.djtc.kr/stationVR/105-vtour/tour.html",
+      "evidenceSHA256": "f2f9ad20f0c610f87ea70c7816f86d47c70f9c428e5d7e2d8da12d2b3aa6611c",
+      "reviewedPlatformType": "",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "대전",
+      "lineName": "대전1호선",
+      "stationName": "중구청",
+      "verifiedPlatformFloors": [
+        -5
+      ],
+      "floorQuality": "source-conflict",
+      "floorQualityNote": "대전교통공사 VR 안내도에서 승강장 층을 확인. CSV에는 위층 연결층도 방향별 승강장 층으로 기재됨.",
+      "floorEvidenceFile": "cache/djtc-106-map.png",
+      "floorEvidenceURL": "https://www.djtc.kr/stationVR/106-vtour/tour.html",
+      "evidenceSHA256": "31fa2e7a727fef9958d4e3eda520fb890559cda031cd61494f62c9560d32adc2",
+      "reviewedPlatformType": "",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "대전",
+      "lineName": "대전1호선",
+      "stationName": "서대전네거리",
+      "verifiedPlatformFloors": [
+        -4
+      ],
+      "floorQuality": "source-conflict",
+      "floorQualityNote": "대전교통공사 VR 안내도에서 승강장 층을 확인. CSV에는 위층 연결층도 방향별 승강장 층으로 기재됨.",
+      "floorEvidenceFile": "cache/djtc-107-map.png",
+      "floorEvidenceURL": "https://www.djtc.kr/stationVR/107-vtour/tour.html",
+      "evidenceSHA256": "0b2f25dfa95dbb8f75ed2eb062a6aee92634e3d5623d728d0cbd8519f0800941",
+      "reviewedPlatformType": "",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "수도권",
+      "lineName": "1호선",
+      "stationName": "신길",
+      "verifiedPlatformFloors": [
+        1
+      ],
+      "floorQuality": "source-conflict",
+      "floorQualityNote": "서울교통공사 환승 안내도: 1호선 승강장 1F·대합실 2F, 5호선 승강장 B4·대합실 B3. CSV 승강장 층과 충돌.",
+      "floorEvidenceFile": "cache/plans/seoul/5호선/525 신길(3차수정).jpg",
+      "floorEvidenceURL": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "evidenceSHA256": "810fda30bb3aff9563228c37383e2057c31d77edc501c6066fc509d5d66c3057",
+      "reviewedPlatformType": "",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "수도권",
+      "lineName": "5호선",
+      "stationName": "신길",
+      "verifiedPlatformFloors": [
+        -4
+      ],
+      "floorQuality": "source-conflict",
+      "floorQualityNote": "서울교통공사 환승 안내도: 1호선 승강장 1F·대합실 2F, 5호선 승강장 B4·대합실 B3. CSV 승강장 층과 충돌.",
+      "floorEvidenceFile": "cache/plans/seoul/5호선/525 신길(3차수정).jpg",
+      "floorEvidenceURL": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "evidenceSHA256": "810fda30bb3aff9563228c37383e2057c31d77edc501c6066fc509d5d66c3057",
+      "reviewedPlatformType": "",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "수도권",
+      "lineName": "2호선",
+      "stationName": "강남",
+      "verifiedPlatformFloors": [
+        -2
+      ],
+      "floorQuality": "diagram-reviewed",
+      "floorQualityNote": "서울교통공사 강남역 안내도: 2호선 B2 상대식, 신분당선 B4 상대식 승강장.",
+      "floorEvidenceFile": "cache/plans/seoul/2호선/222 강남역.jpg",
+      "floorEvidenceURL": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "evidenceSHA256": "4df390b0907e8691a4b135c27078ba321d2ba80d530333eac50ab9367a698121",
+      "reviewedPlatformType": "상대식",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "수도권",
+      "lineName": "신분당선",
+      "stationName": "강남",
+      "verifiedPlatformFloors": [
+        -4
+      ],
+      "floorQuality": "diagram-reviewed",
+      "floorQualityNote": "서울교통공사 강남역 안내도: 2호선 B2 상대식, 신분당선 B4 상대식 승강장.",
+      "floorEvidenceFile": "cache/plans/seoul/2호선/222 강남역.jpg",
+      "floorEvidenceURL": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "evidenceSHA256": "4df390b0907e8691a4b135c27078ba321d2ba80d530333eac50ab9367a698121",
+      "reviewedPlatformType": "상대식",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "수도권",
+      "lineName": "5호선",
+      "stationName": "김포공항",
+      "verifiedPlatformFloors": [
+        -3
+      ],
+      "floorQuality": "diagram-reviewed",
+      "floorQualityNote": "서울교통공사 김포공항역 안내도에서 해당 노선의 승강장 층 확인. 복수 층은 방향별 분리 승강장이며 하나로 합치지 않음.",
+      "floorEvidenceFile": "cache/plans/seoul/5호선/512 김포공항.jpg",
+      "floorEvidenceURL": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "evidenceSHA256": "9116314a711b8ae11d919c5bf3ab2b812a4aeb0a941722ffde48d1f83fc3a842",
+      "reviewedPlatformType": "",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "수도권",
+      "lineName": "9호선",
+      "stationName": "김포공항",
+      "verifiedPlatformFloors": [
+        -4,
+        -3
+      ],
+      "floorQuality": "multi-level-reviewed",
+      "floorQualityNote": "서울교통공사 김포공항역 안내도에서 해당 노선의 승강장 층 확인. 복수 층은 방향별 분리 승강장이며 하나로 합치지 않음.",
+      "floorEvidenceFile": "cache/plans/seoul/5호선/512 김포공항.jpg",
+      "floorEvidenceURL": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "evidenceSHA256": "9116314a711b8ae11d919c5bf3ab2b812a4aeb0a941722ffde48d1f83fc3a842",
+      "reviewedPlatformType": "",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "수도권",
+      "lineName": "공항철도",
+      "stationName": "김포공항",
+      "verifiedPlatformFloors": [
+        -4,
+        -3
+      ],
+      "floorQuality": "multi-level-reviewed",
+      "floorQualityNote": "서울교통공사 김포공항역 안내도에서 해당 노선의 승강장 층 확인. 복수 층은 방향별 분리 승강장이며 하나로 합치지 않음.",
+      "floorEvidenceFile": "cache/plans/seoul/5호선/512 김포공항.jpg",
+      "floorEvidenceURL": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "evidenceSHA256": "9116314a711b8ae11d919c5bf3ab2b812a4aeb0a941722ffde48d1f83fc3a842",
+      "reviewedPlatformType": "",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "수도권",
+      "lineName": "김포골드라인",
+      "stationName": "김포공항",
+      "verifiedPlatformFloors": [
+        -4
+      ],
+      "floorQuality": "diagram-reviewed",
+      "floorQualityNote": "서울교통공사 김포공항역 안내도에서 해당 노선의 승강장 층 확인. 복수 층은 방향별 분리 승강장이며 하나로 합치지 않음.",
+      "floorEvidenceFile": "cache/plans/seoul/5호선/512 김포공항.jpg",
+      "floorEvidenceURL": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "evidenceSHA256": "9116314a711b8ae11d919c5bf3ab2b812a4aeb0a941722ffde48d1f83fc3a842",
+      "reviewedPlatformType": "",
+      "reviewed": "2026-10-08"
+    },
+    {
+      "region": "수도권",
+      "lineName": "서해선",
+      "stationName": "김포공항",
+      "verifiedPlatformFloors": [
+        -5
+      ],
+      "floorQuality": "diagram-reviewed",
+      "floorQualityNote": "서울교통공사 김포공항역 안내도에서 해당 노선의 승강장 층 확인. 복수 층은 방향별 분리 승강장이며 하나로 합치지 않음.",
+      "floorEvidenceFile": "cache/plans/seoul/5호선/512 김포공항.jpg",
+      "floorEvidenceURL": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "evidenceSHA256": "9116314a711b8ae11d919c5bf3ab2b812a4aeb0a941722ffde48d1f83fc3a842",
+      "reviewedPlatformType": "",
+      "reviewed": "2026-10-08"
+    }
+  ]
+}

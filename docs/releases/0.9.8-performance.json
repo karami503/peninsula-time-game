@@ -1,0 +1,129 @@
+{
+    "version": "0.9.8",
+    "device": "Mac17,2",
+    "gpu": "Apple M5",
+    "width": 1440,
+    "height": 900,
+    "samples": [
+        {
+            "name": "surface",
+            "frames": 358,
+            "renderers": 22910,
+            "activeRenderers": 1408,
+            "meanMs": 16.76409149169922,
+            "p95Ms": 17.13479232788086,
+            "memoryMB": 154.56314086914063,
+            "drawCalls": 289,
+            "triangles": 188824,
+            "gcBytes": -1
+        },
+        {
+            "name": "concourse",
+            "frames": 358,
+            "renderers": 22910,
+            "activeRenderers": 3966,
+            "meanMs": 16.79392433166504,
+            "p95Ms": 17.45245933532715,
+            "memoryMB": 156.14356994628907,
+            "drawCalls": 1485,
+            "triangles": 659439,
+            "gcBytes": -1
+        },
+        {
+            "name": "platform",
+            "frames": 357,
+            "renderers": 22865,
+            "activeRenderers": 6810,
+            "meanMs": 16.833250045776368,
+            "p95Ms": 17.517955780029298,
+            "memoryMB": 156.30392456054688,
+            "drawCalls": 2037,
+            "triangles": 966358,
+            "gcBytes": -1
+        },
+        {
+            "name": "terminal",
+            "frames": 358,
+            "renderers": 22865,
+            "activeRenderers": 1623,
+            "meanMs": 16.7961483001709,
+            "p95Ms": 17.337337493896486,
+            "memoryMB": 156.40740966796876,
+            "drawCalls": 781,
+            "triangles": 229881,
+            "gcBytes": -1
+        },
+        {
+            "name": "international-checkin",
+            "frames": 358,
+            "renderers": 22865,
+            "activeRenderers": 210,
+            "meanMs": 16.768590927124025,
+            "p95Ms": 17.16678810119629,
+            "memoryMB": 156.63662719726563,
+            "drawCalls": 197,
+            "triangles": 7056,
+            "gcBytes": -1
+        },
+        {
+            "name": "international-gates",
+            "frames": 359,
+            "renderers": 22865,
+            "activeRenderers": 165,
+            "meanMs": 16.75929069519043,
+            "p95Ms": 17.123580932617189,
+            "memoryMB": 156.46533203125,
+            "drawCalls": 181,
+            "triangles": 3029,
+            "gcBytes": -1
+        },
+        {
+            "name": "national-gangnam",
+            "frames": 360,
+            "renderers": 1038,
+            "activeRenderers": 527,
+            "meanMs": 16.70480728149414,
+            "p95Ms": 16.716461181640626,
+            "memoryMB": 96.95170593261719,
+            "drawCalls": 259,
+            "triangles": 211347,
+            "gcBytes": -1
+        },
+        {
+            "name": "national-seomyeon",
+            "frames": 358,
+            "renderers": 819,
+            "activeRenderers": 505,
+            "meanMs": 16.75926971435547,
+            "p95Ms": 17.32291603088379,
+            "memoryMB": 97.10175323486328,
+            "drawCalls": 262,
+            "triangles": 285163,
+            "gcBytes": -1
+        },
+        {
+            "name": "national-seoul-hall",
+            "frames": 359,
+            "renderers": 3027,
+            "activeRenderers": 971,
+            "meanMs": 16.758241653442384,
+            "p95Ms": 17.21083641052246,
+            "memoryMB": 101.83151245117188,
+            "drawCalls": 372,
+            "triangles": 183569,
+            "gcBytes": -1
+        },
+        {
+            "name": "gangnam-side-platform",
+            "frames": 358,
+            "renderers": 7726,
+            "activeRenderers": 5163,
+            "meanMs": 16.759126663208009,
+            "p95Ms": 17.078125,
+            "memoryMB": 187.75254821777345,
+            "drawCalls": 2287,
+            "triangles": 4583854,
+            "gcBytes": -1
+        }
+    ]
+}

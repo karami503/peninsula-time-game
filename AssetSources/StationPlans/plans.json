@@ -1,0 +1,2292 @@
+{
+  "rows": [
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/1호선/124 청량리.jpg",
+      "filename": "1호선/124 청량리.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1139230
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/1호선/125 제기동.jpg",
+      "filename": "1호선/125 제기동.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1064803
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/1호선/126 신설동.jpg",
+      "filename": "1호선/126 신설동.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1337144
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/1호선/127 동묘앞.jpg",
+      "filename": "1호선/127 동묘앞.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1316133
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/1호선/128 동대문.jpg",
+      "filename": "1호선/128 동대문.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1312639
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/1호선/129 종로5가.jpg",
+      "filename": "1호선/129 종로5가.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1109912
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/1호선/130 종로3가.jpg",
+      "filename": "1호선/130 종로3가.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1454131
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/1호선/131 종각.jpg",
+      "filename": "1호선/131 종각.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1209663
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/1호선/132 시청.jpg",
+      "filename": "1호선/132 시청.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1380533
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/1호선/133 서울역.jpg",
+      "filename": "1호선/133 서울역.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1668575
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/201 시청-수정8.jpg",
+      "filename": "2호선/201 시청-수정8.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1399835
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/202 을지로입구.jpg",
+      "filename": "2호선/202 을지로입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1608614
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/203 을지로3가(2).jpg",
+      "filename": "2호선/203 을지로3가(2).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1683633
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/204 을지로4가.jpg",
+      "filename": "2호선/204 을지로4가.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1778482
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/205 동대문역사문화공원.jpg",
+      "filename": "2호선/205 동대문역사문화공원.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1541507
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/206 신당.jpg",
+      "filename": "2호선/206 신당.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1361019
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/207 상왕십리.jpg",
+      "filename": "2호선/207 상왕십리.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1194613
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/208 왕십리.jpg",
+      "filename": "2호선/208 왕십리.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1764702
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/209 한양대.jpg",
+      "filename": "2호선/209 한양대.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1147184
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/210 뚝섬.jpg",
+      "filename": "2호선/210 뚝섬.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1124270
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/211 성수.jpg",
+      "filename": "2호선/211 성수.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1540649
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/211-1 용답.jpg",
+      "filename": "2호선/211-1 용답.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1074765
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/211-2 신답.jpg",
+      "filename": "2호선/211-2 신답.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1016383
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/211-3 용두.jpg",
+      "filename": "2호선/211-3 용두.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1231861
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/211-4 신설동.jpg",
+      "filename": "2호선/211-4 신설동.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1289003
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/212 건대입구.jpg",
+      "filename": "2호선/212 건대입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1732461
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/213 구의역.jpg",
+      "filename": "2호선/213 구의역.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1502308
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/214 강변.jpg",
+      "filename": "2호선/214 강변.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1163449
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/215 잠실나루.jpg",
+      "filename": "2호선/215 잠실나루.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1097226
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/216 잠실.jpg",
+      "filename": "2호선/216 잠실.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1388311
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/217 잠실새내.jpg",
+      "filename": "2호선/217 잠실새내.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1363482
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/218 종합운동장.jpg",
+      "filename": "2호선/218 종합운동장.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1456099
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/219 삼성역.jpg",
+      "filename": "2호선/219 삼성역.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1582743
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/220 선릉역.jpg",
+      "filename": "2호선/220 선릉역.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1776476
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/221 역삼역.jpg",
+      "filename": "2호선/221 역삼역.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1588122
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/222 강남역.jpg",
+      "filename": "2호선/222 강남역.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1896684
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/223 교대.jpg",
+      "filename": "2호선/223 교대.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1391869
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/224 서초역.jpg",
+      "filename": "2호선/224 서초역.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1183856
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/225 방배.jpg",
+      "filename": "2호선/225 방배.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1113098
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/226 사당.jpg",
+      "filename": "2호선/226 사당.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1380623
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/228 서울대입구.jpg",
+      "filename": "2호선/228 서울대입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1546653
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/229 봉천.jpg",
+      "filename": "2호선/229 봉천.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1187790
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/230 신림.jpg",
+      "filename": "2호선/230 신림.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1359138
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/231 신대방.jpg",
+      "filename": "2호선/231 신대방.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1102356
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/233 대림역.jpg",
+      "filename": "2호선/233 대림역.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1319663
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/234 신도림.jpg",
+      "filename": "2호선/234 신도림.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1452488
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/234-1도림천역.jpg",
+      "filename": "2호선/234-1도림천역.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1188841
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/234-2 양천구청.jpg",
+      "filename": "2호선/234-2 양천구청.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1131912
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/234-3 신정네거리.jpg",
+      "filename": "2호선/234-3 신정네거리.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1234754
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/235 문래.jpg",
+      "filename": "2호선/235 문래.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1206520
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/236 영등포구청.jpg",
+      "filename": "2호선/236 영등포구청.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1530273
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/237 당산.jpg",
+      "filename": "2호선/237 당산.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1347103
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/238 합정역.jpg",
+      "filename": "2호선/238 합정역.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1619507
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/239 홍대입구.jpg",
+      "filename": "2호선/239 홍대입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1664711
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/240 신촌역.jpg",
+      "filename": "2호선/240 신촌역.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1546953
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/241 이대입구.jpg",
+      "filename": "2호선/241 이대입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1456765
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/242 아현.jpg",
+      "filename": "2호선/242 아현.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1183350
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/2호선/243 충정로역.jpg",
+      "filename": "2호선/243 충정로역.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1327016
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/319 지축.jpg",
+      "filename": "3호선/319 지축.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 962968
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/321 연신내.jpg",
+      "filename": "3호선/321 연신내.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1244029
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/322 불광-1.jpg",
+      "filename": "3호선/322 불광-1.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1293640
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/324 홍제.jpg",
+      "filename": "3호선/324 홍제.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1193822
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/325 무악재.jpg",
+      "filename": "3호선/325 무악재.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1143702
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/326 독립문.jpg",
+      "filename": "3호선/326 독립문.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1171722
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/327 경복궁.jpg",
+      "filename": "3호선/327 경복궁.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1550747
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/328 안국.jpg",
+      "filename": "3호선/328 안국.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1511429
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/329. (종로3가)3호선 역이용안내도-01.jpg",
+      "filename": "3호선/329. (종로3가)3호선 역이용안내도-01.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1248353
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/330 을지로3가.jpg",
+      "filename": "3호선/330 을지로3가.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1646705
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/332 동대입구.jpg",
+      "filename": "3호선/332 동대입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1162703
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/333 약수.jpg",
+      "filename": "3호선/333 약수.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1291779
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/334 금호.jpg",
+      "filename": "3호선/334 금호.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1163056
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/335 옥수.jpg",
+      "filename": "3호선/335 옥수.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1324125
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/336 압구정.jpg",
+      "filename": "3호선/336 압구정.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1182655
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/337 신사.jpg",
+      "filename": "3호선/337 신사.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1241280
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/338 잠원.jpg",
+      "filename": "3호선/338 잠원.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1080022
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/339 고속터미널.jpg",
+      "filename": "3호선/339 고속터미널.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1489966
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/340 교대.jpg",
+      "filename": "3호선/340 교대.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1316767
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/341 남부터미널.jpg",
+      "filename": "3호선/341 남부터미널.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1226927
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/342 양재.jpg",
+      "filename": "3호선/342 양재.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1603088
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/343 매봉.jpg",
+      "filename": "3호선/343 매봉.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1079938
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/344 도곡.jpg",
+      "filename": "3호선/344 도곡.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1396327
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/345 대치.jpg",
+      "filename": "3호선/345 대치.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1183625
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/346 학여울.jpg",
+      "filename": "3호선/346 학여울.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1181993
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/347 대청.jpg",
+      "filename": "3호선/347 대청.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1193959
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/348 일원.jpg",
+      "filename": "3호선/348 일원.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1238141
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/349 수서.jpg",
+      "filename": "3호선/349 수서.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1329360
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/350 가락시장.jpg",
+      "filename": "3호선/350 가락시장.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1561731
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/351 경찰병원.jpg",
+      "filename": "3호선/351 경찰병원.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1399397
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/352 오금.jpg",
+      "filename": "3호선/352 오금.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1664061
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/3호선/[3호선-충무로(3)]-[3호선 충무로 331]역이용안내도.jpg",
+      "filename": "3호선/[3호선-충무로(3)]-[3호선 충무로 331]역이용안내도.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1684147
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/409 당고개.jpg",
+      "filename": "4호선/409 당고개.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1328982
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/410 상계.jpg",
+      "filename": "4호선/410 상계.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1100868
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/411 노원.jpg",
+      "filename": "4호선/411 노원.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1248444
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/412 창동.jpg",
+      "filename": "4호선/412 창동.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1345526
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/414 수유.jpg",
+      "filename": "4호선/414 수유.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1142351
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/415 미아.jpg",
+      "filename": "4호선/415 미아.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1164439
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/416 미아사거리.jpg",
+      "filename": "4호선/416 미아사거리.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1167214
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/417 길음.jpg",
+      "filename": "4호선/417 길음.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1146721
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/418 성신여대입구.jpg",
+      "filename": "4호선/418 성신여대입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1239529
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/419 한성대입구.jpg",
+      "filename": "4호선/419 한성대입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1138863
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/420 혜화.jpg",
+      "filename": "4호선/420 혜화.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1141453
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/421 동대문.jpg",
+      "filename": "4호선/421 동대문.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1722438
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/422 동대문역사문화공원.jpg",
+      "filename": "4호선/422 동대문역사문화공원.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1546293
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/425 회현.jpg",
+      "filename": "4호선/425 회현.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1249959
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/426 서울역.jpg",
+      "filename": "4호선/426 서울역.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1452794
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/427 숙대입구.jpg",
+      "filename": "4호선/427 숙대입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1162010
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/428 삼각지.jpg",
+      "filename": "4호선/428 삼각지.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1324113
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/429 신용산.jpg",
+      "filename": "4호선/429 신용산.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1116232
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/430 이촌.jpg",
+      "filename": "4호선/430 이촌.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1363056
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/431 동작.jpg",
+      "filename": "4호선/431 동작.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1180802
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/432 총신대입구.jpg",
+      "filename": "4호선/432 총신대입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1301523
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/433 사당.jpg",
+      "filename": "4호선/433 사당.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1863324
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/434 남태령.jpg",
+      "filename": "4호선/434 남태령.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1111672
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/4호선/[4호선-충무로(4)]-[4호선 충무로 423]역이용안내도.jpg",
+      "filename": "4호선/[4호선-충무로(4)]-[4호선 충무로 423]역이용안내도.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 2229383
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/510 방화.jpg",
+      "filename": "5호선/510 방화.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1151662
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/511 개화산.jpg",
+      "filename": "5호선/511 개화산.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1148346
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/512 김포공항.jpg",
+      "filename": "5호선/512 김포공항.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1709973
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/513 송정(3차수정).jpg",
+      "filename": "5호선/513 송정(3차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1121550
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/514 마곡(3차수정).jpg",
+      "filename": "5호선/514 마곡(3차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1209295
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/515 발산(4차수정).jpg",
+      "filename": "5호선/515 발산(4차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1184434
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/516 우장산(3차수정).jpg",
+      "filename": "5호선/516 우장산(3차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1197886
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/517 화곡(2차수정).jpg",
+      "filename": "5호선/517 화곡(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1162035
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/518 까치산(3차수정).jpg",
+      "filename": "5호선/518 까치산(3차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1332731
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/519 신정(4차수정).jpg",
+      "filename": "5호선/519 신정(4차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1168704
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/520 목동(2차수정).jpg",
+      "filename": "5호선/520 목동(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1113674
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/521 오목교(2차수정).jpg",
+      "filename": "5호선/521 오목교(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1222883
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/522 양평(2차수정).jpg",
+      "filename": "5호선/522 양평(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1164959
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/523 영등포구청(2차수정).jpg",
+      "filename": "5호선/523 영등포구청(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1426746
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/524 영등포시장(3차수정).jpg",
+      "filename": "5호선/524 영등포시장(3차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1187567
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/525 신길(3차수정).jpg",
+      "filename": "5호선/525 신길(3차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1270309
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/526 여의도(2차수정)-01.jpg",
+      "filename": "5호선/526 여의도(2차수정)-01.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1423033
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/527 여의나루(2차수정).jpg",
+      "filename": "5호선/527 여의나루(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1236335
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/528 마포.jpg",
+      "filename": "5호선/528 마포.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1345829
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/529 공덕.jpg",
+      "filename": "5호선/529 공덕.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1485492
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/530 애오개(1차수정).jpg",
+      "filename": "5호선/530 애오개(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1163751
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/531 충정로(1차수정).jpg",
+      "filename": "5호선/531 충정로(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1375237
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/532 서대문(2차수정).jpg",
+      "filename": "5호선/532 서대문(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1272093
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/533 광화문(1차수정).jpg",
+      "filename": "5호선/533 광화문(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1575255
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/534 종로3가(2차수정).jpg",
+      "filename": "5호선/534 종로3가(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1461361
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/535 을지로4가(1012-2).jpg",
+      "filename": "5호선/535 을지로4가(1012-2).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1457989
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/536 동대문역사문화공원(1102).jpg",
+      "filename": "5호선/536 동대문역사문화공원(1102).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1410304
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/537 청구(2차수정).jpg",
+      "filename": "5호선/537 청구(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1230303
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/538 신금호(3차수정).jpg",
+      "filename": "5호선/538 신금호(3차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1197802
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/539 행당(1차 수정).jpg",
+      "filename": "5호선/539 행당(1차 수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1145081
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/540 왕십리(2차수정).jpg",
+      "filename": "5호선/540 왕십리(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1517380
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/541 마장(1차수정).jpg",
+      "filename": "5호선/541 마장(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1125116
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/542 답십리.jpg",
+      "filename": "5호선/542 답십리.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1198515
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/543 장한평(2차수정).jpg",
+      "filename": "5호선/543 장한평(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1174845
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/544 군자(3차수정).jpg",
+      "filename": "5호선/544 군자(3차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1479765
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/545 아차산(1차수정).jpg",
+      "filename": "5호선/545 아차산(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1183199
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/546 광나루(2차 수정).jpg",
+      "filename": "5호선/546 광나루(2차 수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1185808
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/547 천호(2차수정).jpg",
+      "filename": "5호선/547 천호(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1400374
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/548 강동(2차수정).jpg",
+      "filename": "5호선/548 강동(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1229649
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/549 길동(2차수정).jpg",
+      "filename": "5호선/549 길동(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1191506
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/550 굽은다리역(1차수정).jpg",
+      "filename": "5호선/550 굽은다리역(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1086535
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/551 명일(1차수정).jpg",
+      "filename": "5호선/551 명일(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1087579
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/552 고덕(1차수정).jpg",
+      "filename": "5호선/552 고덕(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1113988
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/553 상일동(4차수정).jpg",
+      "filename": "5호선/553 상일동(4차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1137326
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/[5호선-강일]-역이용안내도.jpg",
+      "filename": "5호선/[5호선-강일]-역이용안내도.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 786167
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/[5호선-하남검단산]-역이용안내도.jpg",
+      "filename": "5호선/[5호선-하남검단산]-역이용안내도.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 788750
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/[5호선-하남시청]-역이용안내도.jpg",
+      "filename": "5호선/[5호선-하남시청]-역이용안내도.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 3580344
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/[5호선-하남풍산]-역이용안내도.JPG",
+      "filename": "5호선/[5호선-하남풍산]-역이용안내도.JPG",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 759981
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/P549 둔촌동.jpg",
+      "filename": "5호선/P549 둔촌동.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1153746
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/p550 올림픽공원(3차수정).jpg",
+      "filename": "5호선/p550 올림픽공원(3차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1290901
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/P551 방이(1차수정).jpg",
+      "filename": "5호선/P551 방이(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1114215
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/p552 오금(2차수정).jpg",
+      "filename": "5호선/p552 오금(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1316398
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/p553 개롱(1차수정).jpg",
+      "filename": "5호선/p553 개롱(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1003946
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/P554 거여(2차수정).jpg",
+      "filename": "5호선/P554 거여(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1099930
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/5호선/P555 마천(1차수정).jpg",
+      "filename": "5호선/P555 마천(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1057522
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/1.-응암.jpg",
+      "filename": "6호선/1.-응암.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1534498
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/10.-월드컵경기장.jpg",
+      "filename": "6호선/10.-월드컵경기장.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1871569
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/11.-마포구청.jpg",
+      "filename": "6호선/11.-마포구청.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1840527
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/12.-망원.jpg",
+      "filename": "6호선/12.-망원.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1575999
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/13.-합정.jpg",
+      "filename": "6호선/13.-합정.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1452008
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/14.-상수.jpg",
+      "filename": "6호선/14.-상수.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1642556
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/15.-광흥창.jpg",
+      "filename": "6호선/15.-광흥창.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1596216
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/16.-대흥.jpg",
+      "filename": "6호선/16.-대흥.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1695730
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/17.-공덕.jpg",
+      "filename": "6호선/17.-공덕.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 2374553
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/18.-효창공원앞.jpg",
+      "filename": "6호선/18.-효창공원앞.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1880207
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/19.-삼각지.jpg",
+      "filename": "6호선/19.-삼각지.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1870853
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/2.-역촌.jpg",
+      "filename": "6호선/2.-역촌.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1341272
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/20.-녹사평.jpg",
+      "filename": "6호선/20.-녹사평.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1608403
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/21.-이태원.jpg",
+      "filename": "6호선/21.-이태원.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1562906
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/22.-한강진.jpg",
+      "filename": "6호선/22.-한강진.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1684199
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/23.-버티고개.jpg",
+      "filename": "6호선/23.-버티고개.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1535441
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/24.-약수.jpg",
+      "filename": "6호선/24.-약수.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1952126
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/25.-청구.jpg",
+      "filename": "6호선/25.-청구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1761902
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/26.-신당.jpg",
+      "filename": "6호선/26.-신당.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1355581
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/27.-동묘앞.jpg",
+      "filename": "6호선/27.-동묘앞.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1790071
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/28.-창신.jpg",
+      "filename": "6호선/28.-창신.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1607850
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/29.-보문(수정).jpg",
+      "filename": "6호선/29.-보문(수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1695951
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/3.-불광.jpg",
+      "filename": "6호선/3.-불광.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1986714
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/30.-안암.jpg",
+      "filename": "6호선/30.-안암.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1906313
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/31.-고려대.jpg",
+      "filename": "6호선/31.-고려대.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1989764
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/32.-월곡.jpg",
+      "filename": "6호선/32.-월곡.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1778122
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/33.-상월곡.jpg",
+      "filename": "6호선/33.-상월곡.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1489781
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/34.-돌곶이.jpg",
+      "filename": "6호선/34.-돌곶이.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1769557
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/35.-석계.jpg",
+      "filename": "6호선/35.-석계.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1913219
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/36.-태릉입구.jpg",
+      "filename": "6호선/36.-태릉입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 934572
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/37.-화랑대.jpg",
+      "filename": "6호선/37.-화랑대.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1897914
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/38.-봉화산.jpg",
+      "filename": "6호선/38.-봉화산.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1669153
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/39.-신내.jpg",
+      "filename": "6호선/39.-신내.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1534465
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/4.-독바위.jpg",
+      "filename": "6호선/4.-독바위.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1428738
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/5.-연신내.jpg",
+      "filename": "6호선/5.-연신내.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1573973
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/6.-구산.jpg",
+      "filename": "6호선/6.-구산.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1503748
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/7.-새절.jpg",
+      "filename": "6호선/7.-새절.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1944850
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/8.-증산.jpg",
+      "filename": "6호선/8.-증산.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1620093
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/9.-디지털미디어시티.jpg",
+      "filename": "6호선/9.-디지털미디어시티.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 2087036
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/6호선/[6호선-봉화산]-역이용안내도.JPG",
+      "filename": "6호선/[6호선-봉화산]-역이용안내도.JPG",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 772209
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/1.장암.jpg",
+      "filename": "7호선/1.장암.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 595777
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/10.먹골.jpg",
+      "filename": "7호선/10.먹골.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 857601
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/11.중화.jpg",
+      "filename": "7호선/11.중화.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 844368
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/12.상봉.jpg",
+      "filename": "7호선/12.상봉.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1859251
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/13.면목.jpg",
+      "filename": "7호선/13.면목.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 751930
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/14.사가정.jpg",
+      "filename": "7호선/14.사가정.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 780151
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/15.용마산.jpg",
+      "filename": "7호선/15.용마산.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 764385
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/16. 중곡.jpg",
+      "filename": "7호선/16. 중곡.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 951437
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/17 군자.jpg",
+      "filename": "7호선/17 군자.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1682264
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/18.어린이대공원.jpg",
+      "filename": "7호선/18.어린이대공원.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 791249
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/19.건대입구.jpg",
+      "filename": "7호선/19.건대입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1712330
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/2.도봉산.jpg",
+      "filename": "7호선/2.도봉산.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 770337
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/20.자양.jpg",
+      "filename": "7호선/20.자양.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 775852
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/21.청담.jpg",
+      "filename": "7호선/21.청담.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1510545
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/22.강남구청.jpg",
+      "filename": "7호선/22.강남구청.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 928046
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/23.학동.jpg",
+      "filename": "7호선/23.학동.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 816186
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/24. 논현.jpg",
+      "filename": "7호선/24. 논현.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1306081
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/25.반포.jpg",
+      "filename": "7호선/25.반포.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 776768
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/26.고속터미널.jpg",
+      "filename": "7호선/26.고속터미널.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 727047
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/27.내방.jpg",
+      "filename": "7호선/27.내방.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 805038
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/28.이수.jpg",
+      "filename": "7호선/28.이수.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 785855
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/29.남성.jpg",
+      "filename": "7호선/29.남성.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 754961
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/3.수락산.jpg",
+      "filename": "7호선/3.수락산.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 788324
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/30.숭실대입구.jpg",
+      "filename": "7호선/30.숭실대입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 772321
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/31.상도.jpg",
+      "filename": "7호선/31.상도.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 806289
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/32.장승배기.jpg",
+      "filename": "7호선/32.장승배기.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 856574
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/33.신대방삼거리.jpg",
+      "filename": "7호선/33.신대방삼거리.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 804176
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/34. 보라매.jpg",
+      "filename": "7호선/34. 보라매.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 96123
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/35.신풍.jpg",
+      "filename": "7호선/35.신풍.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 758664
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/36.대림.jpg",
+      "filename": "7호선/36.대림.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 757844
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/37.남구로.jpg",
+      "filename": "7호선/37.남구로.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 701328
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/38.가산디지털단지.jpg",
+      "filename": "7호선/38.가산디지털단지.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 920399
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/39.철산.jpg",
+      "filename": "7호선/39.철산.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 773232
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/4.마들.jpg",
+      "filename": "7호선/4.마들.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 881879
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/40.광명사거리.jpg",
+      "filename": "7호선/40.광명사거리.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 857961
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/41.천왕.jpg",
+      "filename": "7호선/41.천왕.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 756254
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/42.온수.jpg",
+      "filename": "7호선/42.온수.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1002895
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/5.노원.jpg",
+      "filename": "7호선/5.노원.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 792467
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/6.중계.jpg",
+      "filename": "7호선/6.중계.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 827987
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/7.하계.jpg",
+      "filename": "7호선/7.하계.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 862713
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/8.공릉.jpg",
+      "filename": "7호선/8.공릉.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 878759
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/7호선/9.태릉입구.jpg",
+      "filename": "7호선/9.태릉입구.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 925552
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/809 암사역사공원.jpg",
+      "filename": "8호선/809 암사역사공원.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 710489
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/810 암사(1차수정).jpg",
+      "filename": "8호선/810 암사(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1084764
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/811 천호(6차수정).jpg",
+      "filename": "8호선/811 천호(6차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1356764
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/812 강동구청(3차수정).jpg",
+      "filename": "8호선/812 강동구청(3차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1157922
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/813 몽촌토성(2차수정).jpg",
+      "filename": "8호선/813 몽촌토성(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1157950
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/814 잠실(1차수정).jpg",
+      "filename": "8호선/814 잠실(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1349241
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/815 석촌(1차수정).jpg",
+      "filename": "8호선/815 석촌(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1331076
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/816 송파(2차수정).jpg",
+      "filename": "8호선/816 송파(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1136326
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/817 가락시장(3차수정).jpg",
+      "filename": "8호선/817 가락시장(3차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1365109
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/818 문정(1차수정).jpg",
+      "filename": "8호선/818 문정(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1149015
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/819 장지(2차수정).jpg",
+      "filename": "8호선/819 장지(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1133580
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/820 복정(2차수정).jpg",
+      "filename": "8호선/820 복정(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1318864
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/821.-남위례.png",
+      "filename": "8호선/821.-남위례.png",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 286841
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/822 산성(2차수정).jpg",
+      "filename": "8호선/822 산성(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1089807
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/823 남한산성입구(2차수정).jpg",
+      "filename": "8호선/823 남한산성입구(2차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1121111
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/824 단대오거리.jpg",
+      "filename": "8호선/824 단대오거리.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1205687
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/825 신흥(3차수정).jpg",
+      "filename": "8호선/825 신흥(3차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1116097
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/826 수진.jpg",
+      "filename": "8호선/826 수진.jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1129030
+    },
+    {
+      "operator": "seoul",
+      "file": "cache/plans/seoul/8호선/827 모란(1차수정).jpg",
+      "filename": "8호선/827 모란(1차수정).jpg",
+      "source": "https://data.seoul.go.kr/dataList/OA-11984/F/1/datasetView.do",
+      "sourceDate": "2026-08-24",
+      "bytes": 1272778
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/311. 정발산_1.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/311. 정발산_1.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 882359
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/315.화정_2.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/315.화정_2.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 353432
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/314.대곡.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/314.대곡.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 55249
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/309. 대화.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/309. 대화.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 947505
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/313. 백석_1.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/313. 백석_1.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 975124
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/317. 원흥_1.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/317. 원흥_1.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 1024811
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/318. 삼송.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/318. 삼송.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 911059
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/310. 주엽_1.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/310. 주엽_1.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 891807
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/310.주엽_2.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/310.주엽_2.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 775935
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/317.원흥_2.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/317.원흥_2.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 122999
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/313.백석_2.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/313.백석_2.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 365930
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/312. 마두_1.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/312. 마두_1.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 925918
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/312.마두_2.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/312.마두_2.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 393103
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/311.정발산_2.png",
+      "filename": "광역 역사 안내도/3호선(1)/311.정발산_2.png",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 794779
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/316.원당.png",
+      "filename": "광역 역사 안내도/3호선(1)/316.원당.png",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 1063159
+    },
+    {
+      "operator": "korail",
+      "file": "cache/plans/korail/광역 역사 안내도/3호선(1)/315. 화정_1.jpg",
+      "filename": "광역 역사 안내도/3호선(1)/315. 화정_1.jpg",
+      "source": "https://www.data.go.kr/data/15125561/fileData.do",
+      "sourceDate": "2023-12-12",
+      "bytes": 893049
+    }
+  ]
+}

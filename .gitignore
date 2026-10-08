@@ -1,0 +1,33 @@
+# Unity generated files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+.vs/
+.idea/
+.DS_Store
+*.csproj
+*.sln
+*.user
+*.pidb
+*.booproj
+# Local dependencies, caches, private settings
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.keystore
+OnlineServer/data/
+AssetSources/**/cache/
+AssetSources/**/compile/
+work/
+outputs/

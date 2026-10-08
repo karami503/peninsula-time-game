@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "sourceFiles": 34,
+  "referenceImages": 407,
+  "stationLinePairs": 1153,
+  "auditedStationIds": 1103,
+  "reviewedStationLineKeys": 16,
+  "stats": {
+    "gameStationIds": 1103,
+    "withOfficialPlatformData": 895,
+    "withOfficialPlan": 356,
+    "matchedStationLinePairs": 1153,
+    "multiLevelPairs": 22,
+    "publicPlatformDatasets": 33,
+    "publicStructureDatasets": 1,
+    "exactInterior": 0,
+    "diagramReviewedPairs": 22,
+    "sourceConflictPairs": 12,
+    "unreviewedFloorPairs": 1128
+  }
+}

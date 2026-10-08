@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "classification": "authored_photo_reference_approximation",
+  "notice": "사진에서 관찰한 외관 형태를 단순화한 게임용 구조물입니다. 공공 지도 건물 윤곽이나 실측 치수가 아닙니다. 좌표는 실제 역 중심 주변의 도식적 배치이며 내부를 재현하지 않습니다.",
+  "stations": [
+    {
+      "id": "r368637440",
+      "name": "오수",
+      "reference": "https://commons.wikimedia.org/wiki/File:Korail_Jeolla_Line_Osu_Station_Rearside.jpg",
+      "author": "G43",
+      "photoDate": "2009-08-13",
+      "photoLicense": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "visualObservation": "선로에서 본 회색 평지붕 역사. 높은 2층 중앙부, 낮은 양쪽 부속동, 중앙부의 넓은 창과 1층 출입부.",
+      "placement": "현재 역 중심에서 동쪽 55m, 남쪽 32m에 게임용 외관을 배치. 사진의 건물과 선로 사이 관계를 참고하되 기존 공통 역사 보행 공간과 겹치지 않도록 도식화했다.",
+      "uncertainty": "전체 폭·깊이·높이·정확한 중심점·입면 세부는 추정. 2009년 촬영 후의 개보수 여부는 미확인. 지리 위치 오차 범위를 측정하지 않았으며 정확한 윤곽으로 사용하면 안 된다.",
+      "parts": [
+        {"id": "main", "label": "2층 중앙부", "east": 55, "north": -32, "width": 18, "depth": 22, "height": 8.2, "base": 0, "subtype": "authored_station_main"},
+        {"id": "north-wing", "label": "낮은 북측 부속동", "east": 55, "north": -13, "width": 16, "depth": 16, "height": 4.2, "base": 0, "subtype": "authored_station_wing"},
+        {"id": "south-wing", "label": "낮은 남측 부속동", "east": 55, "north": -51, "width": 16, "depth": 16, "height": 4.2, "base": 0, "subtype": "authored_station_wing"}
+      ]
+    },
+    {
+      "id": "r4691566557",
+      "name": "반성",
+      "reference": "https://commons.wikimedia.org/wiki/File:Banseong-O1.JPG",
+      "author": "안우석",
+      "photoDate": "2012-12-17",
+      "photoLicense": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Banseong-O1.JPG#Licensing",
+      "visualObservation": "고가 선로 아래의 긴 회색 역사 입면. 넓은 출입부 앞에 위로 솟은 붉은 입구 프레임. 앞쪽 포장 광장과 작은 화단.",
+      "placement": "현재 역 중심에서 동쪽 62m, 남쪽 18m에 게임용 외관을 배치. 실제 역사와 같은 역세권이지만 기존 공통 선로·출구와 겹치지 않도록 도식화한 배치다.",
+      "uncertainty": "사진에 보이는 긴 입면과 높은 프레임만 단순화했다. 폭·깊이·높이·정확한 위치·프레임 경사는 추정이다. 원 사진의 카메라 위치도 사후 추정으로 표기되어 있다. 실측 평면이나 2026년 외관을 보증하지 않는다.",
+      "parts": [
+        {"id": "main", "label": "긴 역사 본체", "east": 62, "north": -18, "width": 50, "depth": 14, "height": 6.2, "base": 0, "subtype": "authored_station_main"},
+        {"id": "portal-west", "label": "입구 프레임 서측 기둥", "east": 53.2, "north": -27, "width": 1.6, "depth": 1.6, "height": 11.0, "base": 0, "subtype": "authored_station_portal"},
+        {"id": "portal-east", "label": "입구 프레임 동측 기둥", "east": 70.8, "north": -27, "width": 1.6, "depth": 1.6, "height": 11.0, "base": 0, "subtype": "authored_station_portal"},
+        {"id": "portal-lintel", "label": "입구 프레임 상부", "east": 62, "north": -27, "width": 19.2, "depth": 1.6, "height": 11.0, "base": 9.4, "subtype": "authored_station_portal"}
+      ]
+    }
+  ]
+}

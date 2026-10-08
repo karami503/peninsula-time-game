@@ -1,0 +1,101 @@
+# Expansion scenarios 0.9.4; user supplied route diagrams, 2024 Changwon council plan, OSM stations.
+ # Pending stations are approximate scenario anchors, never a surveyed approved location.
+S|scenario-창릉|창릉|126.8940000|37.6450000
+E|scenario-창릉|approximate
+S|r10787176951|성남|127.1194122|37.3946908
+L|expansion-0|metro|GTX-A · 계획 시나리오|GTX-A|#9A6292|0.5|0.5|0000|2400|55|0|수도권 계획
+P|expansion-0|r12237749725 r12455789580 r5937907125 scenario-창릉 r6041674920 r5772099311 r6033315003 r2346858840 r10787176951 r1914727295 r5535381367
+Q|expansion-0|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+S|scenario-청학|청학|126.6770000|37.4250000
+E|scenario-청학|approximate
+S|scenario-왕숙|왕숙|127.1660000|37.6500000
+E|scenario-왕숙|approximate
+L|expansion-1|metro|GTX-B · 계획 시나리오|GTX-B|#148A99|0.5|0.5|0000|2400|55|0|수도권 계획
+P|expansion-1|r8390030399 scenario-청학 r5809225533 r355172821 r6050654951 r6033314425 r6039313670 r5840686671 r5772099311 r3436803670 r6046633868 r5884250514 scenario-왕숙 r5881815147 r5881815357
+Q|expansion-1|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+L|expansion-2|metro|GTX-C · 계획 시나리오|GTX-C|#DB4437|0.5|0.5|0000|2400|55|0|수도권 계획
+P|expansion-2|r355172801 r355172793 r7777463060 r355172782 r355172776 r3436803670 r5225311374 r6033315003 r5351229954 r6035746708 r6035746707 r355173126 r4860929585 r4860959660
+Q|expansion-2|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+L|expansion-3|metro|GTX-C-상록수 · 계획 시나리오|GTX-C-상록수|#DB4437|0.5|0.5|0000|2400|55|0|수도권 계획
+P|expansion-3|r355173126 r355173114
+Q|expansion-3|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+S|scenario-대장|대장|126.7890000|37.5430000
+E|scenario-대장|approximate
+S|scenario-광명시흥|광명시흥|126.8560000|37.4390000
+E|scenario-광명시흥|approximate
+S|scenario-교산|교산|127.2020000|37.5190000
+E|scenario-교산|approximate
+L|expansion-4|metro|GTX-D · 계획 시나리오|GTX-D|#D74997|0.5|0.5|0000|2400|55|0|수도권 계획
+P|expansion-4|r10814394648 r12961370707 r3152004117 scenario-대장 r6050654951 scenario-광명시흥 r6048953568 r6033314481 r6036160367 r5927529147 r6033315003 r6033315017 r6039313604 scenario-교산 r5447332140
+Q|expansion-4|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+L|expansion-5|metro|GTX-D-공항 · 계획 시나리오|GTX-D-공항|#D74997|0.5|0.5|0000|2400|55|0|수도권 계획
+P|expansion-5|r5919544839 r5919544816 r4090063434 r3408263979 r8095249961 r8390080121 scenario-대장
+Q|expansion-5|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+L|expansion-6|metro|GTX-D-원주 · 계획 시나리오|GTX-D-원주|#D74997|0.5|0.5|0000|2400|55|0|수도권 계획
+P|expansion-6|r6033315003 r2346858840 r5927397045 r5927814417 r5927814385 r5930638347 r5930638324 r5930629972 r8305399629
+Q|expansion-6|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+S|scenario-신정릉|신정릉|127.0050000|37.6010000
+E|scenario-신정릉|approximate
+S|scenario-왕숙2|왕숙2|127.1940000|37.6090000
+E|scenario-왕숙2|approximate
+L|expansion-7|metro|GTX-E · 계획 시나리오|GTX-E|#996A32|0.5|0.5|0000|2400|55|0|수도권 계획
+P|expansion-7|r5919544839 r5919544816 r4090063434 r3408263979 r8095249961 r8390080121 scenario-대장 r6041674920 r4880228659 scenario-신정릉 r355172776 r5447336160 r355173646 scenario-왕숙2 r5446020616
+Q|expansion-7|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+S|scenario-풍양|풍양|127.1510000|37.7210000
+E|scenario-풍양|approximate
+L|expansion-8|metro|GTX-F · 계획 시나리오|GTX-F|#55A585|0.5|0.5|0000|2400|55|1|수도권 계획
+P|expansion-8|r7777463060 r1793029926 scenario-풍양 scenario-왕숙 scenario-왕숙2 r5446020616 scenario-교산 r5408273777 r5927397045 r5881432712 r5909960761 r4860959660 r5511790789 r5511790791 r5921531579 r5921531691 r5921531703 r6050654951 r5772497241 r5937907125 r7394341197 r7777463060
+Q|expansion-8|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+S|scenario-숭우리|숭우리|127.1370000|37.8300000
+E|scenario-숭우리|approximate
+S|scenario-동의정부|동의정부|127.0890000|37.7380000
+E|scenario-동의정부|approximate
+L|expansion-9|metro|GTX-G · 계획 시나리오|GTX-G|#284BDE|0.5|0.5|0000|2400|55|0|수도권 계획
+P|expansion-9|scenario-숭우리 scenario-동의정부 r5884250514 r355173646 r5863378580 r6048954785 r6036160367 r2847440772 r5921531703 r5910775264
+Q|expansion-9|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+S|scenario-위례|위례|127.1450000|37.4770000
+E|scenario-위례|approximate
+L|expansion-10|metro|GTX-H · 계획 시나리오|GTX-H|#DB252B|0.5|0.5|0000|2400|55|0|수도권 계획
+P|expansion-10|r1565727595 r5442165368 r5941651083 r6041674920 r5772552255 r5863378580 r6033315017 scenario-위례
+Q|expansion-10|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+S|scenario-마산어시장|마산어시장|128.5760000|35.2030000
+E|scenario-마산어시장|approximate
+S|scenario-마산자유무역지역|마산자유무역지역|128.5890000|35.2200000
+E|scenario-마산자유무역지역|approximate
+S|scenario-창곡|창곡|128.6580000|35.2190000
+E|scenario-창곡|approximate
+S|scenario-창원광장|창원광장|128.6820000|35.2280000
+E|scenario-창원광장|approximate
+S|scenario-경남도청|경남도청|128.6920000|35.2380000
+E|scenario-경남도청|approximate
+L|expansion-11|metro|창원 1호선 · 계획 시나리오|창원 1호선|#CD3436|0.5|0.5|0000|2400|55|0|창원 계획
+P|expansion-11|r8153431901 scenario-마산어시장 scenario-마산자유무역지역 scenario-창곡 scenario-창원광장 scenario-경남도청 r10566861524
+Q|expansion-11|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+S|scenario-신창원|신창원|128.6320000|35.2360000
+E|scenario-신창원|approximate
+S|scenario-남창원|남창원|128.6640000|35.2060000
+E|scenario-남창원|approximate
+S|scenario-성주사|성주사|128.6940000|35.1900000
+E|scenario-성주사|approximate
+S|scenario-경화|경화|128.6880000|35.1590000
+E|scenario-경화|approximate
+S|scenario-진해|진해|128.6610000|35.1530000
+E|scenario-진해|approximate
+L|expansion-12|metro|창원 2호선 · 계획 시나리오|창원 2호선|#1688BD|0.5|0.5|0000|2400|55|0|창원 계획
+P|expansion-12|r10566861525 scenario-신창원 scenario-창곡 scenario-남창원 scenario-성주사 scenario-경화 scenario-진해
+Q|expansion-12|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+S|scenario-월영광장|월영광장|128.5620000|35.1810000
+E|scenario-월영광장|approximate
+S|scenario-진해구청|진해구청|128.7110000|35.1330000
+E|scenario-진해구청|approximate
+L|expansion-13|metro|창원 3호선 · 계획 시나리오|창원 3호선|#159A5C|0.5|0.5|0000|2400|55|0|창원 계획
+P|expansion-13|scenario-월영광장 r8153431901 r10566861525 scenario-창원광장 scenario-성주사 scenario-경화 scenario-진해구청
+Q|expansion-13|planned|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap
+S|r8600404711|장기주차장|126.4555716|37.4439313
+S|r13503664193|합동청사|126.4586023|37.4405118
+S|r9167586138|파라다이스시티|126.4599193|37.4370969
+S|r13503664190|워터파크|126.4342026|37.4292963
+S|r13503664191|용유|126.4236166|37.4248235
+L|expansion-14|metro|인천공항 자기부상철도|인천공항 자기부상철도|#F5C300|0.5|0.5|0000|2400|55|0|수도권 계획
+P|expansion-14|r5919544816 r8600404711 r13503664193 r9167586138 r13503664190 r13503664191
+Q|expansion-14|existing|사용자 제공 노선도 · 2024 창원시의회 업무계획 · OpenStreetMap

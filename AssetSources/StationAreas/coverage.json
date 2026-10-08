@@ -1,0 +1,54 @@
+{
+  "generated": "2026-10-08T06:20:24.965493+00:00",
+  "source": "https://download.geofabrik.de/asia/south-korea-latest.osm.pbf",
+  "sourceTimestamp": "2026-10-06T20:21:06Z",
+  "sourceBytes": 288583838,
+  "sourceSHA256": "2f805bdd99ac594f82bbf53db617fd6e7660ac15d2584ce175773f290a66b403",
+  "networkSHA256": {
+    "TransitNetwork": "765c3257dbed7708286720b56e0321ee1f8b376931fc232d2c8d88f19f803d6d",
+    "TransitExpansion": "cfe29a446f83b45aaa13eeb90c08313c7e3e2ccd5ab44ea6ad5258d99aff85b2",
+    "ChangwonBuses": "a7124ec15c0aa0a8db947d5ccbadac04de892577ad726840981772e75d17e589",
+    "StationGrades": "1e371d36e8fdf62eacdcb8811a814fd05e31ffed53f605d4a219f64817ff4d24"
+  },
+  "radiusMeters": 450,
+  "stations": 1103,
+  "stationsWithRoads": 1103,
+  "stationsWithBuildings": 1095,
+  "stationsWithEntrances": 937,
+  "stationsWithPlatforms": 402,
+  "stationsWithAnyFeatures": 1103,
+  "plannedOnly": 25,
+  "approximateStationCentres": 24,
+  "tiles": 2911,
+  "features": {
+    "e": 4486,
+    "r": 153696,
+    "rail": 8733,
+    "b": 197122,
+    "p": 1159
+  },
+  "scanErrors": {},
+  "elapsedSeconds": 290.5,
+  "runtimeBytes": 22994834,
+  "supplement098": {
+    "sourceRelease": "2026-09-23.1",
+    "addedBuildings": 417,
+    "totalStationsWithBuildings": 1101,
+    "stationsWithoutPublishedBuildings": [
+      "오수",
+      "반성"
+    ],
+    "runtimeBytes": 23071880
+  },
+  "authored098": {
+    "parts": 7,
+    "stations": 2,
+    "stationsWithAnyBuildingRepresentation": 1103,
+    "stationsWithPublishedBuildings": 1101,
+    "stationsWithoutPublishedBuildings": [
+      "오수",
+      "반성"
+    ],
+    "runtimeBytes": 23071880
+  }
+}
