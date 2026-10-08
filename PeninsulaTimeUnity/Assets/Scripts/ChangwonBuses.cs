@@ -338,11 +338,14 @@ namespace PeninsulaTime
             if(bell&&b.dwell>0&&b.dwell<DwellTime-1.5f){Alight(b,StopName(b)+"에서 내렸습니다");return;}
             lookYaw=Mathf.Clamp(lookYaw+Input.GetAxis("Mouse X")*2.2f,-160f,160f);lookPitch=Mathf.Clamp(lookPitch-Input.GetAxis("Mouse Y")*1.6f,-35f,35f);
             var cam=camera.transform;
-            if(!chase){cam.position=b.pos+Vector3.up*2.4f+b.fwd*2f;cam.rotation=Quaternion.LookRotation(b.fwd)*Quaternion.Euler(lookPitch,lookYaw,0);}
+            // Sit just behind the windscreen; the midpoint is hidden by the destination panel.
+            if(!chase){cam.position=b.pos+Vector3.up*2.45f+b.fwd*4.35f;cam.rotation=Quaternion.LookRotation(b.fwd)*Quaternion.Euler(lookPitch,lookYaw,0);}
             else
             {
                 var orbit=Quaternion.LookRotation(b.fwd)*Quaternion.Euler(12f+lookPitch*.5f,lookYaw,0);var want=b.pos+Vector3.up*2f-orbit*Vector3.forward*15f;
-                want.y=Mathf.Max(want.y,ChangwonData.Height(want.x,want.z)+1.5f);chasePos=Vector3.Lerp(chasePos,want,1f-Mathf.Exp(-6f*dt));
+                if(b.pos.y>ChangwonData.Height(b.pos.x,b.pos.z)-2f)
+                    want.y=Mathf.Max(want.y,ChangwonData.Height(want.x,want.z)+1.5f);
+                chasePos=Vector3.Lerp(chasePos,want,1f-Mathf.Exp(-6f*dt));
                 cam.position=chasePos;cam.rotation=Quaternion.LookRotation(b.pos+Vector3.up*1.6f-chasePos);
             }
         }

@@ -295,11 +295,19 @@ namespace PeninsulaTime
             if(end-t.s<.3f){Arrive();return;}
             lookYaw=Mathf.Clamp(lookYaw+Input.GetAxis("Mouse X")*2.2f,-160f,160f);lookPitch=Mathf.Clamp(lookPitch-Input.GetAxis("Mouse Y")*1.6f,-35f,35f);
             var flat=new Vector3(t.fwd.x,0,t.fwd.z);flat=flat.sqrMagnitude>1e-4f?flat.normalized:Vector3.forward;var cam=camera.transform;
-            if(!chase){cam.position=t.pos+Vector3.up*2.2f+t.fwd*20f;cam.rotation=Quaternion.LookRotation(t.fwd)*Quaternion.Euler(lookPitch,lookYaw,0);} // front car, by the window
+            // The end wall is at the nose of this model. Put the passenger beside a side window.
+            if(!chase)
+            {
+                var right=new Vector3(flat.z,0,-flat.x);
+                cam.position=t.pos+Vector3.up*2.25f+t.fwd*3f+right*1.1f;
+                cam.rotation=Quaternion.LookRotation((flat+right*.7f).normalized)*Quaternion.Euler(lookPitch,lookYaw,0);
+            }
             else
             {
                 var orbit=Quaternion.LookRotation(flat)*Quaternion.Euler(14f+lookPitch*.5f,lookYaw,0);var want=t.pos+Vector3.up*3f-orbit*Vector3.forward*60f;
-                want.y=Mathf.Max(want.y,ChangwonData.Height(want.x,want.z)+2f);chasePos=Vector3.Lerp(chasePos,want,1f-Mathf.Exp(-5f*dt));
+                if(t.pos.y>ChangwonData.Height(t.pos.x,t.pos.z)-2f)
+                    want.y=Mathf.Max(want.y,ChangwonData.Height(want.x,want.z)+2f);
+                chasePos=Vector3.Lerp(chasePos,want,1f-Mathf.Exp(-5f*dt));
                 cam.position=chasePos;cam.rotation=Quaternion.LookRotation(t.pos+Vector3.up*2f+flat*10f-chasePos);
             }
         }

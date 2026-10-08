@@ -115,7 +115,8 @@ namespace PeninsulaTime
             ChangwonData.Road road;float along;Vector3 point;
             if(ChangwonData.NearestRoad(probe,400f,out road,out along,out point)){
                 Vector3 f;road.At(along,out f);f.y=0;f.Normalize();var right=new Vector3(f.z,0,-f.x);
-                spawn=point+right*(road.width*.5f+2.5f);facing=-right;
+                // Start clear of the lamp post planted at the closest point on the kerb.
+                spawn=point+f*7f+right*(road.width*.5f+2.5f);facing=-right;
             }else{spawn=probe;facing=Vector3.forward;}
         }
         void ChangwonParkedCars(Vector3 near,Vector3 facing)
