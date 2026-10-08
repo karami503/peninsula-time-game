@@ -32,7 +32,7 @@ namespace PeninsulaTime
                 // Deep enough water all along the hull.
                 float yaw=(float)rnd.NextDouble()*360f;var dir=new Vector2(Mathf.Sin(yaw*Mathf.Deg2Rad),Mathf.Cos(yaw*Mathf.Deg2Rad));
                 float len=containers?190f:navy?95f:110f;bool ok=true;
-                for(float s=-len*.6f;s<=len*.6f&&ok;s+=15f){var q=at+dir*s;if(ChangwonData.LandAt(q.x,q.y)!=ChangwonData.Sea||ChangwonData.Height(q.x,q.y)>-3f)ok=false;}
+                for(float s=-len*.6f;s<=len*.6f&&ok;s+=15f){var q=at+dir*s;var l=ChangwonData.LandAt(q.x,q.y);if(l!=ChangwonData.Sea&&l!=ChangwonData.Water||ChangwonData.Height(q.x,q.y)>-3f)ok=false;}
                 if(!ok)continue;
                 Ship(mb,new Vector3(at.x,0,at.y),Quaternion.Euler(0,yaw,0),len,navy,containers,rnd);placed++;
             }

@@ -29,12 +29,16 @@ namespace PeninsulaTime
         // While set, the player is a passenger (bus, train, ferry): GameController skips walking/driving and calls UpdateRide.
         public static IChangwonRide Ride;
         // A system's dialog is open: the cursor is free and the player does not move.
-        public static bool UiCapture;
+        // A card or board owns the mouse; UiJustReleased tells Esc handling that a card closed itself this frame.
+        static bool uiCapture;static int uiReleased=-1;
+        public static bool UiCapture{get{return uiCapture;}set{if(uiCapture&&!value)uiReleased=Time.frameCount;uiCapture=value;}}
+        public static bool UiJustReleased{get{return uiReleased==Time.frameCount;}}
         public static readonly List<string> HudLines=new List<string>(); // extra HUD lines under the objective, rebuilt each frame
         public static event Action<float,float> Overlay; // custom IMGUI drawing in GUI units (w,h), called from GameController.OnGUI
         public static void DrawOverlay(float w,float h){if(Overlay!=null)Overlay(w,h);}
         public static Action<Vector3,Vector3> TeleportPlayer; // feet position, facing
         public static Action<ChangwonCar> EnterCar;public static Action LeaveCar;
+        public static Action<Vector2?,string> SetWaypoint; // null clears it; otherwise the GPS route is planned to it
         public static GUIStyle Title,Heading,Body,Small,Button,Accent,Box;public static Texture2D Ink,Soft,Gold;
         public static void Reset(){Ride=null;UiCapture=false;HudLines.Clear();Blips.Clear();Overlay=null;Objective="";Waypoint=null;}
     }
@@ -54,6 +58,7 @@ namespace PeninsulaTime
         static string ChangwonSavePath{get{return Path.Combine(SaveDirectory,"changwon-openworld.json");}}
 
         bool InOpenWorld{get{return mode=="openworld";}}
+        static readonly bool cwDebug=Array.IndexOf(Environment.GetCommandLineArgs(),"--changwon-debug")>=0; // QA: log feet, ground and blocker
 
         void EnterOpenWorld()
         {
@@ -64,8 +69,9 @@ namespace PeninsulaTime
             ChangwonSession.Reset();ChangwonSession.Active=true;ChangwonSession.Game=this;ChangwonSession.Builder=world;ChangwonSession.ToastHandler=Toast;ChangwonSession.PlayerCar=null;
             ChangwonSession.TeleportPlayer=(feet,facing)=>{if(cwCar!=null)LeaveChangwonCar();Teleport(feet+Vector3.up*EyeHeight,facing);};
             ChangwonSession.EnterCar=EnterChangwonCar;ChangwonSession.LeaveCar=LeaveChangwonCar;thirdPerson=true;
+            ChangwonSession.SetWaypoint=(at,name)=>{if(at.HasValue)SetChangwonWaypoint(at.Value,name);else{ChangwonSession.Waypoint=null;ChangwonSession.WaypointName="";cwRoute=null;}};
             LoadChangwonProgress();
-            cw=world.BuildChangwonWorld(eye);ChangwonSession.Root=world.root.transform;
+            cw=world.BuildChangwonWorld(eye);ChangwonSession.Root=world.root.transform;world.root.AddComponent<ChangwonLandmarkModels>(); // before the data loads, so it flattens the replaced footprints first
             StartCoroutine(OpenWorldStart());
         }
         IEnumerator OpenWorldStart()
@@ -78,6 +84,12 @@ namespace PeninsulaTime
             var p=ChangwonSession.Progress;Vector3 spawn;Vector3 facing;
             if(!float.IsNaN(p.x)&&ChangwonData.Inside(p.x,p.z)){spawn=new Vector3(p.x,ChangwonData.Height(p.x,p.z),p.z);facing=Quaternion.Euler(0,p.yaw,0)*Vector3.forward;}
             else ChangwonSpawn(out spawn,out facing);
+            // QA: --changwon-at x,z,yaw stands the player at a world position (metres east/north of 128.62°E 35.20°N).
+            var argv=Environment.GetCommandLineArgs();int at=Array.IndexOf(argv,"--changwon-at");
+            if(at>=0&&at+1<argv.Length){var v=argv[at+1].Split(',');float ax,az,ay=0;
+                if(v.Length>=2&&float.TryParse(v[0],System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out ax)&&float.TryParse(v[1],System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out az)&&ChangwonData.Inside(ax,az)){
+                    if(v.Length>2)float.TryParse(v[2],System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out ay);
+                    spawn=new Vector3(ax,ChangwonData.Height(ax,az),az);facing=Quaternion.Euler(0,ay,0)*Vector3.forward;}}
             DayCycle.Seconds=Mathf.Repeat(p.clock,DayCycle.Length);
             // Hold the player in the air above the spawn while the chunk and its colliders are generated.
             eye.position=spawn+Vector3.up*(EyeHeight+1f);SetLook(Quaternion.LookRotation(facing).eulerAngles.y,0);
@@ -90,8 +102,9 @@ namespace PeninsulaTime
             if(Physics.Raycast(top,Vector3.down,out hit,140f,~0,QueryTriggerInteraction.Ignore))spawn=hit.point;
             Teleport(spawn+Vector3.up*EyeHeight,facing);cwLastFeet=spawn;
             cwCamPos=eye.position-facing*6+Vector3.up*3;
-            foreach(var sys in new Type[]{typeof(ChangwonTraffic),typeof(ChangwonPeople),typeof(ChangwonBuses),typeof(ChangwonMissions),typeof(ChangwonParked),typeof(ChangwonWeather),typeof(ChangwonSpeedCameras),typeof(ChangwonHarbor)})if(world.root.GetComponent(sys)==null)world.root.AddComponent(sys);
+            foreach(var sys in new Type[]{typeof(ChangwonTraffic),typeof(ChangwonPeople),typeof(ChangwonBuses),typeof(ChangwonMissions),typeof(ChangwonParked),typeof(ChangwonWeather),typeof(ChangwonSpeedCameras),typeof(ChangwonHarbor),typeof(ChangwonFerry)})if(world.root.GetComponent(sys)==null)world.root.AddComponent(sys);
             ChangwonParkedCars(spawn,facing);
+            var cli=Environment.GetCommandLineArgs();int ts=Array.IndexOf(cli,"--changwon-tour-start");int t0;if(ts>=0&&ts+1<cli.Length&&int.TryParse(cli[ts+1],out t0))cwTour=t0-1;
             cwReady=true;cwStage="";fade=1;
             Toast("창원특례시에 오신 것을 환영합니다 · F: 차 타기/상호작용 · M: 지도 · Esc: 메뉴");
         }
@@ -129,7 +142,7 @@ namespace PeninsulaTime
         // Called by ReturnMap (and so by every way out of the mode) before the scene is torn down.
         void LeaveOpenWorldState()
         {
-            SaveChangwonProgress();
+            Time.timeScale=1f;SaveChangwonProgress();
             ChangwonSession.Active=false;ChangwonSession.PlayerCar=null;ChangwonSession.Reset();
             if(cwCar!=null){cwCar.PlayerDriving=false;cwCar.SetEngine(false);}
             cwCar=null;cwReady=false;cwMapOpen=cwMenuOpen=false;cwRoute=null;Cursor.lockState=CursorLockMode.None;Cursor.visible=true;
@@ -161,11 +174,14 @@ namespace PeninsulaTime
             if(!InOpenWorld)return false;
             if(cwMapOpen){cwMapOpen=false;return true;}
             if(cwMenuOpen){cwMenuOpen=false;return true;}
+            if(ChangwonSession.UiCapture||ChangwonSession.UiJustReleased)return true; // Esc closes the open card (each system handles it), not opens the menu
             if(LookLocked){Cursor.lockState=CursorLockMode.None;Cursor.visible=true;}
             cwMenuOpen=true;return true;
         }
         void UpdateOpenWorld(bool typing)
         {
+            // The pause menu and the full map stop the world (traffic, rides, mission timers).
+            float scale=cwMenuOpen||cwMapOpen?0f:1f;if(Time.timeScale!=scale)Time.timeScale=scale;
             float dt=Time.deltaTime;
             if(world.dayNight)DayCycle.Advance(dt);
             if(!cwReady){hoverHint="";return;}
@@ -175,6 +191,7 @@ namespace PeninsulaTime
             if(playtest&&Input.GetKeyDown(KeyCode.F11)&&ChangwonLandmarks.All.Count>0)ChangwonTourNext();
             if(playtest&&Input.GetKeyDown(KeyCode.F10)&&cwCar==null&&ChangwonSession.Ride==null)ChangwonTestCar();
             if(Input.GetKeyDown(KeyCode.P)&&!cwPhoto)StartCoroutine(ChangwonPhoto());
+            if(cwDebug&&Time.frameCount%20==0){var f=Feet;RaycastHit dh,fh;string under=Physics.Raycast(f+Vector3.up*1.35f,Vector3.down,out dh,62f,~0,QueryTriggerInteraction.Ignore)?dh.collider.name+"@"+dh.point.y.ToString("0.00"):"none";string ahead=Physics.SphereCast(f+Vector3.up*.85f,.3f,eye.forward,out fh,1.5f,~0,QueryTriggerInteraction.Ignore)?fh.collider.name+"@"+fh.distance.ToString("0.00"):"none";Debug.Log("CWDBG feet "+f.ToString("F2")+" under "+under+" ahead "+ahead+" grounded "+grounded+" land "+ChangwonData.LandAt(f.x,f.z));}
             if(playtest&&Input.GetKeyDown(KeyCode.F12)){DayCycle.Advance(DayCycle.Length/8f);Debug.Log("Changwon clock "+DayCycle.Clock);}
             if(ChangwonSession.Ride!=null)
             {
@@ -208,6 +225,8 @@ namespace PeninsulaTime
         {
             var p=cwCar!=null?cwCar.transform.position:Feet;byte land=ChangwonData.LandAt(p.x,p.z);
             float ground=ChangwonData.Height(p.x,p.z);bool onDeck=p.y>ground+2.2f||p.y>.8f&&land==ChangwonData.Sea&&p.y>ground+1.5f;
+            // Piers, bridges and decks over water: anything solid underfoot that is not the terrain itself.
+            RaycastHit under;if(!onDeck&&(land==ChangwonData.Sea||land==ChangwonData.Water)&&Physics.Raycast(p+Vector3.up*.6f,Vector3.down,out under,1.6f,~0,QueryTriggerInteraction.Ignore)&&under.collider.name!="지형")onDeck=true;
             bool wet=(land==ChangwonData.Sea||land==ChangwonData.Water)&&!onDeck&&(p.y<.15f||land==ChangwonData.Water);
             if(!wet){cwDry=p;cwDryForward=cwCar!=null?cwCar.forward:eye.forward;cwHasDry=true;return;}
             if(!cwHasDry)return;
@@ -242,7 +261,7 @@ namespace PeninsulaTime
                 // Keep the camera above the ground and out of walls.
                 RaycastHit hit;var pivot=car.position+Vector3.up*1.8f;
                 if(Physics.SphereCast(pivot,.3f,(want-pivot).normalized,out hit,Vector3.Distance(pivot,want),~0,QueryTriggerInteraction.Ignore)&&!hit.collider.transform.IsChildOf(car))want=pivot+(want-pivot).normalized*Mathf.Max(1.2f,hit.distance-.2f);
-                want.y=Mathf.Max(want.y,ChangwonData.Height(want.x,want.z)+1f);
+                if(car.position.y>ChangwonData.Height(car.position.x,car.position.z)-2f)want.y=Mathf.Max(want.y,ChangwonData.Height(want.x,want.z)+1f); // not in a tunnel: the hill above is not the floor
                 cwCamPos=Vector3.Lerp(cwCamPos,want,1f-Mathf.Exp(-8f*dt));
                 viewCamera.transform.position=cwCamPos;viewCamera.transform.rotation=Quaternion.LookRotation(car.position+Vector3.up*1.3f+fwd*2f-cwCamPos);
             }
@@ -290,7 +309,7 @@ namespace PeninsulaTime
             if(car==null)return;
             if(car.npc){var traffic=world.root.GetComponent<ChangwonTraffic>();if(traffic!=null)traffic.Release(car);Toast("운전자가 차를 빌려주었습니다. 안전 운전하세요!");}
             else Toast(car.bus?"버스를 직접 운전합니다":"운전 시작 · W/S 가속·후진 · A/D 조향 · Space 핸드브레이크 · H 경적 · F 하차");
-            cwCar=car;car.PlayerDriving=true;car.npc=false;car.SetEngine(true);cwCamPos=viewCamera.transform.position;cwCamYawUser=0;
+            cwCar=car;car.PlayerDriving=true;car.npc=false;car.SetEngine(!car.bike);cwCamPos=viewCamera.transform.position;cwCamYawUser=0;
             if(cwHeadlight!=null)Destroy(cwHeadlight.gameObject);
             cwHeadlight=new GameObject("전조등").AddComponent<Light>();cwHeadlight.type=LightType.Spot;cwHeadlight.range=car.bike?25f:55f;cwHeadlight.spotAngle=70f;cwHeadlight.color=new Color(1f,.95f,.85f);cwHeadlight.shadows=LightShadows.None;cwHeadlight.intensity=0;
             hoverHint="";Sfx.Play("door-chime",.3f,1.4f);
@@ -476,7 +495,10 @@ namespace PeninsulaTime
             if(e.type==EventType.ScrollWheel&&view.Contains(e.mousePosition)){float before=mpp;cwMapZoom=Mathf.Clamp(cwMapZoom*(e.delta.y<0?1.25f:.8f),.8f,40f);e.Use();}
             mpp=fullX/view.width/cwMapZoom;
             if(e.type==EventType.MouseDrag&&view.Contains(e.mousePosition)&&e.button!=0||e.type==EventType.MouseDrag&&e.button==0&&e.delta.sqrMagnitude>4){cwMapCenter+=new Vector2(-e.delta.x,e.delta.y)*mpp;e.Use();}
-            if(cwMap!=null)GUI.DrawTextureWithTexCoords(view,cwMap,MapUV(cwMapCenter,view.width*.5f*mpp,view.height*.5f*mpp));
+            // Outside the mapped area: plain sea colour (a clamped texture would smear its edge pixels into streaks).
+            var gc=GUI.color;GUI.color=new Color(.16f,.28f,.42f);GUI.DrawTexture(view,Texture2D.whiteTexture);GUI.color=gc;
+            if(cwMap!=null){var uv=MapUV(cwMapCenter,view.width*.5f*mpp,view.height*.5f*mpp);float x0=Mathf.Max(0,uv.xMin),x1=Mathf.Min(1,uv.xMax),y0=Mathf.Max(0,uv.yMin),y1=Mathf.Min(1,uv.yMax);
+                if(x1>x0&&y1>y0)GUI.DrawTextureWithTexCoords(Rect.MinMaxRect(view.x+(x0-uv.xMin)/uv.width*view.width,view.y+(uv.yMax-y1)/uv.height*view.height,view.x+(x1-uv.xMin)/uv.width*view.width,view.y+(uv.yMax-y0)/uv.height*view.height),cwMap,Rect.MinMaxRect(x0,y0,x1,y1));}
             if(e.type==EventType.Repaint){var c0=cwMapCenter;var vc=view.center;DrawRouteGL(view,p=>vc+new Vector2(p.x-c0.x,-(p.y-c0.y))/mpp,Screen.height/h,h);}
             GUI.BeginGroup(view);var local=new Rect(0,0,view.width,view.height);
             ChangwonLandmarks.Landmark hovered=null;

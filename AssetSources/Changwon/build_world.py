@@ -23,7 +23,16 @@ def bilinear(x, z):
 def chunk_of(x, z):
     return min(CX - 1, max(0, int((x - X0) // CHUNK))), min(CZ - 1, max(0, int((z - Z0) // CHUNK)))
 def hsh(s, n): return int(hashlib.md5(s.encode()).hexdigest()[:8], 16) % n
-def name_of(r): return ((r.get('names') or {}).get('primary') or '').replace('|', ' ').replace('\n', ' ').strip()
+def name_of(r):
+    # Prefer a Korean name: Overture's primary name is occasionally romanised or in another script (e.g. Greek).
+    n = r.get('names') or {}
+    hangul = lambda s: any('\uac00' <= c <= '\ud7a3' for c in s or '')
+    name = n.get('primary') or ''
+    if not hangul(name):
+        alt = [v for k, v in (n.get('common') or []) if k == 'ko'] + [x['value'] for x in (n.get('rules') or []) if x.get('language') == 'ko' and x.get('value')]
+        if alt: name = alt[0]
+        elif any(ord(c) > 0x2000 and not hangul(c) for c in name): name = ''
+    return name.replace('|', ' ').replace('\n', ' ').strip()
 def utf8(s, limit=120):
     b = s.encode('utf-8')[:limit]
     while True:
@@ -159,6 +168,26 @@ for e in edges:
         for k in range(1, len(P) - 1):
             if P[k][2] == 0: P[k][4] = (ys[k - 1] + 2 * ys[k] + ys[k + 1]) / 4
 
+# ------------------------------------------------------------------ tunnel mouths
+# Overture often marks a long ground->tunnel segment whose far end is the first tunnel vertex; the open approach in between
+# would run buried in the hillside. Move the portal to where the hill first covers the road by COVER metres.
+COVER = 8.0
+moved = 0
+for e in edges:
+    P = e['pts']; k = 1
+    while k < len(P):
+        p, q = P[k - 1], P[k]
+        if {p[2], q[2]} == {0, 2}:
+            ground_first = p[2] == 0; L = math.dist(p[:2], q[:2]); steps = int(L / 4)
+            for s in range(1, steps):
+                t = s / steps if ground_first else 1 - s / steps
+                x = p[0] + (q[0] - p[0]) * t; z = p[1] + (q[1] - p[1]) * t; y = p[4] + (q[4] - p[4]) * t
+                if bilinear(x, z) - y >= COVER:
+                    P.insert(k, [x, z, 2, p[3], y]); moved += 1; k += 1
+                    break
+        k += 1
+print('tunnel portals moved to cover', moved)
+
 # ------------------------------------------------------------------ carve terrain under ground roads
 accW = np.zeros_like(H); accY = np.zeros_like(H)
 for e in edges:
@@ -166,10 +195,12 @@ for e in edges:
     half = e['width'] / 2 + (3 if e['cls'] < 8 else 1)
     P = e['pts']
     for p, q in zip(P, P[1:]):
-        if p[2] != 0 or q[2] != 0: continue
+        if 1 in (p[2], q[2]) or p[2] == q[2] == 2: continue
         L = math.dist(p[:2], q[:2]); steps = max(1, int(L / 6))
+        # open approach of a tunnel: carve up to 8 m short of the portal so the hill still frames the mouth
+        t0 = min(0.5, 8 / L) if p[2] == 2 else 0.0; t1 = 1 - min(0.5, 8 / L) if q[2] == 2 else 1.0
         for s in range(steps + 1):
-            t = s / steps; x = p[0] + (q[0] - p[0]) * t; z = p[1] + (q[1] - p[1]) * t; y = p[4] + (q[4] - p[4]) * t
+            t = t0 + (t1 - t0) * s / steps; x = p[0] + (q[0] - p[0]) * t; z = p[1] + (q[1] - p[1]) * t; y = p[4] + (q[4] - p[4]) * t
             r = int(math.ceil((half + CELL) / CELL)); ci = int(round((x - X0) / CELL)); cj = int(round((z - Z0) / CELL))
             i0, i1, j0, j1 = max(0, ci - r), min(NX - 1, ci + r), max(0, cj - r), min(NZ - 1, cj + r)
             if i0 > i1 or j0 > j1: continue

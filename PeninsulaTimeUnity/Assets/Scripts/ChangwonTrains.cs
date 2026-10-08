@@ -10,7 +10,7 @@ namespace PeninsulaTime
     {
         const float MaxSpeed=40f;
         class Station {public string name;public Vector2 pos;public int v;public Vector3 track,dir;public float side;public GameObject go;}
-        class Train {public GameObject go;public Quaternion baseRot;public Vector3[] pts;public float[] along;public float s,speed,max,park;public int hint;public bool placed;public Vector3 pos,fwd=Vector3.forward;}
+        class Train {public GameObject go;public Quaternion baseRot;public Vector3[] pts;public float[] along;public float s,speed,max,park;public int hint;public bool placed;public Vector3 pos,fwd=Vector3.forward;public List<float> rev;}
 
         // Rail graph: every rail polyline point is a vertex; road end nodes are shared; gaps in the data are bridged.
         List<Vector3> V;List<List<int>> adj;readonly List<Station> stations=new List<Station>();volatile bool ready;
@@ -32,6 +32,8 @@ namespace PeninsulaTime
             holder=new GameObject("철도").transform;holder.SetParent(transform,false);holder.gameObject.AddComponent<ChangwonUseRelay>().owner=this;
             ChangwonSession.Overlay+=Draw;
             Debug.Assert(Clean("경화역 벚꽃길")=="경화역"&&Clean("진영역 / Jinyeong Stn.")=="진영역"&&Clean("Haman Station")==null,"Clean");
+            var zig=new[]{Vector3.zero,new Vector3(0,0,100),new Vector3(3,0,40)};var zr=Reversals(zig,new[]{0f,100f,160.07f});
+            Debug.Assert(zr.Count==1&&zr[0]==100f&&Reversals(new[]{Vector3.zero,new Vector3(0,0,50),new Vector3(10,0,99)},new[]{0f,50f,100f}).Count==0,"Reversals");
             new Thread(()=>{try{Build();ready=true;}catch(System.Exception e){Debug.LogWarning("Changwon trains: "+e);}}){IsBackground=true,Name="Changwon rail graph"}.Start();
         }
         void OnDestroy()
@@ -110,6 +112,7 @@ namespace PeninsulaTime
         void Update()
         {
             if(!ready||!ChangwonSession.Active)return;
+            if(dialog!=null&&Input.GetKeyDown(KeyCode.Escape))Close();
             if(ride!=null&&!ReferenceEquals(ChangwonSession.Ride,this)){Destroy(ride.go);ride=null;} // the ride was ended elsewhere
             float dt=Time.deltaTime;var p=ChangwonSession.PlayerFeet;
             for(int i=trains.Count-1;i>=0;i--)
@@ -143,15 +146,35 @@ namespace PeninsulaTime
             }
             var t=new Train{go=go,baseRot=go.transform.rotation,pts=path.ToArray(),max=max};
             t.along=new float[t.pts.Length];for(int i=1;i<t.pts.Length;i++)t.along[i]=t.along[i-1]+Vector3.Distance(t.pts[i-1],t.pts[i]);
+            t.rev=Reversals(t.pts,t.along);
             Sfx.Attach(go,"rumble",.4f,80f);Place(t,0);return t;
         }
+        // Where a ride path doubles back (the shortest route runs through a crossover or a wye), measured over ±15 m.
+        static List<float> Reversals(Vector3[] pts,float[] along)
+        {
+            var list=new List<float>();float lastDot=0;int h1=0,h2=0;
+            for(int i=1;i<pts.Length-1;i++)
+            {
+                var a=pts[i]-ChangwonBuses.PathAt(pts,along,along[i]-15f,ref h1);var b=ChangwonBuses.PathAt(pts,along,along[i]+15f,ref h2)-pts[i];a.y=b.y=0;
+                if(a.sqrMagnitude<1f||b.sqrMagnitude<1f)continue;
+                float dot=Vector3.Dot(a.normalized,b.normalized);if(dot>-.3f)continue;
+                if(list.Count>0&&along[i]-list[list.Count-1]<20f){if(dot<lastDot){list[list.Count-1]=along[i];lastDot=dot;}continue;}
+                list.Add(along[i]);lastDot=dot;
+            }
+            return list;
+        }
+        // Next reversal (or the end) after s.
+        static float NextStop(Train t){if(t.rev!=null)foreach(float r in t.rev)if(r>t.s+.01f)return r;return t.along[t.along.Length-1];}
         void Place(Train t,float dt)
         {
             var p=ChangwonBuses.PathAt(t.pts,t.along,t.s,ref t.hint);
-            int h1=t.hint,h2=t.hint;var f=ChangwonBuses.PathAt(t.pts,t.along,t.s+20f,ref h1)-ChangwonBuses.PathAt(t.pts,t.along,t.s-20f,ref h2);
+            // The heading chord stays on the current leg, so it never straddles a reversal.
+            float lo=0,hi=NextStop(t);if(t.rev!=null)foreach(float r in t.rev)if(r<=t.s+.01f)lo=r;
+            int h1=t.hint,h2=t.hint;var f=ChangwonBuses.PathAt(t.pts,t.along,Mathf.Min(t.s+20f,hi),ref h1)-ChangwonBuses.PathAt(t.pts,t.along,Mathf.Max(t.s-20f,lo),ref h2);
             f=f.sqrMagnitude>.01f?f.normalized:t.fwd;
             t.pos=p+Vector3.up*.3f;t.fwd=f;
             var rot=Quaternion.LookRotation(f)*t.baseRot;
+            if(t.placed&&Quaternion.Angle(t.go.transform.rotation,rot)>90f)rot=Quaternion.LookRotation(-f)*t.baseRot; // cab at both ends: reverse, don't spin
             t.go.transform.SetPositionAndRotation(t.pos,t.placed?Quaternion.Slerp(t.go.transform.rotation,rot,1f-Mathf.Exp(-6f*dt)):rot);t.placed=true;
         }
         // A passing train: starts 0.7–1.5 km away on a plain stretch and follows the straightest track for up to 5 km.
@@ -189,7 +212,7 @@ namespace PeninsulaTime
             go.transform.SetPositionAndRotation(st.track,Quaternion.LookRotation(st.side>0?st.dir:-st.dir)); // local +x: the platform side
             go.AddComponent<MeshFilter>().sharedMesh=PlatformMesh();go.AddComponent<MeshRenderer>().sharedMaterial=PropMaterial();
             var slab=new GameObject("platform");slab.transform.SetParent(go.transform,false); // the name lets the player step up and cars drive on it
-            var box=slab.AddComponent<BoxCollider>();box.center=new Vector3(4f,0,0);box.size=new Vector3(4f,2f,80f);
+            var box=slab.AddComponent<BoxCollider>();box.center=new Vector3(4f,-1f,0);box.size=new Vector3(4f,4f,80f);
             var kiosk=new GameObject("승차권 발매기");kiosk.transform.SetParent(go.transform,false);kiosk.transform.localPosition=new Vector3(5.3f,1.9f,0);
             kiosk.AddComponent<BoxCollider>().size=new Vector3(.9f,1.8f,1.2f);
             var thing=kiosk.AddComponent<ChangwonThing>();thing.kind="train";thing.hint="KTX·무궁화 타기 (F)";thing.title=st.name;thing.payload=st;
@@ -200,6 +223,9 @@ namespace PeninsulaTime
                 B.ChangwonSign(st.name,t,t.TransformPoint(new Vector3(4f,3.7f,8f)),-t.right,.7f,Color.white);
                 B.ChangwonSign(st.name,t,t.TransformPoint(new Vector3(4f,3.7f,-8f)),t.right,.7f,Color.white);
                 B.ChangwonSign("KTX·무궁화 승차권",t,t.TransformPoint(new Vector3(4.8f,3.05f,0)),-t.right,.24f,new Color(1f,.85f,.4f));
+                // On an embankment the top can be more than a step (1.25 m) above the ground: stairs beside the ticket machine.
+                var foot=t.TransformPoint(new Vector3(6.6f,0,0));float drop=1f-(ChangwonData.Height(foot.x,foot.z)-st.track.y);int n=Mathf.CeilToInt(drop/1.1f)-1;
+                for(int i=1;i<=n&&i<6;i++){float top=1f-drop*i/(n+1);B.ChangwonBlock("platform",t,new Vector3(4.8f+i*1.2f,top-4f,-4f),new Vector3(6f+i*1.2f,top,4f),B.ChangwonMaterial("platform-step",new Color(.6f,.6f,.57f),"concrete"));}
             }
             st.go=go;
         }
@@ -213,7 +239,7 @@ namespace PeninsulaTime
         {
             if(platformMesh!=null)return platformMesh;
             var mb=new MeshBuild(1);var q=Quaternion.identity;
-            mb.Box(0,new Vector3(4f,0,0),new Vector3(4f,2f,80f),q,new Color32(168,166,158,255));
+            mb.Box(0,new Vector3(4f,-1f,0),new Vector3(4f,4f,80f),q,new Color32(168,166,158,255)); // 3 m deep so it reaches the ground on embankments
             mb.Box(0,new Vector3(2.3f,1.01f,0),new Vector3(.3f,.02f,80f),q,new Color32(235,190,40,255));
             for(float z=-30f;z<=30f;z+=10f)mb.Box(0,new Vector3(5.2f,2.6f,z),new Vector3(.18f,3.2f,.18f),q,new Color32(90,96,104,255));
             mb.Box(0,new Vector3(4.4f,4.3f,0),new Vector3(3.8f,.18f,66f),q,new Color32(70,92,120,255),true);
@@ -239,7 +265,7 @@ namespace PeninsulaTime
             while(v>=0){path.Add(V[v]);if(v==a.v)break;v=prev[v];}
             if(v!=a.v){ChangwonSession.Toast("선로가 이어지지 않습니다");return;}
             path.Reverse();
-            var t=MakeTrain(path,"KTX "+a.name+" → "+b.name,MaxSpeed);if(t==null)return;
+            var t=MakeTrain(path,"KTX "+a.name+" → "+b.name,MaxSpeed);if(t==null){ChangwonSession.Toast("열차를 준비하지 못했습니다");return;}
             ride=t;from=a;to=b;chase=false;lookYaw=lookPitch=0;hudAt=0;ChangwonSession.Ride=this;
             ChangwonSession.Toast(a.name+" → "+b.name+" 열차가 출발합니다 · T 시점 · Space 빨리 가기");Sfx.Play("chime",.6f);
         }
@@ -262,10 +288,10 @@ namespace PeninsulaTime
             var t=ride;if(t==null||t.go==null){ride=null;if(ReferenceEquals(ChangwonSession.Ride,this))ChangwonSession.Ride=null;return;}
             if(Input.GetKeyDown(KeyCode.T)){chase=!chase;chasePos=camera.transform.position;}
             float step=Input.GetKey(KeyCode.Space)?dt*4f:dt; // long trips: hold Space to fast-forward
-            float end=t.along[t.along.Length-1],remain=end-t.s;
+            float end=t.along[t.along.Length-1],stop=NextStop(t),remain=stop-t.s; // brakes for each reversal as for the terminus
             float target=Mathf.Min(MaxSpeed,Mathf.Sqrt(2f*.9f*Mathf.Max(0,remain))+.5f);
             t.speed=Mathf.MoveTowards(t.speed,target,(target>t.speed?.9f:2.5f)*step);
-            t.s=Mathf.Min(end,t.s+t.speed*step);Place(t,step);
+            t.s=Mathf.Min(stop,t.s+t.speed*step);Place(t,step);
             if(end-t.s<.3f){Arrive();return;}
             lookYaw=Mathf.Clamp(lookYaw+Input.GetAxis("Mouse X")*2.2f,-160f,160f);lookPitch=Mathf.Clamp(lookPitch-Input.GetAxis("Mouse Y")*1.6f,-35f,35f);
             var flat=new Vector3(t.fwd.x,0,t.fwd.z);flat=flat.sqrMagnitude>1e-4f?flat.normalized:Vector3.forward;var cam=camera.transform;

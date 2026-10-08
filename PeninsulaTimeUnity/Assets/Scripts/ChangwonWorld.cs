@@ -170,7 +170,8 @@ namespace PeninsulaTime
             var go=new GameObject("창원 구역 "+j.cx+","+j.cz+(j.lod==0?"":" (중간)"));go.transform.SetParent(chunkRoot,false);ch.go=go;
             var cols=new List<MeshCollider>();
             var t=AddPart(go,"지형",r.terrain,new[]{terrainMat},true);if(t!=null)cols.Add(t);
-            var rd=AddPart(go,"도로",r.roads,roadMats,true,RoadMarked,RoadPlain,Pavement,Concrete,Rail);if(rd!=null)cols.Add(rd);
+            var rd=AddPart(go,"도로",r.roads,roadMats,true,RoadMarked,RoadPlain,Pavement,Rail);if(rd!=null)cols.Add(rd);
+            var st=r.roads==null||r.roads.Empty?null:Bake(go,"구조물",r.roads.ToCollider("구조물 충돌",Concrete));if(st!=null)cols.Add(st); // walls block cars and walkers
             var b=AddPart(go,"건물",r.buildings,buildingMats,true,0,1,2,3,4,5,6,7,8,9);if(b!=null)cols.Add(b);
             AddPart(go,"호수",r.water,new[]{waterMat},false);
             var pr=AddPart(go,"나무·가로등",r.props,new[]{terrainMat,glowMat??terrainMat},true,0);if(pr!=null)cols.Add(pr);
@@ -189,7 +190,13 @@ namespace PeninsulaTime
             if(!collide)return null;
             Mesh colliderMesh=colliderSubs.Length==0||colliderSubs.Length>=mb.sub.Length?mesh:mb.ToCollider(name+" 충돌",colliderSubs);
             if(colliderMesh==null)return null;
-            // Cook the collision mesh on a worker thread (Physics.BakeMesh), then attach it on the main thread.
+            return Bake(o,colliderMesh);
+        }
+        // Cook the collision mesh on a worker thread (Physics.BakeMesh), then attach it on the main thread.
+        MeshCollider Bake(GameObject parent,string name,Mesh colliderMesh){
+            if(colliderMesh==null)return null;var o=new GameObject(name);o.transform.SetParent(parent.transform,false);return Bake(o,colliderMesh);
+        }
+        MeshCollider Bake(GameObject o,Mesh colliderMesh){
             var mc=o.AddComponent<MeshCollider>();mc.enabled=false;int id=colliderMesh.GetInstanceID();
             ThreadPool.QueueUserWorkItem(_=>{try{Physics.BakeMesh(id,false);}catch(Exception){}lock(gate)baked.Enqueue(new KeyValuePair<MeshCollider,Mesh>(mc,colliderMesh));});
             return mc;
@@ -374,8 +381,8 @@ namespace PeninsulaTime
             else mb.Quad(Pavement,ao,bo,bi,ai,Vector2.zero,new Vector2(0,len),new Vector2(1,len),new Vector2(1,0),w);
             // Kerb face toward the carriageway.
             var down=Vector3.up*.18f;
-            if(side>0)mb.Quad(Concrete,ai-down,ai,bi,bi-down,Vector2.zero,new Vector2(0,.1f),new Vector2(len,.1f),new Vector2(len,0),w);
-            else mb.Quad(Concrete,bi-down,bi,ai,ai-down,Vector2.zero,new Vector2(0,.1f),new Vector2(len,.1f),new Vector2(len,0),w);
+            if(side>0)mb.Quad(Pavement,ai-down,ai,bi,bi-down,Vector2.zero,new Vector2(0,.1f),new Vector2(len,.1f),new Vector2(len,0),w);
+            else mb.Quad(Pavement,bi-down,bi,ai,ai-down,Vector2.zero,new Vector2(0,.1f),new Vector2(len,.1f),new Vector2(len,0),w);
         }
         static void RailTrack(MeshBuild mb,Vector3 a,Vector3 b,Vector3 ra,Vector3 rb,float lift){
             var w=new Color32(255,255,255,255);
@@ -410,9 +417,10 @@ namespace PeninsulaTime
         }
         static void TunnelSegment(MeshBuild mb,Vector3 al,Vector3 ar,Vector3 bl,Vector3 br){
             var w=new Color32(255,255,255,255);var up=Vector3.up*6.5f;float len=Vector3.Distance(al,bl)/4f;
-            mb.Quad(Concrete,bl,bl+up,al+up,al,Vector2.zero,new Vector2(0,1.6f),new Vector2(len,1.6f),new Vector2(len,0),w);
-            mb.Quad(Concrete,ar,ar+up,br+up,br,Vector2.zero,new Vector2(0,1.6f),new Vector2(len,1.6f),new Vector2(len,0),w);
-            mb.Quad(Concrete,al+up,bl+up,br+up,ar+up,Vector2.zero,new Vector2(0,len),new Vector2(1,len),new Vector2(1,0),w);
+            // Faces point into the tube: they are seen from inside (and from the mouth), never from the hillside.
+            mb.Quad(Concrete,al,al+up,bl+up,bl,Vector2.zero,new Vector2(0,1.6f),new Vector2(len,1.6f),new Vector2(len,0),w);
+            mb.Quad(Concrete,br,br+up,ar+up,ar,Vector2.zero,new Vector2(0,1.6f),new Vector2(len,1.6f),new Vector2(len,0),w);
+            mb.Quad(Concrete,ar+up,br+up,bl+up,al+up,Vector2.zero,new Vector2(0,len),new Vector2(1,len),new Vector2(1,0),w);
             // Ceiling lamps every segment.
             Vector3 m=(al+ar+bl+br)*.25f+up-Vector3.up*.15f;
             mb.Box(Lamp,m,new Vector3(.6f,.1f,1.2f),Quaternion.LookRotation((bl-al).sqrMagnitude>0?bl-al:Vector3.forward),new Color32(255,236,190,255));

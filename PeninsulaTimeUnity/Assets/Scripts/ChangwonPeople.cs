@@ -11,6 +11,7 @@ namespace PeninsulaTime
         {
             public Pedestrian ped;public Transform t;public Transform[] legs,arms;public Quaternion[] legRest,armRest;public Quaternion facing;
             public ChangwonData.Road road;public int dir,seg,side;public float d,speed,phase,wait,talkUntil,rest,jitter;public Vector3 offset,home,target;
+            public bool shoulder; // on a road with no pavement (a driver who got out on a bridge, in a tunnel or out of town): keep to its edge
         }
         static readonly int[] Counts={16,30,45};
         readonly List<Walker> people=new List<Walker>();
@@ -19,17 +20,17 @@ namespace PeninsulaTime
         readonly System.Random rnd=new System.Random();
         float nextScan;
 
-        // The driver of a borrowed car steps out on the kerb side and walks to the pavement.
-        public void Driver(ChangwonCar car)
+        // The driver of a borrowed car steps out on the kerb side and walks on along the car's road (d metres from its start
+        // in direction dir) to the pavement. The road comes from the traffic system, not a nearest-road search, which would
+        // pick the street under a bridge.
+        public void Driver(ChangwonCar car,ChangwonData.Road road,int dir,float d)
         {
-            if(car==null||ChangwonSession.Builder==null)return;
+            if(car==null||road==null||ChangwonSession.Builder==null)return;
             var right=new Vector3(car.forward.z,0,-car.forward.x);var at=car.transform.position+right*(car.width*.5f+.7f);
-            ChangwonData.Road road;float along;Vector3 point;
-            if(!ChangwonData.NearestRoad(at,30f,out road,out along,out point)){Create(at,null,1,0,1);return;}
-            int seg=1;Vector3 tangent;ChangwonTraffic.Sample(road,ref seg,along,out tangent);
-            int dir=Vector3.Dot(tangent,car.forward)>=0?1:-1;
-            var w=Create(at,road,dir,dir>0?along:road.length-along,seg);if(w==null)return;
-            w.side=1;w.offset=at-point;w.offset.y=0;w.t.position=WalkStreet(w,0);
+            d=Mathf.Max(0,Mathf.Min(d,road.length-.05f)); // short of the end, so Create does not already turn onto the next road
+            int seg=1;Vector3 tangent;var point=ChangwonTraffic.Sample(road,ref seg,dir>0?d:road.length-d,out tangent);
+            var w=Create(at,road,dir,d,seg);if(w==null)return;
+            w.side=1;w.shoulder=!Walkable(road);w.offset=at-point;w.offset.y=0;w.t.position=WalkStreet(w,0);
         }
 
         void Update()
@@ -91,21 +92,20 @@ namespace PeninsulaTime
                     var end=ChangwonTraffic.EndPoint(w.road,w.dir>0);int dir;
                     var next=ChangwonTraffic.Next(w.road,w.dir,rnd,r=>Walkable(r),out dir);
                     if(next==null){w.dir=-w.dir;w.side=-w.side;}
-                    else{w.offset+=end-ChangwonTraffic.StartPoint(next,dir>0);w.offset.y=0;w.road=next;w.dir=dir;}
+                    else{w.offset+=end-ChangwonTraffic.StartPoint(next,dir>0);w.offset.y=0;w.road=next;w.dir=dir;w.shoulder=false;}
                     w.d=0;w.seg=w.dir>0?1:w.road.pts.Length-1;Kerbside(w,out p);
                 }
             }
             var at=p+w.offset;var road=w.road;
-            at.y=p.y+ChangwonTraffic.Lift(road.cls);
-            if(road.kind[w.seg]==ChangwonData.Ground&&road.kind[w.seg-1]==ChangwonData.Ground)
-                at.y=Mathf.Max(at.y+(onKerb&&Sidewalk(road)?.16f:0),ChangwonData.Height(at.x,at.z));
+            at.y=p.y+ChangwonTraffic.Lift(road.cls)+(onKerb&&!w.shoulder&&Pavement(road,w.seg)?.16f:0);
+            if(road.kind[w.seg]==ChangwonData.Ground&&road.kind[w.seg-1]==ChangwonData.Ground)at.y=Mathf.Max(at.y,ChangwonData.Height(at.x,at.z));
             return at;
         }
         Vector3 Kerbside(Walker w,out Vector3 p)
         {
             Vector3 tangent;p=ChangwonTraffic.Sample(w.road,ref w.seg,w.dir>0?w.d:w.road.length-w.d,out tangent);
             var f=new Vector3(tangent.x,0,tangent.z)*w.dir;if(f.sqrMagnitude<1e-6f)f=w.t.forward;f.Normalize();
-            return new Vector3(f.z,0,-f.x)*((w.road.width*.5f+1.3f+w.jitter)*w.side);
+            return new Vector3(f.z,0,-f.x)*((w.shoulder?w.road.width*.5f-.4f:w.road.width*.5f+1.3f+w.jitter)*w.side);
         }
 
         // Strolling around a park: walk to a spot, stand a moment, pick another.
@@ -125,7 +125,7 @@ namespace PeninsulaTime
                 var p=around+new Vector3(Mathf.Cos(a)*r,0,Mathf.Sin(a)*r);byte lc=ChangwonData.LandAt(p.x,p.z);
                 if(lc!=ChangwonData.Sea&&lc!=ChangwonData.Water&&lc!=ChangwonData.Wetland){p.y=ChangwonData.Height(p.x,p.z);return p;}
             }
-            return around;
+            around.y=ChangwonData.Height(around.x,around.z);return around;
         }
 
         static void Animate(Walker w,float moved)
@@ -155,8 +155,18 @@ namespace PeninsulaTime
             }
         }
         static bool Urban(byte lc){return lc==ChangwonData.Residential||lc==ChangwonData.Commercial||lc==ChangwonData.Urban||lc==ChangwonData.Campus;}
-        // ChangwonWorld draws raised pavements on urban Primary..Local roads, deciding "urban" from the road's first point.
+        // Town streets people choose to walk: Primary..Local roads that start in a built-up area.
         static bool Sidewalk(ChangwonData.Road r){return r.cls>=ChangwonData.Primary&&r.cls<=ChangwonData.Local&&Urban(ChangwonData.LandAt(r.pts[0].x,r.pts[0].z));}
+        // Mirrors ChangwonWorld.Roads: a raised pavement on each segment of a Primary..Local road that is not a bridge or tunnel
+        // and whose middle lies on residential, commercial, industrial, urban or campus land.
+        static bool Pavement(ChangwonData.Road r,int seg)
+        {
+            if(r.cls<ChangwonData.Primary||r.cls>ChangwonData.Local)return false;
+            byte k0=r.kind[seg-1],k1=r.kind[seg];
+            if(k0==ChangwonData.Bridge||k1==ChangwonData.Bridge||k0==ChangwonData.Tunnel&&k1==ChangwonData.Tunnel)return false;
+            var m=(r.pts[seg-1]+r.pts[seg])*.5f;byte lc=ChangwonData.LandAt(m.x,m.z);
+            return Urban(lc)||lc==ChangwonData.Industrial;
+        }
         static bool Walkable(ChangwonData.Road r)
         {
             if(r.length<6f||!Sidewalk(r))return false;
@@ -178,7 +188,7 @@ namespace PeninsulaTime
                     dir=rnd.Next(2)==0?1:-1;d=dir>0?along:road.length-along;
                 }
                 var v=p-player;v.y=0;float dist=v.magnitude;if(dist<40f||dist>220f)continue;
-                if(tries<7&&dist<110f&&Vector3.Dot(v/dist,look)>.3f)continue; // not popping up in front of the player
+                if(dist<110f&&Vector3.Dot(v/dist,look)>.3f)continue; // not popping up in front of the player
                 if(road!=null&&rnd.NextDouble()>Density(p))continue;
                 Create(p,road,dir,d,seg);return;
             }

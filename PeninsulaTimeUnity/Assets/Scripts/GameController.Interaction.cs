@@ -34,7 +34,7 @@ namespace PeninsulaTime
             var target=hit.collider.GetComponentInParent<Interactable>();
             if(target==null||target.Hint.Length==0)return;
             hoverHint=target.Hint;hoverInformational=target.Informational;hoverAnchor=hit.point+Vector3.up*.45f;
-            hoverFar=NeedsReach(target)&&Vector3.Distance(eye.position,hit.point)>Reach;
+            hoverFar=NeedsReach(target)&&Vector3.Distance(eye.position,hit.point)>(InOpenWorld?4.5f:Reach); // third-person camera in the open world
             if(!(Input.GetKeyDown(KeyCode.F)||Input.GetMouseButtonDown(0)&&!clickConsumed))return;
             if(hoverFar){Toast("조금 더 가까이 가세요.");return;}
             if(target.Informational){Toast(target.Hint);return;}

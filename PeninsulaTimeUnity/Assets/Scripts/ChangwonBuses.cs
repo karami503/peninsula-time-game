@@ -28,7 +28,7 @@ namespace PeninsulaTime
         readonly List<int> nearby=new List<int>();float[] nearD,nearS;Vector3 nearAt=new Vector3(1e9f,0,0);float nearUntil,nextSpawn,nextShelters;
         Transform holder;Mesh shelterMesh;Material mat;readonly RaycastHit[] hits=new RaycastHit[8];
         // ride
-        Bus riding;float leftAt=-100f;bool bell,chase;float lookYaw,lookPitch;Vector3 chasePos;string hud="";int hudKey=-1;
+        Bus riding;float leftAt=-100f,boardS;bool bell,chase,tap;float lookYaw,lookPitch;Vector3 chasePos;string hud="";int hudKey=-1,waitRoute=-1;
         // arrival board
         Stop board;readonly List<int> rows=new List<int>();Vector2 scroll;
 
@@ -98,11 +98,13 @@ namespace PeninsulaTime
                     stopOf[r][i]=found;
                 }
             }
+            foreach(var st in stops)Kerb(st); // NearestRoad scans 3x3 chunks: keep it off the main thread
         }
 
         void Update()
         {
             if(!ready||!ChangwonSession.Active)return;
+            if(board!=null&&Input.GetKeyDown(KeyCode.Escape))CloseBoard();
             if(riding!=null&&!ReferenceEquals(ChangwonSession.Ride,this))riding=null; // the ride was ended elsewhere
             float dt=Time.deltaTime;var player=ChangwonSession.PlayerFeet;
             for(int i=buses.Count-1;i>=0;i--)
@@ -209,7 +211,7 @@ namespace PeninsulaTime
                 if(b==riding&&!b.announced&&b.next<sa.Length&&sa[b.next]-b.s<120f)
                 {
                     b.announced=true;
-                    Announce("이번 정류장은 "+route.stopNames[b.next]+"입니다"+(b.next+1<sa.Length?" · 다음 정류장은 "+route.stopNames[b.next+1]+"입니다":" · 이번 정류장은 종점입니다"));
+                    Announce("이번 정류장은 "+route.stopNames[b.next]+(b.next+1<sa.Length?"입니다 · 다음 정류장은 "+route.stopNames[b.next+1]+"입니다":", 종점입니다"));
                 }
             }
             Place(b,dt);
@@ -248,9 +250,10 @@ namespace PeninsulaTime
         float RayGround(Vector3 at,float guess)
         {
             int n=Physics.RaycastNonAlloc(new Vector3(at.x,guess+3f,at.z),Vector3.down,hits,8f,~0,QueryTriggerInteraction.Ignore);
-            float best=float.MinValue;
-            for(int i=0;i<n;i++)if(ChangwonCar.IsGround(hits[i].collider)&&hits[i].point.y>best)best=hits[i].point.y;
-            return best>float.MinValue?best:guess;
+            float road=float.MinValue,land=float.MinValue;
+            for(int i=0;i<n;i++){var c=hits[i].collider;if(!ChangwonCar.IsGround(c))continue;float y=hits[i].point.y;if(c.name=="지형")land=Mathf.Max(land,y);else road=Mathf.Max(road,y);}
+            // Road decks beat terrain: tunnels are not carved, so at a portal the hillside sits above the carriageway.
+            return road>float.MinValue?road:land>float.MinValue?land:guess;
         }
         // Right of the shape: the lane while cruising, easing to the kerb over 45 m around each stop.
         float Lateral(Bus b)
@@ -286,16 +289,17 @@ namespace PeninsulaTime
         {
             if(ChangwonSession.Ride!=null||!ChangwonSession.OnFoot||ChangwonSession.UiCapture||Time.time-leftAt<12f)return false;
             var d=p-(b.pos+b.fwd*3.8f+new Vector3(b.fwd.z,0,-b.fwd.x)*1.8f); // front door, kerb side
-            return d.x*d.x+d.z*d.z<36f&&Mathf.Abs(d.y)<3f;
+            float reach=b.route==waitRoute?6f:2.5f; // passers-by on the pavement are not swept aboard
+            return d.x*d.x+d.z*d.z<reach*reach&&Mathf.Abs(d.y)<3f;
         }
 
         // ------------------------------------------------------------------ riding
         void Board(Bus b)
         {
             if(ChangwonSession.Ride!=null||b.done)return;
-            riding=b;ChangwonSession.Ride=this;bell=false;chase=false;lookYaw=lookPitch=0;hudKey=-1;b.announced=false;
+            riding=b;ChangwonSession.Ride=this;bell=tap=false;chase=false;lookYaw=lookPitch=0;hudKey=-1;b.announced=false;boardS=b.s;waitRoute=-1;
             var route=routes[b.route];var sa=stopAlong[b.route];
-            ChangwonSession.Toast(route.number+"번 버스에 탔습니다 · "+route.title+(b.next<sa.Length?" · 다음 정류장 "+route.stopNames[b.next]:"")+" · F 하차 벨 · T 시점");
+            ChangwonSession.Toast(route.number+"번 버스에 탔습니다 · "+Short(route.title)+(b.next<sa.Length?" · 다음 정류장 "+route.stopNames[b.next]:"")+" · F 하차 벨 · T 시점");
             Sfx.Play("tap",.7f);
         }
         void Alight(Bus b,string note)
@@ -307,7 +311,8 @@ namespace PeninsulaTime
                 if(!Physics.CheckCapsule(c+Vector3.up*.5f,c+Vector3.up*1.6f,.3f,~0,QueryTriggerInteraction.Ignore)){spot=c;break;}
             Vector3 n;spot.y=ChangwonCar.Ground(spot,spot.y+2.5f,null,out n);
             ChangwonSession.TeleportPlayer?.Invoke(spot,b.fwd);
-            ChangwonSession.Progress.score+=20;ChangwonSession.Toast(note+" · +20점");Sfx.Play("coin",.5f);
+            bool rode=b.s-boardS>50f; // no points for hopping on and off at the same stop
+            if(rode)ChangwonSession.Progress.score+=20;ChangwonSession.Toast(rode?note+" · +20점":note);Sfx.Play(rode?"coin":"tap",.5f);
         }
         void Announce(string text){ChangwonSession.Toast(text);Sfx.Play("chime",.5f);}
         string StopName(Bus b){var names=routes[b.route].stopNames;return b.next<names.Length?names[b.next]:"종점";}
@@ -322,7 +327,8 @@ namespace PeninsulaTime
         {
             var b=riding;if(b==null||b.go==null){riding=null;if(ReferenceEquals(ChangwonSession.Ride,this))ChangwonSession.Ride=null;return;}
             if(Input.GetKeyDown(KeyCode.T)){chase=!chase;chasePos=camera.transform.position;}
-            if(Input.GetKeyDown(KeyCode.F))
+            bool f=Input.GetKeyDown(KeyCode.F)||tap;tap=false;
+            if(f)
             {
                 if(b.dwell>0){Alight(b,StopName(b)+"에서 내렸습니다");return;}
                 if(!bell){bell=true;Sfx.Play("bell",.6f);ChangwonSession.Toast("하차 벨을 눌렀습니다 · 다음 정류장에서 내립니다");}
@@ -367,14 +373,17 @@ namespace PeninsulaTime
                 var t=go.transform;
                 B.ChangwonSign(st.name,t,t.TransformPoint(new Vector3(0,2.78f,.96f)),t.forward,.34f,Color.white);
                 B.ChangwonSign(st.name,t,t.TransformPoint(new Vector3(0,2.78f,-.96f)),-t.forward,.34f,Color.white);
-                B.ChangwonSign(RouteNumbers(st,8),t,t.TransformPoint(new Vector3(0,1.9f,-.7f)),t.forward,.18f,new Color(.08f,.12f,.2f));
+                B.ChangwonSign(RouteNumbers(st,8,4),t,t.TransformPoint(new Vector3(0,1.9f,-.7f)),t.forward,.18f,new Color(.08f,.12f,.2f));
             }
             st.shelter=go;
         }
-        string RouteNumbers(Stop st,int max)
+        // "101 · 102 · 103 · 104\n105 외 3개": perLine keeps the list inside the 4 m back panel.
+        string RouteNumbers(Stop st,int max,int perLine=int.MaxValue)
         {
-            var parts=new List<string>();for(int i=0;i<st.routes.Count&&i<max;i++)parts.Add(routes[st.routes[i]].number);
-            return string.Join(" · ",parts)+(st.routes.Count>max?" 외 "+(st.routes.Count-max)+"개":"");
+            var sb=new System.Text.StringBuilder();
+            for(int i=0;i<st.routes.Count&&i<max;i++){if(i>0)sb.Append(i%perLine==0?"\n":" · ");sb.Append(routes[st.routes[i]].number);}
+            if(st.routes.Count>max)sb.Append(" 외 ").Append(st.routes.Count-max).Append("개");
+            return sb.ToString();
         }
         Material PropMaterial()
         {
@@ -425,7 +434,7 @@ namespace PeninsulaTime
             float at=stopAlong[r][i],best=-1;
             foreach(var b in buses)
             {
-                if(b.route!=r||b.s>at+1f)continue;
+                if(b.route!=r||b.s>at+1f||b.next>i)continue; // b.next>i: already served this stop and pulling away
                 if(b.dwell>0&&b.next==i)return "정차 중 · 지금 타세요";
                 float t=(at-b.s)/10.5f+Mathf.Max(0,b.dwell)+DwellTime*Mathf.Max(0,i-b.next-(b.dwell>0?1:0));if(best<0||t<best)best=t;
             }
@@ -434,7 +443,7 @@ namespace PeninsulaTime
         }
         void Wait(int r,int i)
         {
-            CloseBoard();var route=routes[r];float at=stopAlong[r][i];
+            CloseBoard();var route=routes[r];float at=stopAlong[r][i];waitRoute=r;
             foreach(var b in buses)if(b.route==r&&b.s<=at&&at-b.s<800f){ChangwonSession.Toast(route.number+"번 버스가 오고 있습니다 · "+Eta(r,i));return;}
             if(buses.Count>=MaxBuses+2)
             {
@@ -446,6 +455,8 @@ namespace PeninsulaTime
         }
         void DrawBoard(float w,float h)
         {
+            // Phones have no F key: the touch layout's own F button only uses things, so the bell gets a button here.
+            if(riding!=null&&Application.isMobilePlatform&&GUI.Button(new Rect(w*.5f+250,h-184,152,72),riding.dwell>0?"지금 하차":"하차 벨",ChangwonSession.Button))tap=true;
             var st=board;if(st==null)return;
             float bw=Mathf.Min(640f,w-40f),bh=Mathf.Min(560f,h-40f);var box=new Rect((w-bw)*.5f,(h-bh)*.5f,bw,bh);
             GUI.Box(box,"",ChangwonSession.Box);

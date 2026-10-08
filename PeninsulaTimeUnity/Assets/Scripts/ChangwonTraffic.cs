@@ -12,7 +12,7 @@ namespace PeninsulaTime
         class Npc
         {
             public ChangwonCar car;public Quaternion rest;public ChangwonData.Road road,next;public int dir,nextDir,seg,key=-1;
-            public float d,joinLength,hold,stuck,ghost;public Vector3 join,offset;public bool slowAtEnd,engine;
+            public float d,joinLength,hold,stuck,ghost,dodge;public Vector3 join,offset;public bool slowAtEnd,engine;
         }
         static readonly string[] Models={"Car","CarRed","CarWhite","CarBlack","CarBlue"};
         static readonly float[] Cruise={24,19,15,13,11,8,5};            // m/s by road class
@@ -22,6 +22,7 @@ namespace PeninsulaTime
         readonly Dictionary<ChangwonCar,Npc> byCar=new Dictionary<ChangwonCar,Npc>();
         readonly Dictionary<int,List<Npc>> lanes=new Dictionary<int,List<Npc>>(); // road*2+direction -> cars on it
         readonly List<Vector3> blockers=new List<Vector3>();int hardBlockers;
+        readonly List<ChangwonCar> released=new List<ChangwonCar>(); // borrowed cars, removed once left far behind
         readonly System.Random rnd=new System.Random();
         float nextSound;
 
@@ -42,8 +43,9 @@ namespace PeninsulaTime
         public void Release(ChangwonCar car)
         {
             Npc n;if(car==null||!byCar.TryGetValue(car,out n))return;
-            Remove(n);car.speed=0;car.npc=false;
-            var people=GetComponent<ChangwonPeople>();if(people!=null)people.Driver(car);
+            Remove(n);car.speed=0;car.npc=false;released.Add(car);
+            var thing=car.GetComponent<ChangwonThing>();if(thing!=null)thing.hint="차 타기 (F)";
+            var people=GetComponent<ChangwonPeople>();if(people!=null)people.Driver(car,n.road,n.dir,n.d);
         }
 
         void Update()
@@ -63,6 +65,10 @@ namespace PeninsulaTime
                 if(n.car==null){Remove(n);continue;}
                 if(Flat(n.car.transform.position-player)>550f*550f||!Step(n,dt)){Remove(n);Destroy(n.car.gameObject);}
             }
+            for(int i=released.Count-1;i>=0;i--){
+                var c=released[i];if(c==null){released.RemoveAt(i);continue;}
+                if(c!=ChangwonSession.PlayerCar&&Flat(c.transform.position-player)>550f*550f){released.RemoveAt(i);Destroy(c.gameObject);}
+            }
             if(Time.time>=nextSound){nextSound=Time.time+.5f;Sounds(player);}
         }
 
@@ -73,15 +79,19 @@ namespace PeninsulaTime
             if(n.slowAtEnd)target=Mathf.Min(target,6f+Mathf.Max(0,remaining-4f)*.6f);
             if(n.hold>0&&remaining<15f){target=Mathf.Min(target,Mathf.Max(0,remaining-2f)*1.2f);if(car.speed<.3f)n.hold-=dt;}
             // Car ahead in the same lane (this road and the one we turn into), then the player and other cars.
-            float gap=Ahead(n);bool soft=false;n.ghost-=dt;
+            float gap=Ahead(n);bool soft=false;n.ghost-=dt;n.dodge=0;
+            float laneLat=n.road.OneWay?0:n.road.width*.25f,myLat=n.offset.x*fwd.z-n.offset.z*fwd.x; // metres right of the centreline
             for(int i=0;i<blockers.Count;i++){
                 if(i>=hardBlockers&&n.ghost>0)break;
                 var v=blockers[i]-pos;if(Mathf.Abs(v.y)>3f)continue;
-                float f=v.x*fwd.x+v.z*fwd.z;if(f<=0||f>=gap||f>40f)continue;
-                if(Mathf.Abs(v.x*fwd.z-v.z*fwd.x)<2f){gap=f;soft=i>=hardBlockers;}
+                float f=v.x*fwd.x+v.z*fwd.z;if(f<-5f||f>40f)continue;
+                float side=v.x*fwd.z-v.z*fwd.x;
+                // A parked car or bus in our lane: pull out round it from 30 m before until it is 5 m behind.
+                if(i>=hardBlockers&&f<30f){float s=Pass(side+myLat,laneLat,n.road.width*.5f,n.road.OneWay);if(Mathf.Abs(s)>Mathf.Abs(n.dodge))n.dodge=s;}
+                if(f>0&&f<gap&&Mathf.Abs(side)<2f){gap=f;soft=i>=hardBlockers;}
             }
             target=Mathf.Min(target,Mathf.Max(0,(gap-7f)*.9f));
-            // A parked or abandoned car in the lane: wait a while, then squeeze past it.
+            // Still blocked (no room to pass): wait a while, then squeeze through it.
             if(soft&&car.speed<.3f){n.stuck+=dt;if(n.stuck>6f){n.ghost=4f;n.stuck=0;}}else if(!soft)n.stuck=0;
             car.speed=Mathf.MoveTowards(Mathf.Max(0,car.speed),target,(target<car.speed?9f:2.2f)*dt);
             n.d+=car.speed*dt;
@@ -139,7 +149,7 @@ namespace PeninsulaTime
             if(flat.sqrMagnitude<1e-6f){flat=car.forward;fwd=flat;}
             flat.Normalize();
             // Drive on the right: a quarter of the width off the centreline of two-way roads, on the centreline of one-way ones.
-            var lane=new Vector3(flat.z,0,-flat.x)*(n.road.OneWay?0:n.road.width*.25f);
+            var lane=new Vector3(flat.z,0,-flat.x)*((n.road.OneWay?0:n.road.width*.25f)+n.dodge);
             n.offset=snap?lane:Vector3.MoveTowards(n.offset,lane,Mathf.Max(3f,car.speed*.6f)*dt);
             car.forward=flat;
             var look=Quaternion.LookRotation(fwd)*n.rest;
@@ -156,8 +166,8 @@ namespace PeninsulaTime
                 if(road.cls>ChangwonData.Service||road.length<15f||rnd.NextDouble()>Chance[road.cls])continue;
                 int seg=1;Vector3 tangent;float along=(float)rnd.NextDouble()*road.length;var p=Sample(road,ref seg,along,out tangent);
                 var v=p-player;v.y=0;float dist=v.magnitude;if(dist<90f||dist>450f)continue;
-                // Out of sight when possible: behind or beside the player, or far off.
-                if(tries<9&&dist<380f&&Vector3.Dot(v/dist,look)>.3f)continue;
+                // Out of sight: behind or beside the player, or far off (a failed try just waits for the next frame).
+                if(dist<380f&&Vector3.Dot(v/dist,look)>.3f)continue;
                 int dir=road.OneWay||rnd.Next(2)==0?1:-1;float d=dir>0?along:road.length-along;
                 if(Occupied(road,dir,d))continue;
                 Create(road,dir,d,p,tangent*dir);return;
@@ -186,6 +196,17 @@ namespace PeninsulaTime
             Npc a=null,b=null;float da=60f*60f,db=60f*60f;
             foreach(var n in cars){float d=(n.car.transform.position-player).sqrMagnitude;if(d<da){b=a;db=da;a=n;da=d;}else if(d<db){b=n;db=d;}}
             foreach(var n in cars){bool on=n==a||n==b;if(on!=n.engine){n.engine=on;n.car.SetEngine(on);}}
+        }
+
+        // Sideways shift from the lane line (laneLat) that clears a stopped car at lateral 'at' (both metres right of the centreline
+        // of a carriageway half metres wide): round its left, or its right on a one-way street. 0 when it is clear of the lane
+        // or there is no room.
+        internal static float Pass(float at,float laneLat,float half,bool oneWay)
+        {
+            if(Mathf.Abs(at-laneLat)>=2.3f)return 0;
+            if(at-2.3f>=1f-half)return at-2.3f-laneLat;
+            if(oneWay&&at+2.3f<=half-1f)return at+2.3f-laneLat;
+            return 0;
         }
 
         // ---------------------------------------------------------------- road helpers (shared with ChangwonPeople)

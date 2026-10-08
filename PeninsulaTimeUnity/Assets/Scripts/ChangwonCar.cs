@@ -89,6 +89,8 @@ namespace PeninsulaTime
                 }else pos+=step;
             }
             Vector3 normal;float ground=Ground(pos,pos.y+2.6f,transform,out normal);
+            // Cliffs and cutting walls (steeper than ~37°) can't be driven up; roads are never that steep.
+            if(normal.y<.8f&&ground>transform.position.y-rideHeight+.1f&&distance>1e-4f){var was=transform.position;pos.x=was.x;pos.z=was.z;ground=Ground(pos,pos.y+2.6f,transform,out normal);speed=-speed*.25f;}
             // Falls (off a ledge) are smoothed; climbing a kerb or ramp is immediate.
             pos.y=ground>pos.y-rideHeight?ground+rideHeight:Mathf.MoveTowards(pos.y,ground+rideHeight,Mathf.Max(6f,Mathf.Abs(speed))*dt*1.5f);
             transform.position=pos;
