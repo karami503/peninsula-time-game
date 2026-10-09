@@ -1,4 +1,6 @@
 using System.IO;
+using Process=System.Diagnostics.Process;
+using ProcessStartInfo=System.Diagnostics.ProcessStartInfo;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -44,8 +46,10 @@ namespace PeninsulaTime.Editor
             RenderSettings.skybox=sky;RenderSettings.ambientMode=UnityEngine.Rendering.AmbientMode.Flat;
             var path="Assets/Scenes/Main.unity";Directory.CreateDirectory("Assets/Scenes");EditorSceneManager.SaveScene(scene,path);
             EditorBuildSettings.scenes=new[]{new EditorBuildSettingsScene(path,true)};
-            PlayerSettings.companyName="Kim Garam";PlayerSettings.productName="반도의 시간";
-            PlayerSettings.bundleVersion="0.9.9-preview.2";
+            // Keep the executable name ASCII. A Korean CFBundleExecutable can be normalized
+            // differently by the file system and codesign, which invalidates the app seal.
+            PlayerSettings.companyName="Kim Garam";PlayerSettings.productName="PeninsulaTime";
+            PlayerSettings.bundleVersion="0.9.9-preview.3";
             // Online servers on a LAN or home PC speak plain HTTP; public servers should sit behind HTTPS.
             PlayerSettings.insecureHttpOption=InsecureHttpOption.AlwaysAllowed;
             PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.Standalone,"com.kimgaram.peninsulatime");
@@ -62,6 +66,25 @@ namespace PeninsulaTime.Editor
             var report=BuildPipeline.BuildPlayer(new[]{"Assets/Scenes/Main.unity"},"Builds/PeninsulaTime.app",BuildTarget.StandaloneOSX,BuildOptions.None);
             Debug.Log("Build result: "+report.summary.result+", errors: "+report.summary.totalErrors+", size: "+report.summary.totalSize);
             if(report.summary.result!=UnityEditor.Build.Reporting.BuildResult.Succeeded)throw new System.Exception("macOS build failed");
+            RunMacTool("/usr/bin/xattr","-cr \"Builds/PeninsulaTime.app\"");
+            RunMacTool("/usr/bin/codesign","--force --deep --sign - --timestamp=none \"Builds/PeninsulaTime.app\"");
+            RunMacTool("/usr/bin/codesign","--verify --deep --strict \"Builds/PeninsulaTime.app\"");
+        }
+
+        static void RunMacTool(string executable,string arguments)
+        {
+            var process=Process.Start(new ProcessStartInfo(executable,arguments)
+            {
+                UseShellExecute=false,
+                RedirectStandardOutput=true,
+                RedirectStandardError=true,
+                CreateNoWindow=true
+            });
+            string output=process.StandardOutput.ReadToEnd();
+            string error=process.StandardError.ReadToEnd();
+            process.WaitForExit();
+            if(!string.IsNullOrEmpty(output))Debug.Log(output);
+            if(process.ExitCode!=0)throw new System.Exception(executable+" failed: "+error);
         }
         [MenuItem("반도의 시간/Windows 앱 빌드")]
         public static void BuildWindows()
