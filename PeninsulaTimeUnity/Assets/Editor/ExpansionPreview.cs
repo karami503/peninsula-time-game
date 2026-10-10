@@ -14,7 +14,7 @@ public static void Run(){
  service=world.BuildNetworkStation(start,busLine,0);var c=service.doors.cabin;
  camera.transform.position=c.transform.TransformPoint(new Vector3(10,3,12));camera.transform.LookAt(c.transform.position+Vector3.up*1.5f);DistrictPreview.Capture(camera,Path.Combine(dir,"창원-실제노선-버스.png"));
  camera.transform.position=c.transform.position+new Vector3(100,130,-120);camera.transform.LookAt(c.transform.position);DistrictPreview.Capture(camera,Path.Combine(dir,"창원-주변도로-건물.png"));
- world.BuildDistrict(0,9);
+ world.BuildDistrict(0);
  foreach(var route in world.root.GetComponentsInChildren<StationWalkRoute>()){
   if(route.points.Length<4)continue;
   var a=route.points[2];var b=route.points[3];if(Vector3.Distance(a,b)<8)continue;

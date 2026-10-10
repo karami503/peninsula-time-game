@@ -59,7 +59,7 @@ namespace PeninsulaTime
 
                     var bus=Add<Cabin>(fixtures.transform,"Bus");bus.kind="bus";
                     Expect((bool)Call(game,"MayBoard",bus),"empty balance blocked bus");Call(game,"BoardBus",new object[]{null});Call(game,"LeaveBus");CheckBalances(game,legacyBalance);
-                    var metro=Add<SubwayTrain>(fixtures.transform,"Metro");metro.line=new StationLine("2호선","시청",Color.green,0);
+                    var metro=Add<SubwayTrain>(fixtures.transform,"Metro");var line2=new StationLine("2호선","시청",Color.green,0);line2.net=TransitNetwork.Lines.Find(l=>l.shortName=="2호선");metro.line=line2;
                     var consist=Add<TrainConsist>(metro.transform,"Consist");consist.train=metro;consist.cabin=consist.gameObject.AddComponent<Cabin>();consist.cabin.kind="metro";
                     Set(game,"farePaid",false);Expect((bool)Call(game,"MayBoard",consist.cabin),"metro still requires card authorization");
 
@@ -76,7 +76,10 @@ namespace PeninsulaTime
                     var train=rail.gameObject.AddComponent<KtxTrain>();train.rail=rail;
                     Expect((bool)Call(game,"MayBoardRail",rail.doors.cabin),"empty balance blocked local KTX");Call(game,"BoardRail",rail.doors.cabin);CheckBalances(game,legacyBalance);Call(game,"ClearRail");
                     var checkin=Add<Fixture>(fixtures.transform,"Checkin");checkin.kind="checkin";checkin.number=0;game.UseFixture(checkin);
-                    Expect(game.BoardingGate>0,"empty balance blocked flight check-in");CheckBalances(game,legacyBalance);
+                    // The counter opens a destination list; the ticket is paid from the city budget, never from the legacy balances.
+                    Expect(game.FlightDeskAirline==0,"check-in did not open the flight destination list");
+                    game.BuyFlightTicket(0);
+                    Expect(game.BoardingGate>0,"empty balance blocked flight ticket");CheckBalances(game,legacyBalance);
                     for(int i=0;i<resources.Length;i++)Expect(game.state.resources[i]==resources[i],"player purchases changed city simulation resources");
                 }
                 var reloaded=JsonUtility.FromJson<GameState>(File.ReadAllText(Path.Combine(saveDir,"save-v1.json")));

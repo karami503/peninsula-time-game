@@ -37,15 +37,16 @@ public static class DistrictTransferCheck {
   }
  }
  static void OutboundHandoff(WorldBuilder world,GameController game,Transform eye){
-  Call(game,"ClearRides");world.BuildDistrict(3,9);world.SetDistrictView(3,false);Set(game,"mode","district");
+  Call(game,"ClearRides");world.BuildDistrict(3);world.SetDistrictView(3,false);Set(game,"mode","district");
   var train=world.StationTrains.Find(t=>t.line.net!=null&&t.line.ahead.Length==0);Check(train!=null,"onward national-service fixture");if(train==null)return;
   var lineId=train.line.net.id;var stationId=train.line.net.stops[train.line.index].id;
   train.Begin(SubwayTrain.Approach+4f);Physics.SyncTransforms();var c=train.Active.cabin;float side=c.doorSide;
   eye.position=c.transform.TransformPoint(new Vector3(side*5.6f,c.floor,c.doors[3]))+Vector3.up*1.65f;Set(game,"grounded",true);Set(game,"cabin",null);
   var step=c.transform.TransformDirection(Vector3.left*(side*.06f));
   for(int i=0;i<110&&Get<Cabin>(game,"cabin")==null;i++)if(!(bool)Call(game,"TryEnterCabin",step))Call(game,"MoveWalkerStep",step,1f/60f);
-  var boarded=Get<Cabin>(game,"cabin");Check(boarded!=null&&boarded.kind=="networkrail","real open door boards route beyond detailed districts");
-  Check(world.NetworkHubStation!=null&&world.NetworkHubStation.id==stationId&&Get<StationJourney>(game,"stationJourney").line.id==lineId,"onward boarding retains real service and station");
+  var boarded=Get<Cabin>(game,"cabin");Check(boarded!=null&&boarded==c,"real open door boards route beyond detailed districts");
+  // The same train carries on to the network: no scene change at the door.
+  Check(game.NetRideActive&&Get<NetLine>(game,"netLine")!=null&&Get<NetLine>(game,"netLine").id==lineId&&Get<NetStation>(game,"netFrom").id==stationId,"onward boarding rides the real service from the real station");
  }
  public static void Run(){
   failures=walks=signs=0;TransitNetwork.Build(null);
@@ -54,7 +55,7 @@ public static class DistrictTransferCheck {
   var eye=new GameObject("guide eye").transform;Set(game,"world",world);Set(game,"eye",eye);Set(game,"viewCamera",cam);
   try {
    for(int district=0;district<4;district++){
-    world.BuildDistrict(district,9);world.SetDistrictView(district,false);Set(game,"mode","district");Set(game,"cabin",null);Physics.SyncTransforms();Guides(world);
+    world.BuildDistrict(district);world.SetDistrictView(district,false);Set(game,"mode","district");Set(game,"cabin",null);Physics.SyncTransforms();Guides(world);
     foreach(var belt in world.root.GetComponentsInChildren<MovingWalkway>())belt.enabled=false;
     var portals=world.DistrictTransfers.ToArray();
     if(district<3)Check(portals.Length>0,"missing district services connected "+district);
@@ -66,7 +67,7 @@ public static class DistrictTransferCheck {
     }
     if(district==0){
      var p=world.DistrictTransfers.Find(x=>x.label=="신분당선");Check(p!=null,"Gangnam Shinbundang connected");
-     if(p!=null){var id=p.stationId;var line=p.lineId;eye.position=p.entry+Vector3.up*1.65f;Call(game,"UpdateDistrictTransfers");Check(Get<string>(game,"mode")=="rail"&&world.NetworkHubStation.id==id&&Get<StationJourney>(game,"stationJourney").line.id==line,"walking portal enters matching station and service");}
+     if(p!=null){var id=p.stationId;var line=p.lineId;eye.position=p.entry+Vector3.up*1.65f;Call(game,"UpdateDistrictTransfers");Check(Get<string>(game,"mode")=="district"&&Get<StationJourney>(game,"stationJourney")==null,"walking into a transfer passage must not jump to another scene");}
     }
     if(district==1)Check(Array.Exists(portals,p=>p.label=="KTX")&&Array.Exists(portals,p=>p.label=="무궁화호"),"Seoul KTX/conventional links");
    }

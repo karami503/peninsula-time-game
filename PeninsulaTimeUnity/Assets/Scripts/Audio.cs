@@ -55,7 +55,6 @@ namespace PeninsulaTime
             return s;
         }
         // The background for where the player is; changing key cross-fades over a second.
-        public static void StopAmbience(){if(ambience==null)return;foreach(var s in ambience){s.Stop();s.volume=0;}ambienceKey=null;}
         public static void Ambience(string key,float volume)
         {
             if(Application.isBatchMode)return;
@@ -74,6 +73,7 @@ namespace PeninsulaTime
                 if(s.volume<=0&&i!=ambienceSide&&s.isPlaying)s.Stop();
             }
         }
+        public static void StopAmbience(){Ambience(null,0);}
 
         // ---------- synthesis ----------
         static System.Random noise=new System.Random(7);

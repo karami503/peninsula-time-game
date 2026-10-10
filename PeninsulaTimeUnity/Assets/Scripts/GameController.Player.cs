@@ -23,7 +23,7 @@ namespace PeninsulaTime
         void CreatePlayer(){eye=new GameObject("Player").transform;world.viewer=eye;eye.position=viewCamera.transform.position;}
 
         // On foot in a street view, a station, a terminal, a shop, or standing in a bus or train.
-        bool OnFoot(){return !showIntro&&StreetView()&&!InVehicle()&&flight==null;}
+        bool OnFoot(){return StreetView()&&!InVehicle()&&flight==null;}
         bool LookLocked{get{return Cursor.lockState==CursorLockMode.Locked;}}
         // The ray through the crosshair while the cursor is locked, otherwise through the mouse.
         Ray AimRay(){return LookLocked?viewCamera.ViewportPointToRay(new Vector3(.5f,.5f,0)):viewCamera.ScreenPointToRay(Input.mousePosition);}
@@ -58,7 +58,7 @@ namespace PeninsulaTime
             if(Application.isMobilePlatform&&Input.touchCount==1)
             {
                 var touch=Input.GetTouch(0);float scale=Mathf.Max(.55f,Mathf.Min(Screen.width/1440f,Screen.height/860f));
-                if(touch.phase==TouchPhase.Moved&&touch.position.x/scale>WorldLeft()&&(Screen.height-touch.position.y)/scale<Screen.height/scale-220f)
+                if(touch.phase==TouchPhase.Moved&&touch.position.x/scale>WorldLeft()&&touch.position.x/scale<WorldRight()&&(Screen.height-touch.position.y)/scale<Screen.height/scale-220f)
                 {yaw+=touch.deltaPosition.x*.18f;pitch-=touch.deltaPosition.y*.18f;}
             }
             SetLook(yaw,pitch);
@@ -117,10 +117,11 @@ namespace PeninsulaTime
         {
             var feet=Feet;var start=feet;
             if(grounded&&!jumpQueued&&cabin==null)step+=MovingWalkway.VelocityAt(feet)*dt;
+            bool hill=step.sqrMagnitude>1e-8f&&HillStep(feet+step.normalized*(BodyRadius+.05f),feet.y);
             if(step.sqrMagnitude>1e-8f)
             {
                 var origin=feet+Vector3.up*(StepUp+BodyRadius+.05f);RaycastHit hit;
-                if(Physics.SphereCast(origin,BodyRadius,step.normalized,out hit,step.magnitude+.05f,~0,QueryTriggerInteraction.Ignore)&&!Climbable(hit.collider)&&!(InOpenWorld&&LowLedge(feet,step)))
+                if(Physics.SphereCast(origin,BodyRadius,step.normalized,out hit,step.magnitude+.05f,~0,QueryTriggerInteraction.Ignore)&&!Climbable(hit.collider)&&!hill)
                 {
                     var slide=Vector3.ProjectOnPlane(step,hit.normal);slide.y=0;
                     if(slide.sqrMagnitude<1e-8f||Physics.SphereCast(origin,BodyRadius,slide.normalized,out hit,slide.magnitude+.05f,~0,QueryTriggerInteraction.Ignore))slide=Vector3.zero;
@@ -136,7 +137,7 @@ namespace PeninsulaTime
             if(grounded)
             {
                 float rise=floor-start.y;
-                if(rise>StepUp&&!((Climbable(ground.collider)||InOpenWorld)&&rise<=PlatformClimb)){feet=start;floor=start.y;} // a wall or a high step
+                if(rise>StepUp&&!((Climbable(ground.collider)||hill)&&rise<=PlatformClimb)){feet=start;floor=start.y;} // a wall or a high step
                 else if(rise<-.45f){grounded=false;verticalSpeed=0;} // walked off a ledge
                 else feet.y=floor;
             }
@@ -150,12 +151,6 @@ namespace PeninsulaTime
                 if(feet.y<=floor){if(verticalSpeed<-3f)Sfx.Play("land",.6f);feet.y=floor;verticalSpeed=0;grounded=true;}
             }
             eye.position=feet+Vector3.up*EyeHeight;
-        }
-        // Open world: road edges on hillsides, kerbs and low walls can be stepped onto when a walkable top lies within PlatformClimb.
-        static bool LowLedge(Vector3 feet,Vector3 step)
-        {
-            RaycastHit top;var probe=feet+step.normalized*(BodyRadius+.2f)+Vector3.up*(PlatformClimb+.1f);
-            float rise;return Physics.Raycast(probe,Vector3.down,out top,PlatformClimb+.1f,~0,QueryTriggerInteraction.Ignore)&&top.normal.y>.6f&&(rise=top.point.y-feet.y)>.45f&&rise<=PlatformClimb; // a real ledge, not a thin wall
         }
         static bool GroundBelow(Vector3 feet,out RaycastHit ground)
         {
@@ -213,11 +208,11 @@ namespace PeninsulaTime
             {
                 float cx=(WorldLeft()+w)*.5f,cy=h*.5f;bool target=hoverHint.Length>0;
                 var tex=target&&!hoverFar?goldTexture:Texture2D.whiteTexture;
-                GUI.DrawTexture(new Rect(cx-7,cy-1,5,2),tex);GUI.DrawTexture(new Rect(cx+2,cy-1,5,2),tex);
-                GUI.DrawTexture(new Rect(cx-1,cy-7,2,5),tex);GUI.DrawTexture(new Rect(cx-1,cy+2,2,5),tex);
+                UiTexture(new Rect(cx-7,cy-1,5,2),tex);UiTexture(new Rect(cx+2,cy-1,5,2),tex);
+                UiTexture(new Rect(cx-1,cy-7,2,5),tex);UiTexture(new Rect(cx-1,cy+2,2,5),tex);
             }
             if(Application.isMobilePlatform)return;
-            GUI.Label(new Rect(WorldLeft()+16,h-82,w-WorldLeft()-260,22),LookLocked
+            UiLabel(new Rect(w*.5f-350f,h-68,700,22),LookLocked
                 ?"마우스: 둘러보기 · 클릭/F: 상호작용 · WASD 이동 · Shift 달리기 · Space 점프 · T "+(thirdPerson?"1인칭":"3인칭")+" · Tab 커서"
                 :"화면을 클릭하면 마우스로 둘러봅니다 · Tab 커서 잠금",smallStyle);
         }

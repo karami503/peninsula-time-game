@@ -201,6 +201,7 @@ namespace PeninsulaTime
             pause=TalkSeconds;Face(viewer-transform.position);
             if(random==null)random=new System.Random(GetInstanceID());
             var line=Dialogue.Line(persona,talks++,happiness,place,night,random);
+            Voice.Speak(line,Voice.PitchFor(persona,GetInstanceID()),transform.position+Vector3.up*1.6f);
             return Dialogue.Personas[persona]+": “"+line+"”";
         }
     }

@@ -29,6 +29,8 @@ namespace PeninsulaTime
     public class PlaneFlight : MonoBehaviour
     {
         public const float Seconds=24f;
+        // Lift-off at about airliner rotation speed: the 18 s roll ends at 2*RollDistance/18 = ClimbSpeed (80 m/s, 288 km/h).
+        const float RollDistance=720f,ClimbSpeed=80f;
         public Vector3 gate,runwayDirection=Vector3.right;
         public float runwayZ=float.NaN; // world z of the runway centre line; NaN: take off from the apron
         public Quaternion baseRotation=Quaternion.identity; // model rotation when facing +Z
@@ -36,7 +38,8 @@ namespace PeninsulaTime
         public Vector3[] taxiPath;
         public float Duration{get{return taxiPath!=null&&taxiPath.Length>1?66f:Seconds;}}
         public bool Done{get{return clock>=Duration;}}
-        void Update(){Step(Time.deltaTime);}
+        public float speed=1f; // 1 = the animation's own pace; a ticketed flight is sped up to arrive in TicketTripSeconds
+        void Update(){Step(Time.deltaTime*speed);}
         // Pushback, turn, taxi out to the runway, line up, take-off roll and climb.
         public void Step(float seconds)
         {
@@ -64,8 +67,8 @@ namespace PeninsulaTime
             else if(clock<turnEnd){p=first;facing=Vector3.Slerp(Vector3.back+Vector3.right*.01f,(taxiPath[1]-first).normalized,(clock-pushEnd)/(turnEnd-pushEnd));}
             else if(clock<taxiEnd)TaxiPose((clock-turnEnd)/(taxiEnd-turnEnd),out p,out facing);
             else if(clock<holdEnd){p=last;facing=runwayDirection;}
-            else if(clock<rollEnd){float t=(clock-holdEnd)/(rollEnd-holdEnd);p=last+runwayDirection*(1350f*t*t);facing=runwayDirection;}
-            else {float t=Mathf.Max(0,clock-rollEnd);p=last+runwayDirection*(1350f+150f*t)+Vector3.up*(150f*t*Mathf.Tan(12f*Mathf.Deg2Rad));facing=runwayDirection+Vector3.up*Mathf.Tan(12f*Mathf.Deg2Rad);}
+            else if(clock<rollEnd){float t=(clock-holdEnd)/(rollEnd-holdEnd);p=last+runwayDirection*(RollDistance*t*t);facing=runwayDirection;}
+            else {float t=Mathf.Max(0,clock-rollEnd);p=last+runwayDirection*(RollDistance+ClimbSpeed*t)+Vector3.up*(ClimbSpeed*t*Mathf.Tan(12f*Mathf.Deg2Rad));facing=runwayDirection+Vector3.up*Mathf.Tan(12f*Mathf.Deg2Rad);}
             transform.position=p;transform.rotation=Quaternion.LookRotation(facing)*baseRotation;
         }
         void TaxiPose(float progress,out Vector3 position,out Vector3 facing)
@@ -101,7 +104,13 @@ namespace PeninsulaTime
         public Vector3 GateSpawn(int gate){return AirportOrigin+new Vector3(GateX(gate),Floor3+1.65f,20);} // desk, jet bridge and aircraft in view
         static float GateX(int gate){return -140f+(Mathf.Clamp(gate,1,8)-1)*40f;} // stands 40 m apart: wider than an airliner's wingspan
         public Vector3 GatePlane(int gate){return AirportOrigin+new Vector3(GateX(gate),0,TerminalHalfZ+40);} // nose ~18 m from the glass
-        public GameObject GateAircraft(int gate){var t=airport!=null?airport.Find("탑승구 "+gate+" 항공기"):null;return t!=null?t.gameObject:null;}
+        public GameObject GateAircraft(int gate)
+        {
+            if(DestinationAirport!=null)return gate>=1&&gate<=destinationGates.Count?destinationGates[gate-1]:null;
+            var t=airport!=null?airport.Find("탑승구 "+gate+" 항공기"):null;return t!=null?t.gameObject:null;
+        }
+        // The way a parked aircraft's nose points: toward its terminal.
+        public Vector3 GateFacing(int gate){return DestinationAirport!=null?-destinationSite.forward:Vector3.back;}
 
         Vector3 TerminalDoor(List<Vector3> points){terminalOutline=points.ToArray();return Centre(points);}
 
@@ -334,7 +343,7 @@ namespace PeninsulaTime
                 float x=-12+i*4;
                 var kiosk=Block("셀프 체크인 키오스크",airport,new Vector3(x-.4f,y,-28.6f),new Vector3(x+.4f,y+1.6f,-28),Mat("kiosk",new Color(.85f,.86f,.88f),.3f));
                 Block("키오스크 화면",airport,new Vector3(x-.3f,y+1.0f,-28.0f),new Vector3(x+.3f,y+1.45f,-27.95f),Glow("kiosk-screen",new Color(.2f,.55f,.85f),.9f),false);
-                AddFixture(kiosk,"checkin","셀프 체크인 키오스크","",i%4);
+                AddFixture(kiosk,"kiosk","셀프 체크인 키오스크 · 목적지 공항 선택","");
             }
             Board("셀프 체크인  Self Check-in",airport,AirportOrigin+new Vector3(-2,y+3.2f,-28.5f),Vector3.forward,new Vector2(8,.6f),new Color(.10f,.24f,.45f),Color.white,.3f);
             var fids=new System.Text.StringBuilder("출발  DEPARTURES\n");

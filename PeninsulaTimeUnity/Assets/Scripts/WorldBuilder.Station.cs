@@ -18,7 +18,8 @@ namespace PeninsulaTime
         static readonly string[] StationEnglish={"Gangnam","Seoul Station","Hongik Univ.","Gimpo Int'l Airport"};
         // The line modules under each detailed district. Gangnam L2 and three Gimpo
         // lines use side platforms; other modules keep the existing island layouts.
-        static readonly string[][] IslandLines={new[]{"2호선"},new[]{"공항철도"},new[]{"2호선","공항철도"},new[]{"5호선","9호선","공항철도","김포골드라인","서해선"}};
+        // Seoul Station: Lines 1 and 4 either side of the airport railroad (KTX/무궁화 run on the surface tracks).
+        static readonly string[][] IslandLines={new[]{"2호선"},new[]{"1호선","공항철도","4호선"},new[]{"2호선","공항철도"},new[]{"5호선","9호선","공항철도","김포골드라인","서해선"}};
         // Used when the network data is missing or the player removed the line or the station.
         static readonly StationLine[][] FallbackLines={
             new[]{new StationLine("2호선","내선순환 · 교대 방면",Line2,2),new StationLine("2호선","외선순환 · 역삼 방면",Line2,2)},
@@ -158,18 +159,6 @@ namespace PeninsulaTime
                 yield return i;
             }
         }
-        // Stations a train calls at after this platform and before the district's (names, in order).
-        public static List<string> StopsBetween(StationLine side,int district)
-        {
-            var names=new List<string>();var line=side.net;
-            if(line==null||line.offsets.Length!=line.stops.Count)return names;
-            foreach(int i in StopsAhead(line,side.direction,side.index))
-            {
-                if(DistrictOf(line.stops[i].name)==district)return names;
-                names.Add(line.stops[i].name);
-            }
-            return new List<string>();
-        }
         public static string Bare(string name){return TransitNetwork.Bare(name);}
         public static int DistrictOf(string stationName)
         {
@@ -199,7 +188,7 @@ namespace PeninsulaTime
             if(district==0){BuildGangnamStation();return;}
             if(district==3){BuildGimpoStation();return;}
             int islands=IslandLines[district].Length;islandX.Clear();
-            for(int i=0;i<islands;i++)islandX.Add((i-(islands-1)*.5f)*(district==3?36f:IslandGap));
+            for(int i=0;i<islands;i++)islandX.Add((i-(islands-1)*.5f)*(district==3?36f:district==1?24f:IslandGap)); // Seoul: three islands inside the 60 m concourse
             var hall=new GameObject(StationTitle(district)+" 지하").transform;hall.SetParent(root.transform,false);
             station=hall;
             BuildConcourse(district);
@@ -527,42 +516,8 @@ namespace PeninsulaTime
             return train;
         }
 
-        // A station outside the game area, for the stops passed on a subway ride: one island platform whose name
-        // boards read `name`; the returned track carries the rider's train on the same side, the same way.
-        public static readonly Vector3 RideOrigin=new Vector3(3000,0,0);
-        Transform rideHall;readonly List<SubwayTrain> rideTracks=new List<SubwayTrain>();readonly List<TextMesh> rideNames=new List<TextMesh>();
-        public SubwayTrain RideTrack(SubwayTrain from,StationLine line,string name)
-        {
-            if(rideHall==null)
-            {
-                rideTracks.Clear();rideNames.Clear();
-                var hall=new GameObject("지나는 역").transform;hall.SetParent(root.transform,false);
-                var keep=station;station=hall;
-                var copy=line;copy.net=null;copy.parity=-1;copy.ahead=new int[0];
-                BuildPlatform(name,"",new List<StationLine>{copy,copy},1,rideTracks,false,rideNames);
-                var random=new System.Random(name.Length*31);
-                for(int i=0;i<14;i++)
-                {
-                    Transform[] legs;float z=-55+i*8f+(float)random.NextDouble()*3f;if(z>-2&&z<20)z+=24;
-                    Bystander(new Vector3((random.Next(2)*2-1)*(2.6f+(float)random.NextDouble()*1.4f),PlatformY,z),new Vector3(random.Next(2)*2-1,0,0),hall,random,out legs);
-                }
-                station=keep;
-                hall.localPosition=RideOrigin; // built at the origin like the islands, so world-placed signs move with it
-                rideHall=hall;
-            }
-            foreach(var sign in rideNames)if(sign!=null)sign.text=Bare(name);
-            var track=rideTracks[(from.Active!=null&&from.Active.cabin!=null?from.Active.cabin.doorSide<0:from.trackX>0)?0:1];
-            track.direction=from.TravelSign;
-            return track;
-        }
+        public static readonly Vector3 RideOrigin=new Vector3(3000,0,0); // x beyond which nothing district-made stands
         // The platform side a train of `rode` arrives at in this district (same line and direction, else same line).
-        public int ArrivalSide(StationLine rode)
-        {
-            for(int i=0;i<PlatformSides.Count;i++){var here=PlatformSides[i];if(here.line==rode.line&&here.net!=null&&here.net==rode.net&&here.direction==rode.direction)return i;}
-            for(int i=0;i<PlatformSides.Count;i++)if(PlatformSides[i].line==rode.line)return i;
-            return PlatformSides.Count>0?0:-1;
-        }
-
         void BuildStationPeople()
         {
             var graph=new TrafficGraph();

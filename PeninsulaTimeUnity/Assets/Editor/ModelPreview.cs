@@ -26,7 +26,7 @@ namespace PeninsulaTime
             camera.orthographic=false;camera.fieldOfView=50;
             camera.transform.position=new Vector3(-30,22,-48);camera.transform.LookAt(new Vector3(-8,4,-5));
             Capture(camera,Path.Combine(dir,"city-street.png"));
-            world.BuildDistrict(0,9);
+            world.BuildDistrict(0);
             camera.fieldOfView=60;
             camera.transform.position=new Vector3(-20,9,-40);camera.transform.LookAt(new Vector3(10,2,20));
             Capture(camera,Path.Combine(dir,"seoul-street.png"));
@@ -35,7 +35,7 @@ namespace PeninsulaTime
             Debug.Log("ModelPreview: Seoul traffic vehicles "+world.root.GetComponentsInChildren<TrafficVehicle>().Length);
             foreach(var type in new[]{"bus","metro"})
             {
-                world.BuildDistrict(0,9);
+                world.BuildDistrict(0);
                 var vehicle=world.CreateVehicle(type,new Vector3(0,.8f,0));
                 world.CreateRideCabin(vehicle,type);
                 camera.fieldOfView=72;

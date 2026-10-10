@@ -15,10 +15,10 @@ namespace PeninsulaTime
             var camera=new GameObject("Infrastructure camera").AddComponent<Camera>();
             var world=new GameObject("Infrastructure world").AddComponent<WorldBuilder>();world.worldCamera=camera;
             failures=0;
-            int[] expectedEntrances={10,14,6,0};
+            int[] expectedEntrances={10,14,6,4}; // Gimpo: four surveyed exits (WorldBuilder.GimpoStation BuildGimpoEntrances)
             for(int district=0;district<4;district++)
             {
-                world.BuildDistrict(district,9);Physics.SyncTransforms();
+                world.BuildDistrict(district);Physics.SyncTransforms();
                 world.SetDistrictView(district,false);Physics.SyncTransforms();
                 var feet=camera.transform.position-Vector3.up*1.65f;
                 bool insideBuilding=false;
@@ -30,6 +30,20 @@ namespace PeninsulaTime
                     Expect(!front.collider.name.ToLowerInvariant().Contains("building"),district,"street camera faces a nearby building at "+front.distance.ToString("F1")+" m");
                 Expect(world.MappedEntranceCount==expectedEntrances[district],district,"entrance count "+world.MappedEntranceCount);
                 Expect(world.BusStopCount>0,district,"no bus stops");
+                // BIS at every stop: each shelter has a clickable arrival screen whose live text lists routes with arrival times.
+                int shelters=0,withBis=0,withTimes=0;
+                foreach(Transform t in world.root.transform)
+                {
+                    if(!t.name.StartsWith("버스 정류장")&&!t.name.StartsWith("BRT 정류장"))continue;
+                    shelters++;
+                    bool bis=false;foreach(var f in t.GetComponentsInChildren<Fixture>())if(f.kind=="bis")bis=true;
+                    if(bis)withBis++;
+                    var board=t.GetComponentInChildren<TransitBoard>();
+                    if(board!=null&&board.compose!=null&&(board.compose().Contains("분 ")||board.compose().Contains("곧 도착")||board.compose().Contains("정류장 도착")))withTimes++;
+                }
+                Expect(withBis==shelters,district,"bus shelters without BIS: "+(shelters-withBis)+" of "+shelters);
+                Expect(withTimes==shelters,district,"BIS screens without arrival times: "+(shelters-withTimes)+" of "+shelters);
+                Debug.Log("InfrastructureCheck district "+district+": BIS "+withBis+"/"+shelters+", with arrival times "+withTimes);
                 foreach(var mesh in world.root.GetComponentsInChildren<MeshFilter>())
                     if(mesh.name.StartsWith("OSM 주차장")&&(mesh.sharedMesh==null||mesh.sharedMesh.triangles.Length<3))Expect(false,district,"empty parking surface "+mesh.name);
                 // KTX runs only on Seoul Station's surface tracks; every station has two subway trains.
@@ -37,11 +51,13 @@ namespace PeninsulaTime
                 foreach(var rail in world.root.GetComponentsInChildren<RailVehicle>())
                 {
                     if(rail.name.StartsWith("유도로"))continue;
-                    var before=rail.transform.position;rail.Step(40f);
-                    Expect(Vector3.Distance(before,rail.transform.position)>1f,district,rail.name+" did not move");
+                    // Over one full service cycle the set must leave its stop; a set hidden on the far side of its phase does not move.
+                    var before=rail.transform.position;float moved=0;
+                    for(float t=0;t<RailVehicle.Cycle;t+=.5f){rail.Step(.5f);moved=Mathf.Max(moved,Vector3.Distance(before,rail.transform.position));}
+                    Expect(moved>1f,district,rail.name+" did not move over a cycle (stopAt "+rail.stopAt+", length "+rail.Length+", furthest "+moved.ToString("F1")+" m)");
                 }
                 // One island per line: two sides each, tied to the network's timetable (홍대입구 has 2호선 and 공항철도).
-                Expect(world.StationTrains.Count==world.PlatformSides.Count&&world.StationTrains.Count==(district==3?10:district==2?4:2),district,"subway trains "+world.StationTrains.Count);
+                Expect(world.StationTrains.Count==world.PlatformSides.Count&&world.StationTrains.Count==(district==3?10:district==2?4:district==1?6:2),district,"subway trains "+world.StationTrains.Count);
                 bool anyAhead=false;
                 foreach(var side in world.PlatformSides){Expect(side.net!=null,district,side.line+" "+side.toward+" has no timetable");anyAhead|=side.ahead.Length>0;}
                 Expect(anyAhead,district,"no train goes to another district");

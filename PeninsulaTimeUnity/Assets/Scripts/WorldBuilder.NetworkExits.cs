@@ -256,10 +256,12 @@ namespace PeninsulaTime {
             }
             return outside;
         }
-        void CutNetworkExitVolumes(List<NetworkExitVolume> volumes,bool ownStairWalls=false){
+        // `pick`, when given, chooses the meshes to cut instead.
+        void CutNetworkExitVolumes(List<NetworkExitVolume> volumes,bool ownStairWalls=false,System.Func<MeshFilter,bool> pick=null){
             foreach(var filter in root.GetComponentsInChildren<MeshFilter>()){
-                bool own=filter.transform.IsChildOf(networkExitRoot.transform);string name=filter.name;
-                if(ownStairWalls){if(!own||name!="지도 출입구 계단실 벽")continue;}
+                bool own=networkExitRoot!=null&&filter.transform.IsChildOf(networkExitRoot.transform);string name=filter.name;
+                if(pick!=null){if(!pick(filter))continue;}
+                else if(ownStairWalls){if(!own||name!="지도 출입구 계단실 벽")continue;}
                 else{if(own)continue;if(!(name.StartsWith("OSM ")||name.Contains("지면")||name.Contains("지하역")||name.Contains("대합실")||name=="역 주변 지면"||name=="출구 앞 보도"))continue;}
                 var mesh=filter.sharedMesh;var renderer=filter.GetComponent<MeshRenderer>();if(mesh==null||!mesh.isReadable||renderer==null)continue;
                 var relevant=new List<NetworkExitVolume>();foreach(var v in volumes)if(v.bounds.Intersects(renderer.bounds))relevant.Add(v);if(relevant.Count==0)continue;

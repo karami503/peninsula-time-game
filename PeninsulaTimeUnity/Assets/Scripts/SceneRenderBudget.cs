@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.Rendering;
 namespace PeninsulaTime {
     // Rendering only: collision, doors, vehicle clocks and route state stay active.
-    // Small spatial batches retain local culling instead of making one entire-world mesh.
+    // Batches never cross a structure (a building, a road segment, or one top-level object of the scene) and stay inside
+    // one 48 m cell, so there is never an entire-world mesh; each Structure then gets its LODGroup.
     public sealed class SceneRenderBudget : MonoBehaviour {
         public WorldBuilder world;
         readonly List<Renderer> renderers=new List<Renderer>();
@@ -17,21 +18,31 @@ namespace PeninsulaTime {
         float nextRefresh;int previousLevel=-1;
         public int CombinedSources {get;private set;}
         public int BatchCount {get;private set;}
+        public int StructureCount {get;private set;}
         public bool Ready {get;private set;}
         public int VisibleCount {get;private set;}
         struct Key:IEquatable<Key> {
-            public Material material;public int x,y,z,shadow;
-            public bool Equals(Key k){return material==k.material&&x==k.x&&y==k.y&&z==k.z&&shadow==k.shadow;}
+            public Material material;public Transform owner;public int x,y,z,shadow;
+            public bool Equals(Key k){return material==k.material&&owner==k.owner&&x==k.x&&y==k.y&&z==k.z&&shadow==k.shadow;}
             public override bool Equals(object o){return o is Key&&Equals((Key)o);}
-            public override int GetHashCode(){unchecked{return (material.GetInstanceID()*397)^(x*73856093)^(y*19349663)^(z*83492791)^shadow;}}
+            public override int GetHashCode(){unchecked{return (material.GetInstanceID()*397)^(owner.GetInstanceID()*7919)^(x*73856093)^(y*19349663)^(z*83492791)^shadow;}}
         }
         bool StaticMesh(Renderer r,MeshFilter f) {
             if(f==null||f.sharedMesh==null||!f.sharedMesh.isReadable||f.sharedMesh.subMeshCount!=1||f.sharedMesh.vertexCount>50000||r.GetComponent<TextMesh>()!=null)return false;
             if(r.sharedMaterials.Length!=1||r.sharedMaterial==null||r.sharedMaterial.renderQueue>=3000)return false;
             for(var t=r.transform;t!=null&&t!=transform;t=t.parent)
                 foreach(var script in t.GetComponents<MonoBehaviour>())
-                    if(script!=null&&!(script is AccessMeshOwner))return false;
+                    if(script!=null&&!(script is AccessMeshOwner)&&!(script is Structure))return false;
             return true;
+        }
+        // The structure a renderer belongs to: its nearest Structure, else the top-level object it sits under.
+        // Loose pieces placed straight on the scene root (lane marks, sleepers) belong to the root and batch by cell only.
+        Transform Owner(Transform t)
+        {
+            var structure=t.GetComponentInParent<Structure>();if(structure!=null)return structure.transform;
+            if(t.parent==transform)return transform;
+            while(t.parent!=null&&t.parent!=transform)t=t.parent;
+            return t;
         }
         IEnumerator Start() {
             yield return null;
@@ -43,7 +54,7 @@ namespace PeninsulaTime {
                 var f=r.GetComponent<MeshFilter>();
                 if(!(r is MeshRenderer)||!StaticMesh(r,f))continue;
                 var p=r.bounds.center;
-                var key=new Key{material=r.sharedMaterial,x=Mathf.FloorToInt(p.x/48),y=Mathf.FloorToInt(p.y/8),z=Mathf.FloorToInt(p.z/48),shadow=(int)r.shadowCastingMode};
+                var key=new Key{material=r.sharedMaterial,owner=Owner(r.transform),x=Mathf.FloorToInt(p.x/48),y=Mathf.FloorToInt(p.y/8),z=Mathf.FloorToInt(p.z/48),shadow=(int)r.shadowCastingMode};
                 List<MeshFilter> list;if(!groups.TryGetValue(key,out list)){list=new List<MeshFilter>();groups.Add(key,list);}list.Add(f);
             }
             double slice=Time.realtimeSinceStartupAsDouble;
@@ -53,17 +64,21 @@ namespace PeninsulaTime {
                 foreach(var f in pair.Value)vertices+=f.sharedMesh.vertexCount;
                 // Avoid an allocation spike from detailed imported geometry.
                 if(vertices>160000)continue;
-                foreach(var f in pair.Value)items.Add(new CombineInstance{mesh=f.sharedMesh,transform=transform.worldToLocalMatrix*f.transform.localToWorldMatrix,subMeshIndex=0});
-                var mesh=new Mesh{name="Spatial render batch",indexFormat=IndexFormat.UInt32};
+                var owner=pair.Key.owner;
+                foreach(var f in pair.Value)items.Add(new CombineInstance{mesh=f.sharedMesh,transform=owner.worldToLocalMatrix*f.transform.localToWorldMatrix,subMeshIndex=0});
+                var mesh=new Mesh{name="Structure render batch",indexFormat=IndexFormat.UInt32};
                 mesh.CombineMeshes(items.ToArray(),true,true);owned.Add(mesh);
-                var go=new GameObject("렌더 묶음");go.transform.SetParent(transform,false);
+                // Under its owner, so the batch moves, hides and switches LOD with the structure it was cut from.
+                var go=new GameObject("렌더 묶음");go.transform.SetParent(owner,false);
                 go.AddComponent<MeshFilter>().sharedMesh=mesh;
                 var renderer=go.AddComponent<MeshRenderer>();renderer.sharedMaterial=pair.Key.material;renderer.shadowCastingMode=(ShadowCastingMode)pair.Key.shadow;
                 renderers.Add(renderer);BatchCount++;
                 foreach(var f in pair.Value){var source=f.GetComponent<Renderer>();source.enabled=false;merged.Add(source);CombinedSources++;}
                 if(Time.realtimeSinceStartupAsDouble-slice>.003){yield return null;slice=Time.realtimeSinceStartupAsDouble;}
             }
-            renderers.RemoveAll(r=>r==null||merged.Contains(r));lights.AddRange(GetComponentsInChildren<Light>());
+            renderers.RemoveAll(r=>r==null||merged.Contains(r));
+            foreach(var structure in GetComponentsInChildren<Structure>()){var proxy=structure.ApplyLod();if(proxy!=null&&!renderers.Contains(proxy))renderers.Add(proxy);StructureCount++;}
+            lights.AddRange(GetComponentsInChildren<Light>());
             Ready=true;Refresh();
         }
         void LateUpdate() {

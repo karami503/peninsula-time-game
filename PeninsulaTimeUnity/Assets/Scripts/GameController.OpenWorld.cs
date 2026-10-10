@@ -54,6 +54,7 @@ namespace PeninsulaTime
         ChangwonWorld cw;ChangwonCar cwCar;bool cwReady,cwMapOpen,cwMenuOpen,cwFirstPerson;string cwStage="";
         Texture2D cwMap,cwDot,cwRadarMask;Vector2 cwMapCenter;float cwMapZoom=1f;Vector3 cwCamPos;float cwCamYaw,cwCamPitch=12f;float cwCamYawUser;
         string cwArea="",cwAreaShown="";float cwAreaUntil,cwNextArea;List<Vector3> cwRoute;volatile bool cwRouting;float cwNextRoute;
+        bool cwRequestedSpawn;Vector2 cwRequestedGeo;
         GUIStyle cwBig,cwHud,cwHudSmall,cwSpeed;Vector3 cwLastFeet;Light cwHeadlight;bool cwTown;Vector3 cwDry,cwDryForward=Vector3.forward;bool cwHasDry;float cwWaterToast;
         static string ChangwonSavePath{get{return Path.Combine(SaveDirectory,"changwon-openworld.json");}}
 
@@ -74,6 +75,7 @@ namespace PeninsulaTime
             cw=world.BuildChangwonWorld(eye);ChangwonSession.Root=world.root.transform;world.root.AddComponent<ChangwonLandmarkModels>(); // before the data loads, so it flattens the replaced footprints first
             StartCoroutine(OpenWorldStart());
         }
+        void EnterOpenWorldAt(float lon,float lat){cwRequestedSpawn=true;cwRequestedGeo=new Vector2(lon,lat);EnterOpenWorld();}
         IEnumerator OpenWorldStart()
         {
             cwStage="창원 지형·도로·건물 자료를 불러오는 중…";
@@ -84,6 +86,18 @@ namespace PeninsulaTime
             var p=ChangwonSession.Progress;Vector3 spawn;Vector3 facing;
             if(!float.IsNaN(p.x)&&ChangwonData.Inside(p.x,p.z)){spawn=new Vector3(p.x,ChangwonData.Height(p.x,p.z),p.z);facing=Quaternion.Euler(0,p.yaw,0)*Vector3.forward;}
             else ChangwonSpawn(out spawn,out facing);
+            if(cwRequestedSpawn)
+            {
+                var requestedXZ=ChangwonData.ToXZ(cwRequestedGeo.x,cwRequestedGeo.y);var probe=new Vector3(requestedXZ.x,ChangwonData.Height(requestedXZ.x,requestedXZ.y),requestedXZ.y);
+                ChangwonData.Road requestedRoad;float requestedAlong;Vector3 requestedPoint;
+                if(ChangwonData.NearestRoad(probe,250f,out requestedRoad,out requestedAlong,out requestedPoint))
+                {
+                    Vector3 f;requestedRoad.At(requestedAlong,out f);f.y=0;f.Normalize();var right=new Vector3(f.z,0,-f.x);
+                    spawn=requestedPoint+right*(requestedRoad.width*.5f+2.5f);facing=-right;
+                }
+                else{spawn=probe;facing=Vector3.forward;}
+                cwRequestedSpawn=false;
+            }
             // QA: --changwon-at x,z,yaw stands the player at a world position (metres east/north of 128.62°E 35.20°N).
             var argv=Environment.GetCommandLineArgs();int at=Array.IndexOf(argv,"--changwon-at");
             if(at>=0&&at+1<argv.Length){var v=argv[at+1].Split(',');float ax,az,ay=0;

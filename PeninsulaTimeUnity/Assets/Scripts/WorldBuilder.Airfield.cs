@@ -19,6 +19,11 @@ namespace PeninsulaTime
 
         public void ConfigureAirportFlight(PlaneFlight flight,int gate)
         {
+            if(DestinationAirport!=null)
+            {
+                flight.gate=DestinationGatePlane(gate);flight.runwayDirection=destinationSite.right;
+                flight.taxiPath=DestinationDepartureTaxi(gate);return;
+            }
             flight.gate=GatePlane(gate);flight.runwayDirection=Vector3.right;
             flight.runwayZ=AirportOrigin.z+RunwayZ;
             flight.taxiPath=AirportDepartureTaxi(gate);
@@ -160,7 +165,7 @@ namespace PeninsulaTime
         {
             int failures=0;
             System.Action<bool,string> check=(ok,message)=>{if(!ok){failures++;Debug.LogError("AirfieldCheck: "+message);}};
-            var world=new GameObject("airfield check").AddComponent<WorldBuilder>();world.worldCamera=new GameObject("camera").AddComponent<Camera>();world.BuildDistrict(3,9);
+            var world=new GameObject("airfield check").AddComponent<WorldBuilder>();world.worldCamera=new GameObject("camera").AddComponent<Camera>();world.BuildDistrict(3);
             // Transform.Find treats slashes in runway names as path separators.
             Transform near=null,far=null;
             foreach(var child in world.airport.GetComponentsInChildren<Transform>()){

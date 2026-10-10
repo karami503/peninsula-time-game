@@ -12,7 +12,7 @@ namespace PeninsulaTime
             var world=new GameObject("Survey world").AddComponent<WorldBuilder>();world.worldCamera=camera;
             for(int i=0;i<4;i++)
             {
-                world.BuildDistrict(i,9);Physics.SyncTransforms();
+                world.BuildDistrict(i);Physics.SyncTransforms();
                 int frames=0,vertices=0;
                 foreach(var f in world.root.GetComponentsInChildren<MeshFilter>())
                 {if(f.name=="FacadeFrame")frames++;if(f.name.StartsWith("Facade"))vertices+=f.sharedMesh.vertexCount;}

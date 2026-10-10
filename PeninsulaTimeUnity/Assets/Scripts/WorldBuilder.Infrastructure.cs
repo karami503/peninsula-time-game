@@ -83,13 +83,25 @@ namespace PeninsulaTime
         }
         void PlaceAt(float at,int facing)
         {
-            if(path==null||path.Length<2)return;
-            at=Mathf.Clamp(at,0,length);
-            int i=1;while(i<distances.Length-1&&distances[i]<at)i++;
-            var direction=(path[i]-path[i-1]).normalized*facing;
-            transform.position=Vector3.Lerp(path[i-1],path[i],Mathf.InverseLerp(distances[i-1],distances[i],at));
+            Vector3 position,direction;if(!PoseAt(at,facing,out position,out direction))return;
+            transform.position=position;
             Direction=direction;
             if(direction.sqrMagnitude>.01f)transform.rotation=Quaternion.LookRotation(direction)*modelRotation;
+        }
+        // Where a set coming in to the platform stands `off` metres short of its stop, and its heading there.
+        public bool ApproachPose(float off,out Vector3 position,out Vector3 direction){return PoseAt(stopAt+outward*off,-outward,out position,out direction);}
+        bool PoseAt(float at,int facing,out Vector3 position,out Vector3 direction)
+        {
+            position=direction=Vector3.zero;
+            if(path==null||path.Length<2)return false;
+            // Past either end the set runs on along the end segment, out of the tile, instead of stopping at the end.
+            int i=1;
+            if(at>=0&&at<=length)while(i<distances.Length-1&&distances[i]<at)i++;
+            else i=at<0?1:path.Length-1;
+            direction=(path[i]-path[i-1]).normalized*facing;
+            position=at<0?path[0]+(path[0]-path[1]).normalized*-at:at>length?path[path.Length-1]+(path[path.Length-1]-path[path.Length-2]).normalized*(at-length):
+                Vector3.Lerp(path[i-1],path[i],Mathf.InverseLerp(distances[i-1],distances[i],at));
+            return true;
         }
         // Distance along the path closest to p, or -1 when the path passes further than 12 m away.
         public float Nearest(Vector3 p)
@@ -111,6 +123,8 @@ namespace PeninsulaTime
         readonly List<string> entranceRefs=new List<string>();
         readonly List<Vector3> railPlatforms=new List<Vector3>();
         TrafficGraph districtGraph;
+        // Road graph of the district in view (null before a district is built); read-only for missions and checks.
+        public TrafficGraph DistrictRoads{get{return districtGraph;}}
         public int MappedParkingCount{get;private set;}
         public int MappedTrackCount{get;private set;}
         public int MappedEntranceCount{get;private set;}
@@ -315,7 +329,7 @@ namespace PeninsulaTime
             // The clickable stair opening; it also stops walkers stepping into the well.
             var well=new GameObject("출입구 계단 입구");well.transform.SetParent(entrance,false);well.transform.localPosition=new Vector3(0,.6f,-.1f);
             // No blocker or trigger: the physical stairs below carry the walker.
-            var portal=well.AddComponent<StationPortal>();portal.downstairs=true;portal.label=reference+"번 출입구로 내려가기";
+            var portal=well.AddComponent<StationPortal>();portal.downstairs=true;portal.walkThrough=true;portal.label=reference+"번 출입구 · 걸어서 내려가기";
             ClearStreetFurniture(position+open*2f,6f); // the entrance and the pavement in front of it
             Marker(position,"지하철 "+reference);
             if(MappedEntranceCount==0){FirstEntrancePosition=position;FirstEntranceFacing=open;}
@@ -341,6 +355,21 @@ namespace PeninsulaTime
             {
                 if(child.name!="Tree model"&&child.name!="Pine model"&&child.name!="StreetLight model"&&child.name!="Tree trunk collider")continue;
                 var d=child.position-centre;d.y=0;if(d.magnitude<radius)child.gameObject.SetActive(false);
+            }
+        }
+        // Trees and lamps the baked district model planted inside a building's walls are switched off.
+        // shortcut: runtime cull of the baked props, regenerate the OSM FBX (AssetSources/build_seoul_osm.py) to drop them at the source
+        void ClearFurnitureInBuildings()
+        {
+            Physics.SyncTransforms();
+            foreach(Transform child in root.GetComponentsInChildren<Transform>())
+            {
+                if(child.name!="Tree model"&&child.name!="Pine model"&&child.name!="StreetLight model"&&child.name!="Tree trunk collider")continue;
+                foreach(var hit in Physics.OverlapSphere(child.position+Vector3.up*1.5f,.3f,~0,QueryTriggerInteraction.Ignore))
+                {
+                    string n=hit.gameObject.name.ToLowerInvariant();
+                    if(n.StartsWith("building")||n.StartsWith("roof")){child.gameObject.SetActive(false);break;}
+                }
             }
         }
         // Concourse exits, one per mapped street entrance, along the walls of the unpaid area.
@@ -404,16 +433,22 @@ namespace PeninsulaTime
                 float score=d-(isLane?6f:0);
                 if(d<14f&&score<best&&t>.05f&&t<.95f){best=score;bestA=a;bestB=b;along=t*ab.magnitude;lane=isLane;}
             }
-            if(bestA<0){Shelter(id,name,position,Vector3.forward,false);BusStopCount++;return;}
+            if(bestA<0)
+            {
+                var alone=Shelter(id,name,position,Vector3.forward,false);
+                if(StopStation(id,name)==null)pendingBis.Add(new PendingBis{id=id,name=name,shelter=alone,island=false});
+                BusStopCount++;return;
+            }
             districtGraph.AddStop(bestA,bestB,along,name.Length>0?name:"정류장");
             var start=districtGraph.nodes[bestA];var dir=(districtGraph.nodes[bestB]-start).normalized;
             var kerb=start+dir*along+Vector3.Cross(Vector3.up,dir)*(districtGraph.Width(bestA,bestB)*.5f+(lane?1.4f:2f));
-            Shelter(id,name,new Vector3(kerb.x,0,kerb.z),dir,lane);
+            var shelter=Shelter(id,name,new Vector3(kerb.x,0,kerb.z),dir,lane);
             var station=StopStation(id,name);
-            if(station!=null)busStops.Add(new BusStopInfo{id=id,name=name,a=bestA,b=bestB,along=along,lane=lane,position=new Vector3(kerb.x,0,kerb.z),station=station});
+            var info=new BusStopInfo{id=id,name=name,a=bestA,b=bestB,along=along,lane=lane,position=new Vector3(kerb.x,0,kerb.z),station=station};
+            if(station!=null)busStops.Add(info);else pendingBis.Add(new PendingBis{id=id,name=name,shelter=shelter,island=lane,info=info});
             BusStopCount++;
         }
-        void Shelter(string id,string name,Vector3 p,Vector3 along,bool island)
+        Transform Shelter(string id,string name,Vector3 p,Vector3 along,bool island)
         {
             var parent=new GameObject((island?"BRT 정류장 ":"버스 정류장 ")+name).transform;parent.SetParent(root.transform,false);parent.position=p;
             parent.rotation=Quaternion.LookRotation(along);
@@ -432,6 +467,7 @@ namespace PeninsulaTime
             Sign((island?"BRT · ":"")+(name.Length>0?name:"버스 정류장"),parent,parent.TransformPoint(new Vector3(-.06f,y+2.95f,0)),toStreet,.22f,Color.white);
             BusInformation(id,name,parent,y,half);
             if(FirstBusStop==Vector3.zero||island&&!firstStopIsBrt){FirstBusStop=p+parent.forward*4.55f;FirstBusStopFacing=toStreet;firstStopIsBrt=island;} // looking up the lane
+            return parent;
         }
         // BIS screen under the shelter roof: next buses from the network timetable; click it for the full board.
         // The network stop for a mapped bus stop (by OSM id, else by name).
@@ -445,16 +481,58 @@ namespace PeninsulaTime
         void BusInformation(string id,string name,Transform shelter,float y,float half)
         {
             var stop=StopStation(id,name);
-            if(stop==null)return;
+            if(stop!=null)BusPanel(stop,shelter,y,half);
+        }
+        // Shelters the network does not list: kept until every listed stop is known, then given the routes of the nearest one.
+        struct PendingBis{public string id,name;public Transform shelter;public bool island;public BusStopInfo info;}
+        readonly List<PendingBis> pendingBis=new List<PendingBis>();
+        readonly Dictionary<string,NetStation> localStations=new Dictionary<string,NetStation>();
+        public NetStation LocalStation(string id){NetStation s;return id!=null&&localStations.TryGetValue(id,out s)?s:null;}
+        void FinishLocalBusInformation()
+        {
+            foreach(var p in pendingBis)
+            {
+                NetStation nearest=null;float best=float.MaxValue;
+                foreach(var s in busStops){float d=(s.position-p.shelter.position).sqrMagnitude;if(d<best){best=d;nearest=s.station;}}
+                var local=new NetStation{id="local-"+p.id,name=p.name.Length>0?p.name:"버스 정류장"};
+                if(nearest!=null){local.lon=nearest.lon;local.lat=nearest.lat;foreach(var l in BusStops.RoutesAt(nearest))local.lines.Add(l);}
+                localStations[local.id]=local;
+                BusPanel(local,p.shelter,p.island?.22f:.14f,p.island?5f:2.5f);
+                // On the road graph, buses are dispatched to it on that timetable like any listed stop.
+                if(p.info!=null&&nearest!=null){p.info.station=local;busStops.Add(p.info);}
+            }
+            pendingBis.Clear();
+        }
+        // The BIS screen: the next four buses, live, and a click opens the full board.
+        void BusPanel(NetStation stop,Transform shelter,float y,float half)
+        {
             var panel=Block("버스 도착 안내 단말기",shelter,new Vector3(-.95f,y+1.75f,half-.75f),new Vector3(.95f,y+2.5f,half-.65f),Mat("arrival-screen",new Color(.03f,.03f,.04f)));
             var text=Sign(BusStops.Text(stop,4),shelter,shelter.TransformPoint(new Vector3(0,y+2.12f,half-.77f)),-shelter.forward,.1f,new Color(1f,.62f,.12f));
             var board=text.gameObject.AddComponent<TransitBoard>();board.text=text;board.compose=()=>BusStops.Text(stop,4);
             AddFixture(panel,"bis","버스 도착 정보 보기",stop.id);
         }
+        // Parks on big empty lots: sites come from MapSweepCheck (WRITE_PARKS=1), so open ground is not left bare.
+        public int ParkSiteCount{get;private set;}
+        void BuildParkSites(string district)
+        {
+            ParkSiteCount=0;
+            var asset=Resources.Load<TextAsset>("Geo/"+district+"Parks");
+            if(asset==null)return;
+            foreach(var raw in asset.text.Split('\n'))
+            {
+                if(raw.Length==0||raw[0]=='#')continue;
+                var fields=raw.Trim().Split(',');
+                float x,z;
+                if(fields.Length<2||!float.TryParse(fields[0],System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out x)
+                    ||!float.TryParse(fields[1],System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out z))continue;
+                CreateHistoricBuilding(9,new Vector3(x,0,z),"park");
+                ParkSiteCount++;
+            }
+        }
         void BuildMappedInfrastructure(string district)
         {
             MappedParkingCount=MappedTrackCount=MappedEntranceCount=MovingTrainCount=BusStopCount=AircraftCount=0;MapMarkers.Clear();
-            mappedPortals.Clear();entranceRefs.Clear();railPlatforms.Clear();firstKtx=null;platformTrains=0;PlatformTrains.Clear();busStops.Clear();
+            mappedPortals.Clear();entranceRefs.Clear();railPlatforms.Clear();railPlatformShapes.Clear();firstKtx=null;platformTrains=0;PlatformTrains.Clear();busStops.Clear();pendingBis.Clear();localStations.Clear();
             FirstParkingPosition=FirstEntrancePosition=TerminalEntrance=FirstBusStop=Vector3.zero;firstStopIsBrt=false;
             var asset=Resources.Load<TextAsset>("Geo/"+district+"Features");
             if(asset==null)return;
@@ -465,7 +543,7 @@ namespace PeninsulaTime
                 var fields=raw.Trim().Split('|');
                 if(fields.Length<4)continue;
                 rows.Add(fields);
-                if(fields[0]=="R")railPlatforms.Add(Centre(FeaturePoints(fields[fields.Length-1],0)));
+                if(fields[0]=="R"){var shape=FeaturePoints(fields[fields.Length-1],0);railPlatforms.Add(Centre(shape));railPlatformShapes.Add(new KeyValuePair<string,List<Vector3>>(fields[2],shape));}
             }
             StationIndex=Mathf.Max(0,System.Array.IndexOf(new[]{"Gangnam","SeoulStation","Hongdae","GimpoAirport"},district));
             var stands=new List<Vector3>();var bridges=new List<List<Vector3>>();
@@ -483,12 +561,14 @@ namespace PeninsulaTime
                     case "X":if(points.Count>2)TerminalEntrance=TerminalDoor(points);break;
                 }
             }
+            FinishLocalBusInformation();
             int index=System.Array.IndexOf(new[]{"Gangnam","SeoulStation","Hongdae","GimpoAirport"},district);
             if(index==3)BuildGimpoEntrances();
             BuildStation(Mathf.Max(0,index));
             LinkStationExits();
             BuildDistrictTransferGuides();
             if(district=="GimpoAirport")BuildAirport(stands,bridges);
+            if(district=="SeoulStation")BuildSeoulStationHall();
         }
     }
 }

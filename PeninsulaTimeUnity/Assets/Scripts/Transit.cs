@@ -100,14 +100,17 @@ namespace PeninsulaTime
         public readonly List<Transform> leaves=new List<Transform>();
         public readonly List<Vector3> closed=new List<Vector3>(),opened=new List<Vector3>();
         public float amount;
+        public readonly List<float> leafSides=new List<float>();
+        public int side; // 0: every leaf opens; +1/-1: only leaves on that local side (and untagged ones)
         int appliedLeaves=-1;
-        public void Add(Transform leaf,Vector3 slide){leaves.Add(leaf);closed.Add(leaf.localPosition);opened.Add(leaf.localPosition+slide);}
+        public void Add(Transform leaf,Vector3 slide,float leafSide=0){leaves.Add(leaf);closed.Add(leaf.localPosition);opened.Add(leaf.localPosition+slide);leafSides.Add(leafSide);}
+        public void UseSide(int open){side=open;if(cabin!=null)cabin.doorSide=open;appliedLeaves=-1;Set(amount);}
         public void Set(float value)
         {
             if(Mathf.Approximately(value,amount)&&appliedLeaves==leaves.Count){if(cabin!=null)cabin.open=amount;return;}
             amount=value;
             appliedLeaves=leaves.Count;
-            for(int i=0;i<leaves.Count;i++)if(leaves[i]!=null)leaves[i].localPosition=Vector3.Lerp(closed[i],opened[i],amount);
+            for(int i=0;i<leaves.Count;i++)if(leaves[i]!=null)leaves[i].localPosition=Vector3.Lerp(closed[i],opened[i],side==0||leafSides[i]==0||leafSides[i]==side?amount:0);
             if(cabin!=null)cabin.open=amount;
         }
         // Moves toward open or shut at a door's pace; returns the new amount.
@@ -123,7 +126,19 @@ namespace PeninsulaTime
         public float clock=SubwayTrain.Hidden;
         public bool manual,suppressed; // manual: moved by a ride; suppressed: kept out of sight while another train holds the platform
         public float offset,doorAmount;
+        // Every door leaf on both sides, with its side (+1/-1) and open slide, so the working side can change.
+        public readonly List<Transform> sideLeaves=new List<Transform>();
+        public readonly List<float> leafSides=new List<float>();public readonly List<Vector3> leafSlides=new List<Vector3>(),leafRest=new List<Vector3>();
         float appliedDoors=float.NaN;int appliedLeaves=-1;
+        // Opens the doors on local side `side` from now on (a train arriving at a platform on its other side).
+        public void UseDoorSide(int side)
+        {
+            for(int i=0;i<doorLeaves.Count;i++)doorLeaves[i].localPosition=doorClosed[i];
+            doorLeaves.Clear();doorClosed.Clear();doorOpen.Clear();
+            for(int i=0;i<sideLeaves.Count;i++)if((int)leafSides[i]==side){doorLeaves.Add(sideLeaves[i]);doorClosed.Add(leafRest[i]);doorOpen.Add(leafRest[i]+leafSlides[i]);}
+            if(cabin!=null)cabin.doorSide=side;
+            appliedLeaves=-1;
+        }
         // Moves along the parent's local Z by `offset` times `sign` and sets the door leaves (0 shut .. 1 open).
         public void Place(float along,float doors,float sign)
         {
@@ -156,6 +171,7 @@ namespace PeninsulaTime
         public readonly List<Transform> leaves=new List<Transform>();      // platform screen door leaves
         public readonly List<Vector3> leafClosed=new List<Vector3>(),leafOpen=new List<Vector3>();
         public readonly List<TrainConsist> consists=new List<TrainConsist>();
+        public float heldDoors; // screen doors held open for a train standing here that is not one of its own consists
         double untilNext=-1;float baseClock;
         List<Arrival> arrivalCache;double arrivalCacheTime;
         NetLine arrivalLine;int arrivalDirection,arrivalIndex,arrivalParity,arrivalVersion=-1;
@@ -280,7 +296,7 @@ namespace PeninsulaTime
         }
         void Place()
         {
-            float screenDoors=0;
+            float screenDoors=heldDoors;
             foreach(var c in consists)
             {
                 bool visible=c.manual||c.clock<Shown;

@@ -39,7 +39,7 @@ namespace PeninsulaTime
         void ApplyDaylight(Vector3 eye)
         {
             if(sun==null)return;
-            bool inside=!openWorld&&(eye.y<-2f||IsDomesticAirportInterior(eye)||IsInternationalAirportInterior(eye));
+            bool inside=Indoors(eye);
             bool map=!dayNight||worldCamera.orthographic;
             SetLamps(!map&&DayCycle.Night&&!inside,eye);
             // The sky takes twenty minutes to cycle. Refreshing its material and
@@ -61,7 +61,9 @@ namespace PeninsulaTime
             sun.transform.rotation=Quaternion.LookRotation(-toLight);
             float light=DayCycle.Night?0:Mathf.SmoothStep(0,1,arc*4f);         // 0 night .. 1 full day
             float dusk=DayCycle.Night?0:Mathf.Clamp01(1f-arc*3.2f);            // low sun at dawn and dusk
-            sun.enabled=!inside;
+            // Keep the directional light alive while indoors. The roof casts the interior shadow, while scenery
+            // visible through an entrance remains lit by the same outdoor sun.
+            sun.enabled=true;
             sun.color=DayCycle.Night?new Color(.55f,.64f,.9f):Color.Lerp(new Color(1f,.94f,.84f),DuskTint,dusk);
             sun.intensity=DayCycle.Night?.18f+.1f*arc:Mathf.Lerp(.25f,1.3f,light);
             sun.shadows=DayCycle.Night||!PerformanceRuntime.Shadows?LightShadows.None:LightShadows.Soft;
@@ -84,6 +86,7 @@ namespace PeninsulaTime
                 sky.SetColor(GroundColorId,Color.Lerp(new Color(.05f,.06f,.08f),new Color(.42f,.44f,.42f),light));
                 worldCamera.clearFlags=CameraClearFlags.Skybox;
             }
+            else if(inside&&Carved!=null){worldCamera.clearFlags=CameraClearFlags.Skybox;RenderSettings.skybox=sky;RenderSettings.sun=sun;}
             else{worldCamera.clearFlags=CameraClearFlags.SolidColor;worldCamera.backgroundColor=inside?new Color(.05f,.05f,.06f):fog;}
         }
         // Lamp heads and car lights glow while lit; the nearest lamps also light the street.

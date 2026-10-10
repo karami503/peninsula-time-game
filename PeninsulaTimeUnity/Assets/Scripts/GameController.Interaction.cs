@@ -13,7 +13,7 @@ namespace PeninsulaTime
         TrafficVehicle ridingCar;
         bool undergroundWalk;
 
-        bool StreetView(){return cityStreet||mode=="interior"||mode=="rail"||(mode=="district"&&!world.aerialDistrict)||(mode=="openworld"&&cwCar==null);}
+        bool StreetView(){return cityStreet||mode=="interior"||mode=="carved"||mode=="rail"||(mode=="district"&&!world.aerialDistrict);}
         bool InVehicle(){return ridingCar!=null;}
         int CurrentHappiness()
         {
@@ -34,7 +34,7 @@ namespace PeninsulaTime
             var target=hit.collider.GetComponentInParent<Interactable>();
             if(target==null||target.Hint.Length==0)return;
             hoverHint=target.Hint;hoverInformational=target.Informational;hoverAnchor=hit.point+Vector3.up*.45f;
-            hoverFar=NeedsReach(target)&&Vector3.Distance(eye.position,hit.point)>(InOpenWorld?4.5f:Reach); // third-person camera in the open world
+            hoverFar=NeedsReach(target)&&Vector3.Distance(eye.position,hit.point)>Reach;
             if(!(Input.GetKeyDown(KeyCode.F)||Input.GetMouseButtonDown(0)&&!clickConsumed))return;
             if(hoverFar){Toast("조금 더 가까이 가세요.");return;}
             if(target.Informational){Toast(target.Hint);return;}
@@ -48,6 +48,7 @@ namespace PeninsulaTime
             {
                 mode="city";cityStreet=true;Teleport(((InteriorExit)target).street,Vector3.back);Toast("거리로 나왔습니다.");
             }
+            else if(target is AirportExit){var exit=(AirportExit)target;ArriveCity(exit.city,exit.airport+"에서 나왔습니다.");}
             else if(target is Pedestrian)Toast(((Pedestrian)target).Talk(eye.position,CurrentHappiness(),PlaceName(),DayCycle.Night));
             else if(target is Barrier)TapBarrier((Barrier)target);
             else if(target is Fixture)UseFixture((Fixture)target);
@@ -59,13 +60,20 @@ namespace PeninsulaTime
                 undergroundWalk=portal.destination.y<-1f;
                 Toast(undergroundWalk?"지하철 대합실입니다 · 자동 개찰구를 지나 승강장으로 이동하세요":portal.arrival.Length>0?portal.arrival:portal.label);
             }
-            else if(target is ChangwonThing)UseChangwonThing((ChangwonThing)target);
             else if(target is VehicleInteract)BoardVehicle(target.GetComponent<TrafficVehicle>(),((VehicleInteract)target).bus);
         }
         // First-person walking: blocked by walls, gates and vehicles; follows floors, stairs, ramps and bridges.
 
         // Rail and bus platforms are stepped onto as if by their stairs.
         static bool Climbable(Collider c){return c!=null&&c.gameObject.name.ToLowerInvariant()=="platform";}
+        // In the carved 진해: is `p` on open ground (grass or pavement) a hillside step above `floor` the walker can climb
+        // (up to PlatformClimb)? Steps over StepUp are where its terrain is steeper than 1 in 1.
+        bool HillStep(Vector3 p,float floor)
+        {
+            float h;byte kind;var land=mode=="carved"&&world!=null?world.Carved:null;
+            if(land==null||!land.Sample(p,out h,out kind)||kind!=CarvedDistrict.Grass&&kind!=CarvedDistrict.Earth)return false;
+            float rise=h-floor;return rise>StepUp-.2f&&rise<=PlatformClimb;
+        }
         void BoardVehicle(TrafficVehicle vehicle,bool bus)
         {
             if(vehicle==null)return;
@@ -119,11 +127,11 @@ namespace PeninsulaTime
             var content=new GUIContent((info?"":hoverFar?"<color=#9aa7a6>가까이 가서 </color>":"<color=#e8b85a>클릭 </color> ")+hoverHint);
             var size=hintStyle.CalcSize(content);
             // Keep the label on screen; the stem still points at the target.
-            float right=Screen.width/scale-8;
+            float right=Mathf.Min(Screen.width/scale,WorldRight())-8;
             var box=new Rect(Mathf.Clamp(x-size.x*.5f,WorldLeft()+8,Mathf.Max(WorldLeft()+8,right-size.x)),Mathf.Max(90,y-size.y-16),size.x,size.y);
-            GUI.Label(box,content,hintStyle);
-            GUI.DrawTexture(new Rect(x-1,box.yMax,2,10),hoverFar?lineTexture:goldTexture);
-            GUI.DrawTexture(new Rect(x-4,y-5,8,8),hoverFar?lineTexture:goldTexture);
+            UiLabel(box,content,hintStyle);
+            UiTexture(new Rect(x-1,box.yMax,2,10),hoverFar?lineTexture:goldTexture);
+            UiTexture(new Rect(x-4,y-5,8,8),hoverFar?lineTexture:goldTexture);
         }
     }
 }

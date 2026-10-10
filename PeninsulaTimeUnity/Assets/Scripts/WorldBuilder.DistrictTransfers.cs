@@ -25,13 +25,15 @@ namespace PeninsulaTime {
                     if(line.kind=="bus"||line.kind=="brt"||present.Contains(line.shortName))continue;
                     string group=line.kind=="ktx"?"KTX":line.kind=="mugunghwa"?"무궁화호":line.shortName;
                     if(!added.Add(group))continue;
-                    // The west aisle is clear of the existing stairs, shopfronts and pillars.
-                    float z=2.8f+(n%6)*2.55f;float edge=n<6?-1:1;
-                    var entry=new Vector3(29*edge,y,z);var approach=new Vector3(27*edge,y,z);
+                    // The side aisles are clear of the existing stairs, shopfronts and pillars. Seoul Station's three
+                    // islands put stairwells in those aisles, so its links line the north wall between the stairwells.
+                    float z=2.8f+(n%6)*2.55f;float edge=n<6?-1:1;bool north=StationIndex==1;float x=edge*(7.6f+(n%6)*2f); // clear of the x=±6.5 pillars
+                    var entry=north?new Vector3(x,y,17.3f):new Vector3(29*edge,y,z);var approach=north?new Vector3(x,y,16.3f):new Vector3(27*edge,y,z);
                     var go=new GameObject(group+" 환승 연결");go.transform.SetParent(root.transform,false);
                     var portal=go.AddComponent<DistrictTransferPortal>();portal.stationId=at.id;portal.lineId=line.id;portal.label=group;portal.entry=entry;portal.approach=approach;DistrictTransfers.Add(portal);
-                    Board(group+" 갈아타는 곳 "+(edge<0?"←":"→"),root.transform,entry+Vector3.up*3f,Vector3.left*edge,new Vector2(2.4f,.5f),line.color,Color.white,.23f);
-                    PaintFloorGuide(root.transform,group+" 환승",line.id,line.color,new[]{new Vector3(-3,y,-.8f),new Vector3(27*edge,y,-.8f),approach,entry},n*.08f);
+                    Board(group+" 갈아타는 곳 "+(north?"↑":edge<0?"←":"→"),root.transform,entry+Vector3.up*3f,north?Vector3.back:Vector3.left*edge,new Vector2(2.4f,.5f),line.color,Color.white,.23f);
+                    var guide=north?new[]{new Vector3(-3,y,-.8f),new Vector3(12*edge,y,-.8f),new Vector3(12*edge,y,16.3f),approach,entry}:new[]{new Vector3(-3,y,-.8f),new Vector3(27*edge,y,-.8f),approach,entry};
+                    PaintFloorGuide(root.transform,group+" 환승",line.id,line.color,guide,n*.08f);
                     Marker(entry,group+" 환승");n++;
                 }
             }

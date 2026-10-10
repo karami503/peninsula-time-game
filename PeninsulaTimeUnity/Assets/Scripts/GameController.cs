@@ -17,7 +17,7 @@ namespace PeninsulaTime
     [Serializable] public class RemoteStatus { public bool maintenance; public string message,version,downloadUrl; }
     [Serializable] public class GameState
     {
-        public int era=9,turn=1,district=0,selectedCountry=0;
+        public int era=GameContent.ModernEra,turn=1,district=0,selectedCountry=0;
         public string selectedCity="seoul";
         public int[] resources=GameContent.R(wood:250,stone:250,food:300,metal:250,goods:250,knowledge:100,energy:100);
         public List<PlacedBuilding> buildings=new List<PlacedBuilding>();
@@ -44,7 +44,7 @@ namespace PeninsulaTime
         string buildCategory="주거";
         int routeFrom=0,routeTo=1,selectedBuilding=0;
         Vector2 scroll;
-        bool maintenance=false,showIntro=true,riding=false;
+        bool maintenance=false,riding=false;
         bool returnToCityAfterBuild=false;
         bool roadTool=false,cityStreet=false;
         bool updateAvailable=false;
@@ -53,13 +53,14 @@ namespace PeninsulaTime
         float rideProgress=0,noticeUntil=0;
         float touchMove=0,touchStrafe=0,touchYaw=0;
         GUIStyle titleStyle,headingStyle,bodyStyle,smallStyle,buttonStyle,accentButtonStyle,boxStyle,cardStyle,textFieldStyle,kickerStyle,metricStyle,navStyle,navSelectedStyle;
-        Texture2D panelTexture,cardTexture,goldTexture,buttonTexture,inkTexture,softTexture,lineTexture,chapterArt;
+        Texture2D panelTexture,cardTexture,goldTexture,buttonTexture,inkTexture,softTexture,lineTexture;
         Texture2D worldAtlas;
         byte[] worldCountryMask;
         int worldRegion=0;
         int atlasZoom=0;
-        Font koreanFont;
-        readonly string[] tabs={"지도","생산·건설","교통","역사","세계·외교","서울 3D","온라인"};
+        // Noto Sans KR (SIL OFL, Resources/Fonts) is the UI font, the same family the Figma frames use. The OS fonts are only a fallback.
+        Font koreanFont,koreanBoldFont;
+        readonly string[] tabs={"지도","생산·건설","교통","세계·외교","3D","온라인"};
         readonly string[] nations={"대한민국","조선민주주의인민공화국","중국","일본","미국","러시아","독일","인도"};
         readonly string[] systems={"민주공화국","일당 지배 체제","중국공산당 일당 지배","입헌군주제·의회 민주주의","연방 대통령제 공화국","연방 공화국","연방 의원내각제 공화국","연방 의원내각제 공화국"};
         readonly string[] industries={"제조업·기술","광물 자원","석탄·희토류","제조업·기술","에너지·농업·기술","석유·천연가스","제조업·기술","농업·광물·서비스"};
@@ -85,7 +86,8 @@ namespace PeninsulaTime
             if(state.network==null)state.network=new NetworkEdits();
             if(state.purchases==null)state.purchases=new List<string>();
             TransitNetwork.Build(state.network);
-            showIntro=state.era==0&&state.turn==1;world.BuildMap(state);CreatePlayer();
+            // The game starts in modern Korea; saves from versions with earlier eras open there too.
+            state.era=GameContent.ModernEra;world.BuildMap(state);CreatePlayer();
         }
         void Start(){StartCoroutine(CheckServerLoop());StartPlaytest();}
         IEnumerator CheckServerLoop()
@@ -138,13 +140,13 @@ namespace PeninsulaTime
         }
         void Load()
         {
-            try{if(File.Exists(SavePath)){var loaded=JsonUtility.FromJson<GameState>(File.ReadAllText(SavePath));if(loaded!=null&&loaded.era>=0&&loaded.era<GameContent.Eras.Length&&loaded.resources!=null&&loaded.resources.Length==7){state=loaded;return;}}}catch(Exception e){Debug.LogWarning("Save load failed: "+e.Message);}
+            try{if(File.Exists(SavePath)){var loaded=JsonUtility.FromJson<GameState>(File.ReadAllText(SavePath));if(loaded!=null&&loaded.resources!=null&&loaded.resources.Length==7){state=loaded;return;}}}catch(Exception e){Debug.LogWarning("Save load failed: "+e.Message);}
             state=new GameState();
         }
         // Keep purchases and the last place when the app is closed or sent to the background.
-        void OnApplicationQuit(){if(state!=null)Save();}
+        void OnApplicationQuit(){Announcer.Stop();if(state!=null)Save();}
         void OnApplicationPause(bool paused){if(paused&&state!=null)Save();}
-        void Save(){if(InOpenWorld)SaveChangwonProgress();try{Directory.CreateDirectory(SaveDirectory);File.WriteAllText(SavePath,JsonUtility.ToJson(state,true));}catch(Exception e){Toast("저장 실패: "+e.Message);}}
+        void Save(){try{Directory.CreateDirectory(SaveDirectory);File.WriteAllText(SavePath,JsonUtility.ToJson(state,true));}catch(Exception e){Toast("저장 실패: "+e.Message);}}
         void Toast(string message){notice=message;noticeUntil=Time.time+3.5f;}
         void Log(string message){state.log.Insert(0,message);if(state.log.Count>7)state.log.RemoveAt(state.log.Count-1);Save();Toast(message);}
         CityEconomy Economy(string city)
@@ -158,18 +160,17 @@ namespace PeninsulaTime
         void UpdateEconomy(CityEconomy economy)
         {
             var owned=state.buildings.FindAll(b=>b.city==economy.city);
-            int housing=0,services=0,power=0;
+            int housing=0,power=0;
             foreach(var placed in owned)
             {
                 var info=GameContent.Building(placed.id);if(info==null)continue;
                 if(info.category=="주거")housing+=placed.id=="apartment"?70:placed.id=="house"?12:6;
-                if(placed.id=="market"||placed.id=="school"||placed.id=="farm")services+=5;
                 if(info.category=="에너지")power+=15;
             }
             int capacity=Mathf.Max(12,housing);
             int roads=state.roads.FindAll(r=>r.city==economy.city).Count;
             int crowding=Mathf.Max(0,economy.population-capacity)*2;
-            int target=Mathf.Clamp(70-economy.taxRate*2+services+Mathf.Min(power,10)+Mathf.Min(roads,15)-crowding,0,100);
+            int target=Mathf.Clamp(70-economy.taxRate*2+Mathf.RoundToInt(CityServiceCoverage(economy)*ServiceHappinessPoints)+Mathf.Min(power,10)+Mathf.Min(roads,15)-crowding,0,100);
             economy.happiness=Mathf.Clamp(Mathf.RoundToInt(Mathf.Lerp(economy.happiness,target,.25f)),0,100);
             int change=economy.happiness>=60?Mathf.Max(1,economy.population/20):economy.happiness<35?-Mathf.Max(1,economy.population/15):0;
             economy.population=Mathf.Clamp(economy.population+change,0,capacity);
@@ -209,7 +210,7 @@ namespace PeninsulaTime
         }
         void Build(BuildingInfo info)
         {
-            if(maintenance||info.unlock>state.era||!CanPay(info.cost))return;
+            if(maintenance||!CanPay(info.cost))return;
             var city=GameContent.City(state.selectedCity);
             int used=state.buildings.FindAll(b=>b.city==city.id).Count;
             if(used>=CityCapacity(city)){Toast(city.name+"의 건설 부지가 가득 찼습니다.");return;}
@@ -237,16 +238,9 @@ namespace PeninsulaTime
             world.BuildCityPlot(state);
             world.SetRoadCandidates(roadTool);
         }
-        void Advance()
-        {
-            if(maintenance||state.era>=GameContent.Eras.Length-1)return;
-            if(state.era==0&&!state.buildings.Exists(b=>b.id=="camp")){Toast("먼저 정착지를 건설하세요.");return;}
-            var current=GameContent.Eras[state.era];if(!CanPay(current.cost)){Toast("다음 시대에 필요한 자원이 부족합니다.");return;}
-            Pay(current.cost);state.era++;Tick();Log(GameContent.Eras[state.era].name+" 시대가 열렸습니다.");mode="map";world.BuildMap(state);showIntro=true;
-        }
         void AddRoute()
         {
-            if(maintenance||state.era<9){Toast("현대 시대에 개통할 수 있습니다.");return;}
+            if(maintenance)return;
             if(string.IsNullOrWhiteSpace(routeName)||string.IsNullOrWhiteSpace(fromStop)||string.IsNullOrWhiteSpace(toStop)||
                 (routeFrom==routeTo&&fromStop.Trim()==toStop.Trim())){Toast("노선 이름과 서로 다른 역·정류장을 입력하세요.");return;}
             var cost=RouteCost(routeType);
@@ -259,10 +253,10 @@ namespace PeninsulaTime
         static int[] RouteCost(string label){return label=="KTX"?GameContent.R(stone:100,metal:100,goods:80,energy:20):label=="지하철"?GameContent.R(stone:55,metal:45,goods:45,energy:12):label=="BRT"?GameContent.R(stone:20,metal:12,goods:22):GameContent.R(wood:12,goods:15);}
         void EnterDistrict(int index,bool save=true)
         {
-            state.district=index;if(save)Save();ClearRides();mode="district";riding=false;undergroundWalk=false;world.BuildDistrict(index,state.era);world.SetDistrictView(index,false);eye.SetPositionAndRotation(viewCamera.transform.position,viewCamera.transform.rotation);world.dayNight=true;tab="서울 3D";
-            Toast((state.era<9?"시대별 지역 시범: ":GameContent.DistrictNames[index]+": ")+"WASD 이동 · 마우스 시선 · B 정류장 · G 지하철 · P 주차장");
+            state.district=index;if(save)Save();ClearRides();mode="district";riding=false;undergroundWalk=false;world.BuildDistrict(index);world.SetDistrictView(index,false);eye.SetPositionAndRotation(viewCamera.transform.position,viewCamera.transform.rotation);world.dayNight=true;tab="3D";
+            Toast(GameContent.DistrictNames[index]+": WASD 이동 · 마우스 시선 · B 정류장 · G 지하철 · P 주차장");
         }
-        void ReturnMap(bool selectMap=true){if(InOpenWorld)LeaveOpenWorldState();ClearRides();ridingCar=null;flight=null;fade=0;undergroundWalk=false;mode="map";riding=false;cityStreet=false;spectating=null;spectateSession++;world.BuildMap(state);world.dayNight=false;if(selectMap)tab="지도";}
+        void ReturnMap(bool selectMap=true){CancelTicketTrip();ClearRides();ridingCar=null;flight=null;fade=0;undergroundWalk=false;mode="map";riding=false;cityStreet=false;spectating=null;spectateSession++;world.BuildMap(state);world.dayNight=false;if(selectMap)tab="지도";}
         void EnterCityPlot(){ClearRides();mode="city";riding=false;cityStreet=false;tab="지도";world.BuildCityPlot(state);world.SetRoadCandidates(roadTool);Toast(GameContent.City(state.selectedCity).name+" 도시 설계 화면");}
         void ToggleCityStreet()
         {
@@ -289,18 +283,16 @@ namespace PeninsulaTime
             Teleport(stand+Vector3.up*EyeHeight,facing);
             undergroundWalk=false;
         }
-        // Left edge of the 3D view in GUI units (the side panel covers the rest).
-        float WorldLeft(){return InOpenWorld?0f:548f;}
         bool PointerOverWorld()
         {
             // Same scale as the GUI matrix in OnGUI.
             float scale=Mathf.Max(.55f,Mathf.Min(Screen.width/1440f,Screen.height/860f));
             float x=Input.mousePosition.x/scale;
             float y=(Screen.height-Input.mousePosition.y)/scale;
-            float w=Screen.width/scale;
-            if(x>w-210f&&(y<305f||y>Screen.height/scale-235f))return false;
+            float w=Screen.width/scale,h=Screen.height/scale;
+            if(!StreetHud()&&(MapControlsRect(w).Contains(new Vector2(x,y))||MapPanRect(w,h).Contains(new Vector2(x,y))))return false;
             if(boardRect.Contains(new Vector2(x,y)))return false; // the station's arrival board over the map
-            return x>WorldLeft()&&x<w-24f&&y>108f&&y<Screen.height/scale-56f;
+            return x>WorldLeft()&&x<Mathf.Min(w-24f,WorldRight())&&y>WorldTop()&&y<h-WorldBottom();
         }
         // Zooms by a factor so the whole country and a single subway station are both a few steps away.
         void ZoomMap(float wheel)
@@ -355,7 +347,7 @@ namespace PeninsulaTime
         }
         void StartRide(TransitRoute route)
         {
-            state.selectedCity=route.from;Save();world.BuildRideScene(route.type);mode="ride";tab="서울 3D";riding=true;rideProgress=0;currentRide=route;
+            state.selectedCity=route.from;Save();world.BuildRideScene(route.type);mode="ride";tab="3D";riding=true;rideProgress=0;currentRide=route;
             world.BuildRideInfrastructure(route.type);
             world.vehicle=world.CreateVehicle(route.type,new Vector3(0,WorldBuilder.RideHeight(route.type),-30));
             if(world.vehicle!=null){world.vehicle.SetActive(true);world.CreateRideCabin(world.vehicle,route.type);}
@@ -366,14 +358,13 @@ namespace PeninsulaTime
         {
             UpdatePerformanceMeter();
             if(maintenance)return;
-            if(showIntro&&(Input.GetKeyDown(KeyCode.Return)||Input.GetKeyDown(KeyCode.Space)))showIntro=false;
             bool typing=GUIUtility.keyboardControl!=0;
-            if(Input.GetKeyDown(KeyCode.Escape)){if(OpenWorldEscape()){}else if(ReleaseCursorOnEscape()){}else if(typing)GUIUtility.keyboardControl=0;else if(TransitRideActive()){}else if(InVehicle())LeaveVehicle();else if(cityStreet)ToggleCityStreet();else if(mode=="spectate")StopSpectating();else if(mode!="map")ReturnMap();}
-            if(!showIntro&&!typing)
+            if(Input.GetKeyDown(KeyCode.Escape)){if(ReleaseCursorOnEscape()){}else if(typing)GUIUtility.keyboardControl=0;else if(TransitRideActive()){}else if(InVehicle())LeaveVehicle();else if(cityStreet)ToggleCityStreet();else if(mode=="spectate")StopSpectating();else if(mode!="map")ReturnMap();}
+            if(!typing)
             {
-                if(!InOpenWorld)for(int i=0;i<tabs.Length;i++)if(Input.GetKeyDown((KeyCode)((int)KeyCode.F1+i)))SelectTab(i);
+                for(int i=0;i<tabs.Length;i++)if(Input.GetKeyDown((KeyCode)((int)KeyCode.F1+i)))SelectTab(i);
                 if((mode=="city"||mode=="spectate")&&Input.GetKeyDown(KeyCode.V))ToggleCityStreet();
-                if(Input.GetKeyDown(KeyCode.F8)&&state.era>=9&&!InOpenWorld)
+                if(Input.GetKeyDown(KeyCode.F8))
                 {
                     var target=selectedStation??TransitSchedule.RailStation("서울");
                     if(target!=null)VisitNetworkStation(target,target.lines.Find(l=>l.kind=="ktx")??target.lines.Find(l=>l.kind=="metro"||l.kind=="mugunghwa"));
@@ -382,7 +373,6 @@ namespace PeninsulaTime
                 if(mode=="district"&&Input.GetKeyDown(KeyCode.M))showMinimap=!showMinimap;
                 if(tab=="지도"&&Input.GetKeyDown(KeyCode.C)){if(mode=="city")ReturnMap();else EnterCityPlot();}
                 if(mode=="city"&&!cityStreet&&Input.GetKeyDown(KeyCode.R)){roadTool=!roadTool;world.SetRoadCandidates(roadTool);Toast(roadTool?"도로 도구 켜짐: 구간을 클릭하세요.":"도로 도구 꺼짐");}
-                if(Input.GetKeyDown(KeyCode.N))Advance();
                 if(tab=="생산·건설")
                 {
                     if(Input.GetKeyDown(KeyCode.G))Gather(0,6);
@@ -396,8 +386,11 @@ namespace PeninsulaTime
                 if(mode=="district")
                 {
                     for(int i=0;i<4;i++)if(Input.GetKeyDown((KeyCode)((int)KeyCode.Alpha1+i)))EnterDistrict(i);
-                    if(state.era>=9&&Input.GetKeyDown(KeyCode.V))world.SetDistrictView(state.district,!world.aerialDistrict);
-                    if(state.era>=9&&cabin==null)
+                    if(Input.GetKeyDown(KeyCode.V))world.SetDistrictView(state.district,!world.aerialDistrict);
+                    if(Input.GetKeyDown(KeyCode.X))StartDeliveryMission();
+                    if(Input.GetKeyDown(KeyCode.Z))StartCheckpointRun();
+                    if(Input.GetKeyDown(KeyCode.Y))StartTaxiFare();
+                    if(cabin==null)
                     {
                         if(Input.GetKeyDown(KeyCode.B)&&world.FirstBusStop!=Vector3.zero)FocusDistrictFeature(world.FirstBusStop,world.FirstBusStopFacing);
                         if(Input.GetKeyDown(KeyCode.P)&&world.MappedParkingCount>0)FocusDistrictFeature(world.FirstParkingPosition);
@@ -405,26 +398,30 @@ namespace PeninsulaTime
                     }
                 }
             }
-            if(InOpenWorld){UpdateOpenWorld(typing);return;}
-            if(playtest&&Input.GetKeyDown(KeyCode.F11))NextPlaytestPoint();
+            PlaytestTick();
             if(playtest&&Input.GetKeyDown(KeyCode.F10))Debug.Log("Playtest position feet="+Feet.ToString("F3")+" yaw="+Yaw+" pitch="+Pitch+" cabin="+(cabin!=null));
             UpdateCursor();
             UpdateRides();
+            UpdateDeliveryMission();
+            UpdateHudInput();
+            UpdateTicketTrip(Time.deltaTime);
+            UpdateCityTime(Time.deltaTime);
             if(!typing&&OnFoot()&&Input.GetKeyDown(KeyCode.T))thirdPerson=!thirdPerson;
             // Cars stop for the player on foot in a street view, as for any pedestrian.
-            bool onFoot=!showIntro&&!InVehicle()&&!TransitRideActive()&&((mode=="district"&&!world.aerialDistrict)||mode=="rail"||mode=="interior"||cityStreet);
+            bool onFoot=!InVehicle()&&!TransitRideActive()&&((mode=="district"&&!world.aerialDistrict)||mode=="rail"||mode=="interior"||mode=="carved"||cityStreet);
             TrafficVehicle.PlayerFeet=onFoot?Feet:(Vector3?)null;
-            if(!showIntro&&!typing)
+            if(!typing)
             {
                 if(InVehicle()||TransitRideActive()){}
                 else if(mode=="rail"||mode=="interior")WalkCamera(mode=="rail"?2000:55,false);
-                else if(mode=="district"&&!world.aerialDistrict)WalkCamera(state.era>=9?315:55,false);
+                else if(mode=="carved")WalkCamera(30000f,false);
+                else if(mode=="district"&&!world.aerialDistrict)WalkCamera(315,false);
                 else if(cityStreet)WalkCamera(50,true);
                 UpdateDistrictTransfers();PlaceViewCamera();UpdateInteraction();
             }
             else hoverHint="";
             if(onFoot)PlaceViewCamera();
-            if((mode=="map"||mode=="city")&&!showIntro&&!cityStreet&&!typing)
+            if((mode=="map"||mode=="city")&&!cityStreet&&!typing)
             {
                 if(mode=="city"&&roadTool&&Input.GetMouseButtonDown(0)&&PointerOverWorld())
                 {
@@ -434,10 +431,15 @@ namespace PeninsulaTime
                     {var marker=hit.collider.GetComponent<RoadMarker>();if(marker!=null&&hit.distance<best){best=hit.distance;nearest=marker;}}
                     if(nearest!=null)ToggleRoad(nearest);
                 }
-                if(mode=="map"&&Input.GetMouseButtonDown(0)&&PointerOverWorld()&&hoveredStation==null&&!HandleNetworkMapClick())
+                if(mode=="map"&&Input.GetMouseButtonDown(0)&&PointerOverWorld())
                 {
-                    var ray=viewCamera.ScreenPointToRay(Input.mousePosition);RaycastHit hit;
-                    if(Physics.Raycast(ray,out hit,300)){var marker=hit.collider.GetComponentInParent<CityMarker>();if(marker!=null)SelectCity(GameContent.City(marker.cityId));}
+                    // Every click on the map sets the 3D start point, also one that lands on a station dot (Seoul's dots overlap at this zoom).
+                    RecordMapClick();
+                    if(hoveredStation==null&&!HandleNetworkMapClick())
+                    {
+                        var ray=viewCamera.ScreenPointToRay(Input.mousePosition);RaycastHit hit;
+                        if(Physics.Raycast(ray,out hit,300)){var marker=hit.collider.GetComponentInParent<CityMarker>();if(marker!=null)SelectCity(GameContent.City(marker.cityId));}
+                    }
                 }
                 if(tab=="지도"||tab=="교통")
                 {
@@ -461,18 +463,12 @@ namespace PeninsulaTime
             }
         }
         Texture2D Solid(Color color){var t=new Texture2D(1,1);t.SetPixel(0,0,color);t.Apply();return t;}
-        // The IMGUI text engine only tries the first family name, so put a Korean font that is installed first
-        // (macOS: Apple SD Gothic Neo, Windows: Malgun Gothic, Android/Linux: Noto Sans CJK KR).
-        static string[] KoreanFontNames()
-        {
-            var wanted=new[]{"Apple SD Gothic Neo","Malgun Gothic","Noto Sans CJK KR","Noto Sans KR","NanumGothic","Arial Unicode MS"};
-            var installed=new HashSet<string>(Font.GetOSInstalledFontNames());
-            foreach(var name in wanted)if(installed.Contains(name))return new[]{name};
-            return wanted;
-        }
         void SetupStyles()
         {
-            koreanFont=Font.CreateDynamicFontFromOSFont(KoreanFontNames(),18);
+            koreanFont=Resources.Load<Font>("Fonts/NotoSansKR-Regular");
+            koreanBoldFont=Resources.Load<Font>("Fonts/NotoSansKR-Bold");
+            if(koreanFont==null)koreanFont=Font.CreateDynamicFontFromOSFont(new[]{"Apple SD Gothic Neo","Arial Unicode MS"},18);
+            if(koreanBoldFont==null)koreanBoldFont=koreanFont;
             panelTexture=Solid(new Color(.045f,.071f,.077f,.97f));
             cardTexture=Solid(new Color(.085f,.12f,.127f,.97f));
             goldTexture=Solid(new Color(.78f,.55f,.28f));
@@ -480,33 +476,32 @@ namespace PeninsulaTime
             inkTexture=Solid(new Color(.025f,.041f,.046f));
             softTexture=Solid(new Color(.02f,.035f,.04f,.78f));
             lineTexture=Solid(new Color(.45f,.34f,.21f,.68f));
-            chapterArt=Resources.Load<Texture2D>("EarlyEraArt");
             worldAtlas=Resources.Load<Texture2D>("Geo/WorldAtlas");
             var maskAsset=Resources.Load<TextAsset>("Geo/WorldCountryMask");
             worldCountryMask=maskAsset!=null?maskAsset.bytes:null;
-            titleStyle=new GUIStyle(GUI.skin.label){font=koreanFont,fontSize=29,fontStyle=FontStyle.Bold,normal={textColor=new Color(.96f,.93f,.85f)},wordWrap=true};
-            headingStyle=new GUIStyle(GUI.skin.label){font=koreanFont,fontSize=19,fontStyle=FontStyle.Bold,normal={textColor=new Color(.94f,.73f,.43f)},wordWrap=true};
+            titleStyle=new GUIStyle(GUI.skin.label){font=koreanBoldFont,fontSize=29,normal={textColor=new Color(.96f,.93f,.85f)},wordWrap=true};
+            headingStyle=new GUIStyle(GUI.skin.label){font=koreanBoldFont,fontSize=19,normal={textColor=new Color(.94f,.73f,.43f)},wordWrap=true};
             bodyStyle=new GUIStyle(GUI.skin.label){font=koreanFont,fontSize=15,normal={textColor=new Color(.91f,.93f,.89f)},wordWrap=true,padding=new RectOffset(0,0,2,3)};
             smallStyle=new GUIStyle(bodyStyle){fontSize=12,normal={textColor=new Color(.69f,.75f,.72f)}};
-            kickerStyle=new GUIStyle(smallStyle){fontSize=11,fontStyle=FontStyle.Bold,normal={textColor=new Color(.79f,.61f,.37f)}};
-            metricStyle=new GUIStyle(bodyStyle){fontSize=17,fontStyle=FontStyle.Bold,alignment=TextAnchor.MiddleLeft};
+            kickerStyle=new GUIStyle(smallStyle){font=koreanBoldFont,fontSize=11,normal={textColor=new Color(.79f,.61f,.37f)}};
+            metricStyle=new GUIStyle(bodyStyle){font=koreanBoldFont,fontSize=17,alignment=TextAnchor.MiddleLeft};
             boxStyle=new GUIStyle(GUI.skin.box){normal={background=panelTexture,textColor=Color.white},padding=new RectOffset(16,16,15,15)};
             cardStyle=new GUIStyle(boxStyle){normal={background=cardTexture,textColor=Color.white},padding=new RectOffset(14,14,12,12)};
-            buttonStyle=new GUIStyle(GUI.skin.button){font=koreanFont,fontSize=14,fontStyle=FontStyle.Bold,normal={background=buttonTexture,textColor=new Color(.94f,.94f,.89f)},hover={background=cardTexture,textColor=Color.white},active={background=cardTexture,textColor=Color.white},padding=new RectOffset(12,12,10,10)};
+            buttonStyle=new GUIStyle(GUI.skin.button){font=koreanBoldFont,fontSize=14,normal={background=buttonTexture,textColor=new Color(.94f,.94f,.89f)},hover={background=cardTexture,textColor=Color.white},active={background=cardTexture,textColor=Color.white},padding=new RectOffset(12,12,10,10)};
             accentButtonStyle=new GUIStyle(buttonStyle){normal={background=goldTexture,textColor=new Color(.09f,.13f,.13f)},hover={background=goldTexture,textColor=new Color(.09f,.13f,.13f)}};
             navStyle=new GUIStyle(buttonStyle){alignment=TextAnchor.MiddleLeft,fontSize=15,padding=new RectOffset(16,10,0,0)};
             navSelectedStyle=new GUIStyle(navStyle){normal={background=cardTexture,textColor=new Color(.95f,.77f,.5f)},hover={background=cardTexture,textColor=new Color(.95f,.77f,.5f)}};
             textFieldStyle=new GUIStyle(GUI.skin.textField){font=koreanFont,fontSize=15,normal={textColor=Color.white},padding=new RectOffset(11,11,9,9)};
             GUI.skin.font=koreanFont;
         }
-        void Label(string text,GUIStyle style=null,params GUILayoutOption[] options){GUILayout.Label(text,style??bodyStyle,options);}
-        bool Button(string text,bool accent=false,params GUILayoutOption[] options){return GUILayout.Button(text,accent?accentButtonStyle:buttonStyle,options);}
+        void Label(string text,GUIStyle style=null,params GUILayoutOption[] options){style=style??bodyStyle;GUILayout.Label(text,style,options);DumpControl("label",text,style);}
+        bool Button(string text,bool accent=false,params GUILayoutOption[] options){return DumpButton(text,accent?accentButtonStyle:buttonStyle,options);}
         void SelectTab(int i)
         {
             returnToCityAfterBuild=mode=="city"&&i==1;
             tab=tabs[i];scroll=Vector2.zero;
             if(tab=="지도")ReturnMap();
-            else if(tab=="서울 3D"){if(mode!="district"&&mode!="openworld")EnterDistrict(state.district);}
+            else if(tab=="3D"){if(mode!="district")EnterDistrict(state.district);}
             else if(tab=="세계·외교"){if(mode!="world")EnterWorld();}
             else if(tab=="온라인"){if(mode!="map"&&mode!="spectate")ReturnMap(false);}
             else if(mode!="map")ReturnMap(false);
@@ -519,144 +514,61 @@ namespace PeninsulaTime
             GUI.enabled=!maintenance;
             float scale=Mathf.Min(Screen.width/1440f,Screen.height/860f);scale=Mathf.Max(.55f,scale);GUI.matrix=Matrix4x4.TRS(Vector3.zero,Quaternion.identity,new Vector3(scale,scale,1));
             float w=Screen.width/scale,h=Screen.height/scale;
-            if(InOpenWorld)
-            {
-                if(viewCamera!=null)viewCamera.rect=new Rect(0,0,1,1);
-                DrawOpenWorldGUI(w,h);if(cwReady&&!cwMapOpen&&!cwMenuOpen)DrawHoverHint();
-                DrawFade(w,h);if(Time.time<noticeUntil)GUI.Box(new Rect(w*.5f-280,h-113,560,42),notice,cardStyle);
-                GUI.enabled=true;return;
-            }
-            bool scenic=tab=="지도"||tab=="교통"||tab=="서울 3D"||tab=="세계·외교"||tab=="온라인";
-            if(viewCamera!=null)viewCamera.rect=scenic?new Rect(548f/w,0f,1f-548f/w,1f):new Rect(0f,0f,1f,1f);
-            if(!scenic)GUI.DrawTexture(new Rect(0,0,w,h),inkTexture);
-            GUI.DrawTexture(new Rect(0,0,w,91),inkTexture);
-            GUI.DrawTexture(new Rect(0,0,190,h),inkTexture);
-            if(scenic)GUI.DrawTexture(new Rect(190,92,358,h-146),inkTexture);
-            GUI.DrawTexture(new Rect(190,0,1,h),lineTexture);
-            GUI.DrawTexture(new Rect(0,90,w*(state.era+1f)/GameContent.Eras.Length,2),goldTexture);
-            GUI.Label(new Rect(21,12,170,23),"CHRONICLE / 2026",kickerStyle);
-            GUI.Label(new Rect(20,31,177,47),"반도의 시간",titleStyle);
-            GUI.Label(new Rect(215,12,420,21),"시대 "+(state.era+1).ToString("00")+" / "+GameContent.Eras.Length.ToString("00")+"    ·    "+state.turn+"시기",kickerStyle);
-            GUI.Label(new Rect(215,35,435,43),GameContent.Eras[state.era].name,headingStyle);
-            float resourceX=w-755f;
-            for(int i=0;i<7;i++)
-            {
-                float x=resourceX+i*78f;
-                GUI.DrawTexture(new Rect(x,16,73,58),buttonTexture);
-                GUI.Label(new Rect(x+8,19,65,19),GameContent.ResourceNames[i],kickerStyle);
-                GUI.Label(new Rect(x+8,39,65,28),state.resources[i].ToString("N0"),metricStyle);
-            }
-            if(GUI.Button(new Rect(w-164,20,145,54),state.era>=9?"다음 시기  →":"다음 시대로  →",accentButtonStyle))
-            {if(state.era>=9){Tick();Toast("도시 운영이 한 시기 진행되었습니다.");}else Advance();}
-            GUI.Label(new Rect(18,115,160,24),"NAVIGATION",kickerStyle);
-            for(int i=0;i<tabs.Length;i++)
-            {
-                float y=151+i*56;
-                if(tab==tabs[i])GUI.DrawTexture(new Rect(0,y,4,47),goldTexture);
-                if(GUI.Button(new Rect(12,y,164,47),(i+1).ToString("00")+"   "+tabs[i],tab==tabs[i]?navSelectedStyle:navStyle))SelectTab(i);
-            }
-            GUI.Label(new Rect(19,h-166,165,25),"현재 목표",kickerStyle);
-            GUI.Label(new Rect(19,h-140,160,76),state.era<9?"다음 시대\n"+GameContent.Eras[state.era+1].name:"도시와 교통망을\n확장하세요.",bodyStyle);
-            GUI.DrawTexture(new Rect(19,h-61,155,1),lineTexture);
-            GUI.Label(new Rect(19,h-54,160,50),"F1–F7 화면 전환\nF9 저장  ·  Esc 지도",smallStyle);
-            bool split=!scenic&&w>=1220;
-            Rect contentRect=scenic?new Rect(207,112,325,h-183):new Rect(207,112,split?Mathf.Min(765,w-590):w-229,h-183);
-            GUI.Box(contentRect,"",boxStyle);
-            GUILayout.BeginArea(new Rect(contentRect.x+17,contentRect.y+20,contentRect.width-34,contentRect.height-40));
-            scroll=GUILayout.BeginScrollView(scroll);
-            if(tab=="지도")DrawMapPanel();else if(tab=="생산·건설")DrawBuildPanel();else if(tab=="교통")DrawTransitPanel();else if(tab=="역사")DrawHistoryPanel();else if(tab=="세계·외교")DrawWorldPanel();else if(tab=="온라인")DrawOnlinePanel();else DrawWalkPanel();
-            GUILayout.EndScrollView();GUILayout.EndArea();
-            if(split)DrawInsightPanel(new Rect(contentRect.xMax+16,112,w-contentRect.xMax-36,h-183));
-            if(tab=="세계·외교"&&!showIntro)DrawWorldAtlas(w,h);
-            if((mode=="map"||mode=="city")&&(tab=="지도"||tab=="교통")&&!showIntro&&!cityStreet)DrawMapControls(w,h);
+            hudWidth=w;hudHeight=h;
+            MarkUiOrigin();
+            // The world fills the screen and the side panel floats over it, as Cities: Skylines panels do.
+            if(viewCamera!=null)viewCamera.rect=new Rect(0f,0f,1f,1f);
+            if(playtestBare){if(!StreetHud())DrawNetworkOverlay(w,h);GUI.enabled=true;return;} // QA capture without the HUD
+            if(StreetHud())DrawStreetHud(w,h);else DrawCityHud(w,h);
             DrawNetworkOverlay(w,h);
-            if(tab=="온라인"&&!showIntro&&battle!=null&&onlineMode=="battle")DrawBattleMap(w,h);
-            GUI.DrawTexture(new Rect(190,h-54,w-190,54),inkTexture);
-            GUI.DrawTexture(new Rect(190,h-54,w-190,1),lineTexture);
-            GUI.Label(new Rect(214,h-43,w-395,28),state.log.Count>0?state.log[0]:"한반도의 시간을 시작하세요.",smallStyle);
-            if(GUI.Button(new Rect(w-159,h-45,139,35),"지금 저장",buttonStyle)){Save();Toast("저장했습니다.");}
-            if(Application.isMobilePlatform&&((mode=="district"&&!world.aerialDistrict)||mode=="rail"||mode=="interior"||cityStreet)&&!showIntro)
+            if(tab=="온라인"&&battle!=null&&onlineMode=="battle")DrawBattleMap(w,h);
+            if(Application.isMobilePlatform&&((mode=="district"&&!world.aerialDistrict)||mode=="rail"||mode=="interior"||mode=="carved"||cityStreet))
             {
                 float cx=w*.5f;
-                touchMove=(GUI.RepeatButton(new Rect(cx-170,h-184,72,72),"↑",buttonStyle)?1:0)-(GUI.RepeatButton(new Rect(cx-170,h-104,72,72),"↓",buttonStyle)?1:0);
-                touchStrafe=(GUI.RepeatButton(new Rect(cx-90,h-104,72,72),"→",buttonStyle)?1:0)-(GUI.RepeatButton(new Rect(cx-250,h-104,72,72),"←",buttonStyle)?1:0);
-                touchYaw=(GUI.RepeatButton(new Rect(cx+160,h-104,72,72),"회전 →",buttonStyle)?1:0)-(GUI.RepeatButton(new Rect(cx+80,h-104,72,72),"← 회전",buttonStyle)?1:0);
+                touchMove=(UiRepeatButton(new Rect(cx-170,h-184,72,72),"↑",buttonStyle)?1:0)-(UiRepeatButton(new Rect(cx-170,h-104,72,72),"↓",buttonStyle)?1:0);
+                touchStrafe=(UiRepeatButton(new Rect(cx-90,h-104,72,72),"→",buttonStyle)?1:0)-(UiRepeatButton(new Rect(cx-250,h-104,72,72),"←",buttonStyle)?1:0);
+                touchYaw=(UiRepeatButton(new Rect(cx+160,h-104,72,72),"회전 →",buttonStyle)?1:0)-(UiRepeatButton(new Rect(cx+80,h-104,72,72),"← 회전",buttonStyle)?1:0);
             }
             else touchMove=touchStrafe=touchYaw=0;
             DrawMinimap(w,h);
             DrawHoverHint();
             DrawCrosshair(w,h);DrawFade(w,h);
-            if(Time.time<noticeUntil)GUI.Box(new Rect(w*.5f-280,h-113,560,42),notice,cardStyle);
-            if(showIntro)
-            {
-                GUI.DrawTexture(new Rect(0,0,w,h),softTexture);
-                bool art=state.era==1&&chapterArt!=null;
-                float top=h*.5f-(art?230:175);
-                GUI.Box(new Rect(w*.5f-290,top,580,art?460:350),"",boxStyle);
-                if(art)GUI.DrawTexture(new Rect(w*.5f-270,top+20,540,165),chapterArt,ScaleMode.ScaleAndCrop);
-                GUI.Label(new Rect(w*.5f-262,top+(art?203:27),500,22),"시대 "+(state.era+1).ToString("00")+"   /   "+GameContent.Eras[state.era].category,kickerStyle);
-                GUI.Label(new Rect(w*.5f-262,top+(art?228:62),520,48),GameContent.Eras[state.era].name,titleStyle);
-                GUI.Label(new Rect(w*.5f-262,top+(art?287:123),520,110),GameContent.Eras[state.era].detail,bodyStyle);
-                if(GUI.Button(new Rect(w*.5f+88,top+(art?387:280),174,47),"이 시대로 시작",accentButtonStyle))showIntro=false;
-                GUI.Label(new Rect(w*.5f-262,top+(art?400:293),310,32),"Enter 키로도 시작할 수 있습니다.",smallStyle);
-            }
-            if(updateAvailable&&GUI.Button(new Rect(w-355,h-105,178,39),"업데이트 다운로드",accentButtonStyle))Application.OpenURL(updateUrl);
+            if(Time.time<noticeUntil)UiBox(new Rect(w*.5f-280,h-113-WorldBottom(),560,42),notice,cardStyle);
+            if(updateAvailable&&UiButton(new Rect(w-355,h-105,178,39),"업데이트 다운로드",accentButtonStyle))Application.OpenURL(updateUrl);
             GUI.enabled=true;
+            FlushUiDump();
             if(maintenance)
             {
-                GUI.DrawTexture(new Rect(0,0,w,h),softTexture);
-                GUI.Box(new Rect(w*.5f-290,h*.5f-120,580,240),"",boxStyle);
-                GUI.Label(new Rect(w*.5f-255,h*.5f-83,510,38),"운영 점검 중",titleStyle);
-                GUI.Label(new Rect(w*.5f-255,h*.5f-22,510,115),maintenanceMessage,bodyStyle);
-            }
-        }
-        void DrawInsightPanel(Rect rect)
-        {
-            GUI.Box(rect,"",boxStyle);
-            float x=rect.x+20,y=rect.y+25,width=rect.width-40;
-            GUI.Label(new Rect(x,y,width,24),"THE CHRONICLE",kickerStyle);y+=34;
-            GUI.Label(new Rect(x,y,width,45),GameContent.Eras[state.era].name,headingStyle);y+=49;
-            GUI.Label(new Rect(x,y,width,30),GameContent.Eras[state.era].date,kickerStyle);y+=46;
-            if(state.era==1&&chapterArt!=null)
-            {
-                GUI.DrawTexture(new Rect(x,y,width,150),chapterArt,ScaleMode.ScaleAndCrop);y+=170;
-            }
-            GUI.DrawTexture(new Rect(x,y,width,1),lineTexture);y+=21;
-            GUI.Label(new Rect(x,y,width,25),"이 시대의 기록",kickerStyle);y+=32;
-            GUI.Label(new Rect(x,y,width,125),GameContent.Eras[state.era].detail,bodyStyle);y+=141;
-            GUI.DrawTexture(new Rect(x,y,width,1),lineTexture);y+=21;
-            GUI.Label(new Rect(x,y,width,25),"도시의 현재",kickerStyle);y+=35;
-            GUI.Label(new Rect(x,y,width,29),GameContent.City(state.selectedCity).name+"  /  "+GameContent.City(state.selectedCity).region,bodyStyle);y+=40;
-            GUI.Label(new Rect(x,y,width,78),"시설 "+state.buildings.Count+"개     개통 노선 "+state.routes.Count+"개\n\n지도에서 도시를 선택해 건설 위치를 바꿀 수 있습니다.",smallStyle);y+=102;
-            if(y+112<rect.yMax)
-            {
-                GUI.DrawTexture(new Rect(x,y,width,1),lineTexture);y+=21;
-                GUI.Label(new Rect(x,y,width,25),"최근 행동",kickerStyle);y+=32;
-                int count=Mathf.Min(3,state.log.Count);
-                for(int i=0;i<count;i++){GUI.Label(new Rect(x,y,width,42),"· "+state.log[i],smallStyle);y+=42;}
+                UiTexture(new Rect(0,0,w,h),softTexture);
+                UiBox(new Rect(w*.5f-290,h*.5f-120,580,240),"",boxStyle);
+                UiLabel(new Rect(w*.5f-255,h*.5f-83,510,38),"운영 점검 중",titleStyle);
+                UiLabel(new Rect(w*.5f-255,h*.5f-22,510,115),maintenanceMessage,bodyStyle);
             }
         }
         void DrawMapControls(float w,float h)
         {
-            float x=w-89f;
-            GUI.Box(new Rect(x-8,116,79,179),"",boxStyle);
-            GUI.Label(new Rect(x-1,123,68,22),"지도",kickerStyle);
-            if(GUI.Button(new Rect(x,149,62,40),"+",buttonStyle))ZoomMap(2f);
-            if(GUI.Button(new Rect(x,194,62,40),"−",buttonStyle))ZoomMap(-2f);
-            if(GUI.Button(new Rect(x,239,62,39),"중앙",buttonStyle))ResetMapView();
-            GUI.Box(new Rect(w-202,h-224,176,140),"",boxStyle);
-            GUI.Label(new Rect(w-184,h-211,150,20),"지도 이동",kickerStyle);
-            if(GUI.RepeatButton(new Rect(w-130,h-185,38,33),"↑",buttonStyle))PanMap(0,24f*Time.deltaTime);
-            if(GUI.RepeatButton(new Rect(w-171,h-149,38,33),"←",buttonStyle))PanMap(-24f*Time.deltaTime,0);
-            if(GUI.RepeatButton(new Rect(w-130,h-149,38,33),"↓",buttonStyle))PanMap(0,-24f*Time.deltaTime);
-            if(GUI.RepeatButton(new Rect(w-89,h-149,38,33),"→",buttonStyle))PanMap(24f*Time.deltaTime,0);
+            var zoomBox=MapControlsRect(w);
+            float x=zoomBox.x+8f;
+            UiBox(zoomBox,"",boxStyle);
+            UiLabel(new Rect(x-1,zoomBox.y+7,68,22),"지도",kickerStyle);
+            if(UiButton(new Rect(x,zoomBox.y+33,62,40),"+",buttonStyle))ZoomMap(2f);
+            if(UiButton(new Rect(x,zoomBox.y+78,62,40),"−",buttonStyle))ZoomMap(-2f);
+            if(UiButton(new Rect(x,zoomBox.y+123,62,39),"중앙",buttonStyle))ResetMapView();
+            if(UiButton(new Rect(x,zoomBox.y+168,62,39),"3D",accentButtonStyle))Start3DAtMapClick();
+            var pan=MapPanRect(w,h);
+            UiBox(pan,"",boxStyle);
+            UiLabel(new Rect(pan.x+18,pan.y+13,150,20),"지도 이동",kickerStyle);
+            if(UiRepeatButton(new Rect(pan.x+72,pan.y+39,38,33),"↑",buttonStyle))PanMap(0,24f*Time.deltaTime);
+            if(UiRepeatButton(new Rect(pan.x+31,pan.y+75,38,33),"←",buttonStyle))PanMap(-24f*Time.deltaTime,0);
+            if(UiRepeatButton(new Rect(pan.x+72,pan.y+75,38,33),"↓",buttonStyle))PanMap(0,-24f*Time.deltaTime);
+            if(UiRepeatButton(new Rect(pan.x+113,pan.y+75,38,33),"→",buttonStyle))PanMap(24f*Time.deltaTime,0);
         }
         void DrawMapPanel()
         {
             Label("01  /  TERRITORY",kickerStyle);Label("한반도 지도",titleStyle);
             Label("실제 해안선을 바탕으로 한 지도입니다. 중국·러시아·일본은 배경이고 한반도의 도시만 선택할 수 있습니다.",smallStyle);
             Label("지도 이동: WASD·방향키  /  지도 위 휠·오른쪽 +·− 확대  /  C: 도시 설계  /  R: 도로 도구",smallStyle);
-            GUILayout.Space(18);GUILayout.BeginVertical(cardStyle);
+            GUILayout.Space(18);BeginVerticalDump(cardStyle);
             var city=GameContent.City(state.selectedCity);Label(city.name+" · "+city.region,headingStyle);
             Label("건설 부지 "+state.buildings.FindAll(b=>b.city==city.id).Count+" / "+CityCapacity(city)+" · 연결 노선 "+state.routes.FindAll(r=>r.from==city.id||r.to==city.id).Count+"개");
             var economy=Economy(city.id);
@@ -670,10 +582,10 @@ namespace PeninsulaTime
                 Label("도로 도구를 켠 뒤 회색 구간을 클릭해 건설·철거합니다. 구간당 석재 3, 예산 5.",smallStyle);
             }
             if(Button("이 도시 부지 확대",true))SelectCity(city);
-            if(Button("선택 도시에서 건설"))tab="생산·건설";GUILayout.EndVertical();GUILayout.Space(10);
-            GUILayout.BeginVertical(cardStyle);Label("전국 도시·읍 찾기",headingStyle);
+            if(Button("선택 도시에서 건설"))tab="생산·건설";EndVerticalDump();GUILayout.Space(10);
+            BeginVerticalDump(cardStyle);Label("전국 도시·읍 찾기",headingStyle);
             Label("현대 지명으로 위치를 찾습니다. 고대의 도시·국경을 뜻하지 않습니다.",smallStyle);
-            string query=GUILayout.TextField(citySearch,40,textFieldStyle);
+            string query=DumpField(citySearch,40,textFieldStyle);
             if(query!=citySearch)citySearch=query;
             int shown=0;
             if(string.IsNullOrWhiteSpace(citySearch))
@@ -699,9 +611,9 @@ namespace PeninsulaTime
             }
             if(!string.IsNullOrWhiteSpace(citySearch)&&shown==0)Label("검색 결과가 없습니다.",smallStyle);
             if(shown>=35)Label("결과가 많습니다. 이름을 더 입력하세요.",smallStyle);
-            GUILayout.EndVertical();GUILayout.Space(10);
-            GUILayout.BeginVertical(cardStyle);Label(GameContent.Eras[state.era].category+" · "+GameContent.Eras[state.era].date,headingStyle);
-            Label(GameContent.Eras[state.era].detail);GUILayout.EndVertical();
+            EndVerticalDump();GUILayout.Space(10);
+            BeginVerticalDump(cardStyle);Label(GameContent.Modern.category+" · "+GameContent.Modern.date,headingStyle);
+            Label(GameContent.Modern.detail);EndVerticalDump();
         }
         void DrawBuildPanel()
         {
@@ -710,26 +622,28 @@ namespace PeninsulaTime
             int used=state.buildings.FindAll(b=>b.city==chosenCity.id).Count;
             Label("건설 부지 "+used+" / "+CityCapacity(chosenCity),headingStyle);
             var economy=Economy(chosenCity.id);
-            GUILayout.BeginVertical(cardStyle);Label("도시 운영",headingStyle);
+            BeginVerticalDump(cardStyle);Label("도시 운영",headingStyle);
             Label("인구 "+economy.population+"명 · 행복도 "+economy.happiness+"/100 · 예산 "+economy.budget,smallStyle);
+            Label("서비스 충족 "+Mathf.RoundToInt(CityServiceCoverage(economy)*100)+"% · 학당·병원·공원/시장이 주거 1칸 이내 (1칸 = 18 m)",smallStyle);
             GUILayout.BeginHorizontal();if(Button("세금 −")){economy.taxRate=Mathf.Max(0,economy.taxRate-1);Save();}Label("세율 "+economy.taxRate+"%",bodyStyle);if(Button("세금 +")){economy.taxRate=Mathf.Min(25,economy.taxRate+1);Save();}GUILayout.EndHorizontal();
-            Label("주거·서비스·전력·혼잡과 세율에 따라 매 시기 인구·행복도·예산이 변합니다.",smallStyle);GUILayout.EndVertical();
+            Label("주거·서비스·전력·혼잡과 세율에 따라 매 시기 인구·행복도·예산이 변합니다.",smallStyle);EndVerticalDump();
             Label("G 목재 · H 석재 · J 식량 · [ ] 시설 선택 · B 건설",smallStyle);
-            GUILayout.Space(12);GUILayout.BeginVertical(cardStyle);Label("기초 채집",headingStyle);
-            GUILayout.BeginHorizontal();if(Button("목재 +6"))Gather(0,6);if(Button("석재 +6"))Gather(1,6);if(Button("식량 +4"))Gather(2,4);GUILayout.EndHorizontal();GUILayout.EndVertical();
+            GUILayout.Space(12);BeginVerticalDump(cardStyle);Label("기초 채집",headingStyle);
+            GUILayout.BeginHorizontal();if(Button("목재 +6"))Gather(0,6);if(Button("석재 +6"))Gather(1,6);if(Button("식량 +4"))Gather(2,4);GUILayout.EndHorizontal();EndVerticalDump();
             GUILayout.Space(12);
             foreach(var category in GameContent.BuildCategories)
                 if(Button(category+(category==buildCategory?"  ●":""),category==buildCategory))buildCategory=category;
             GUILayout.Space(12);
             foreach(var b in GameContent.Buildings)
             {
-                if(b.unlock>state.era||b.category!=buildCategory)continue;
-                GUILayout.BeginVertical(cardStyle);Label((GameContent.Buildings[selectedBuilding]==b?"● ":"")+b.name,headingStyle);Label(b.detail,smallStyle);
+                if(b.category!=buildCategory)continue;
+                BeginVerticalDump(cardStyle);Label((GameContent.Buildings[selectedBuilding]==b?"● ":"")+b.name,headingStyle);Label(b.detail,smallStyle);
                 ResourceCost(b.cost);Label("시기별 생산",smallStyle);ResourceCost(b.output);
                 Label("도시 예산 비용 "+MoneyCost(b),smallStyle);
                 GUI.enabled=CanPay(b.cost)&&economy.budget>=MoneyCost(b)&&used<CityCapacity(chosenCity)&&!maintenance;if(Button("건설하기"))Build(b);GUI.enabled=!maintenance;
-                GUILayout.EndVertical();GUILayout.Space(8);
+                EndVerticalDump();GUILayout.Space(8);
             }
+            DrawDemolishList(chosenCity);
         }
         int SelectedCityIndex(){return Mathf.Max(0,Array.FindIndex(GameContent.Cities,c=>c.id==state.selectedCity));}
         void DrawTransitPanel()
@@ -739,7 +653,7 @@ namespace PeninsulaTime
             GUILayout.Space(10);
             Label("도시 간 운영 노선",titleStyle);Label("경영 모드: 도시 사이에 버스·BRT·지하철·KTX 노선을 만들고 차량을 운행해 수익을 냅니다.",smallStyle);
             Label("출발·도착 도시는 한반도 지도(F1)에서 검색해 고른 뒤 ‘지도에서 고른 도시로’를 누르세요.",smallStyle);
-            GUILayout.Space(11);GUILayout.BeginVertical(cardStyle);
+            GUILayout.Space(11);BeginVerticalDump(cardStyle);
             Label("노선 이름",headingStyle);routeName=GUILayout.TextField(routeName,32,textFieldStyle);
             GUILayout.BeginHorizontal();foreach(var choice in new[]{"버스","BRT","지하철","KTX"})if(Button(choice+(routeType==choice?" ✓":"")))routeType=choice;GUILayout.EndHorizontal();
             GUILayout.Space(8);Label("출발 도시: "+GameContent.Cities[routeFrom].name,bodyStyle);
@@ -750,13 +664,12 @@ namespace PeninsulaTime
             toStop=GUILayout.TextField(toStop,32,textFieldStyle);if(string.IsNullOrEmpty(toStop))Label("↑ 도착 역·정류장 이름 입력",smallStyle);
             Label("중간 정차역 (쉼표 구분, 선택)",smallStyle);via=GUILayout.TextField(via,160,textFieldStyle);
             var cost=RouteCost(routeType);ResourceCost(cost);
-            GUI.enabled=state.era>=9&&CanPay(cost)&&!maintenance;if(Button("노선 건설",true))AddRoute();GUI.enabled=!maintenance;
-            if(state.era<9)Label("대한민국 현대 시대에 해금됩니다.",smallStyle);
-            GUILayout.EndVertical();GUILayout.Space(15);Label("운행 노선",headingStyle);
+            GUI.enabled=CanPay(cost)&&!maintenance;if(Button("노선 건설",true))AddRoute();GUI.enabled=!maintenance;
+            EndVerticalDump();GUILayout.Space(15);Label("운행 노선",headingStyle);
             if(state.routes.Count==0)Label("아직 개통한 노선이 없습니다.",smallStyle);
             foreach(var r in state.routes)
             {
-                GUILayout.BeginVertical(cardStyle);Label(r.name+" · "+RouteLabel(r.type),headingStyle);
+                BeginVerticalDump(cardStyle);Label(r.name+" · "+RouteLabel(r.type),headingStyle);
                 Label(GameContent.City(r.from).name+" "+r.fromStop+" → "+GameContent.City(r.to).name+" "+r.toStop,smallStyle);
                 if(!string.IsNullOrEmpty(r.via))Label("경유: "+r.via,smallStyle);
                 Label("차량 "+r.vehicles+"대 · 요금 "+(r.fare*100).ToString("N0")+"원 · 승객 "+r.riders+"/"+r.demand+" · 수익 "+(r.profit>=0?"+":"")+r.profit,bodyStyle);
@@ -768,23 +681,8 @@ namespace PeninsulaTime
                 if(Button("요금 +")&&r.fare<TransitEconomy.BaseFare*2){r.fare++;Save();}
                 GUILayout.EndHorizontal();
                 Label("차량 1대 구입 "+TransitEconomy.VehiclePurchase(r.type)+" · 운영비 "+TransitEconomy.VehicleCost(r.type)+"/시기. 수치는 ‘다음 시기’에 갱신됩니다.",smallStyle);
-                if(Button("차량 탑승",true))StartRide(r);GUILayout.EndVertical();GUILayout.Space(7);
+                if(Button("차량 탑승",true))StartRide(r);EndVerticalDump();GUILayout.Space(7);
             }
-        }
-        void DrawHistoryPanel()
-        {
-            Label("한국사 연대기",titleStyle);Label("서사·전승·검증된 역사 설명을 구분합니다. 생산 비용은 게임 규칙입니다.",smallStyle);
-            GUILayout.Space(12);
-            for(int i=0;i<GameContent.Eras.Length;i++)
-            {
-                var e=GameContent.Eras[i];GUILayout.BeginVertical(cardStyle);
-                Label((i==state.era?"● ":i<state.era?"✓ ":"○ ")+e.name+" · "+e.date,headingStyle);
-                Label(e.category,smallStyle);Label(e.detail);
-                GUILayout.EndVertical();GUILayout.Space(7);
-            }
-            GUILayout.BeginVertical(cardStyle);Label("세계 전쟁의 영향",headingStyle);
-            Label("제1차 세계대전(1914~1918), 제2차 세계대전(1939~1945)은 한반도의 외교·독립운동·해방과 연결됩니다. 이 버전에서는 연대기 설명만 제공하며 전쟁 시뮬레이션은 아직 없습니다.");
-            GUILayout.EndVertical();
         }
         void DrawWorldPanel()
         {
@@ -808,14 +706,14 @@ namespace PeninsulaTime
                 if(matches==0)Label("검색 결과가 없습니다.",smallStyle);
             }
             int n=state.selectedCountry;var chosen=WorldCatalog.Countries[n];
-            GUILayout.BeginVertical(cardStyle);Label(chosen.name,headingStyle);
+            BeginVerticalDump(cardStyle);Label(chosen.name,headingStyle);
             Label("정치 체제: "+(n<systems.Length?systems[n]:"검증 자료 미연결"));
             Label("주요 자원·산업: "+(n<industries.Length?industries[n]:"검증 자료 미연결"));
             Label("외교 관계: "+state.relations[n]+"/100 (게임값)");Label("명목 GDP: "+gdpText,smallStyle);Label("군사력 순위: 공인된 단일 기준이 없어 미표시",smallStyle);
             if(Button("외교 교류 +5",true)){state.relations[n]=Mathf.Min(100,state.relations[n]+5);Log(chosen.name+"과 교류했습니다.");}
-            GUILayout.EndVertical();GUILayout.Space(10);GUILayout.BeginVertical(cardStyle);
+            EndVerticalDump();GUILayout.Space(10);BeginVerticalDump(cardStyle);
             Label("기준과 출처",headingStyle);Label("국가 경계: Natural Earth. 현대 지표의 연도·출처가 확인된 데이터만 추가합니다.");
-            if(Button("세계은행 GDP 자료"))Application.OpenURL("https://data.worldbank.org/indicator/NY.GDP.MKTP.CD");GUILayout.EndVertical();
+            if(Button("세계은행 GDP 자료"))Application.OpenURL("https://data.worldbank.org/indicator/NY.GDP.MKTP.CD");EndVerticalDump();
         }
         void SelectCountry(int index)
         {
@@ -825,7 +723,7 @@ namespace PeninsulaTime
         void DrawWorldAtlas(float w,float h)
         {
             if(worldAtlas==null||worldCountryMask==null)return;
-            float left=560f,top=142f,availableW=w-left-22f,availableH=h-top-88f;
+            float left=40f,top=142f,availableW=WorldRight()-left-22f,availableH=h-top-CityDockHeight-8f;
             Rect uv=worldRegion==1?new Rect(.69f,.44f,.24f,.41f):worldRegion==2?new Rect(.44f,.38f,.20f,.48f):worldRegion==3?new Rect(.06f,.16f,.36f,.68f):new Rect(0,0,1,1);
             if(atlasZoom>0)
             {
@@ -837,10 +735,10 @@ namespace PeninsulaTime
             Rect map=new Rect(left+(availableW-mapW)*.5f,top+(availableH-mapH)*.5f,mapW,mapH);
             GUI.DrawTextureWithTexCoords(map,worldAtlas,uv);
             string[] regions={"세계 전체","동아시아","유럽","아메리카"};
-            for(int i=0;i<regions.Length;i++)if(GUI.Button(new Rect(left+i*105,104,98,30),regions[i],i==worldRegion?accentButtonStyle:buttonStyle)){worldRegion=i;atlasZoom=0;}
-            if(GUI.Button(new Rect(w-132,104,46,30),"+",buttonStyle))atlasZoom=Mathf.Min(5,atlasZoom+1);
-            if(GUI.Button(new Rect(w-79,104,46,30),"−",buttonStyle))atlasZoom=Mathf.Max(0,atlasZoom-1);
-            GUI.Label(new Rect(left,top+availableH+4,availableW,28),"국가를 클릭해 선택 · 경계 데이터 Natural Earth (공개 영역)",smallStyle);
+            for(int i=0;i<regions.Length;i++)if(UiButton(new Rect(left+i*105,104,98,30),regions[i],i==worldRegion?accentButtonStyle:buttonStyle)){worldRegion=i;atlasZoom=0;}
+            if(UiButton(new Rect(left+availableW-110,104,46,30),"+",buttonStyle))atlasZoom=Mathf.Min(5,atlasZoom+1);
+            if(UiButton(new Rect(left+availableW-57,104,46,30),"−",buttonStyle))atlasZoom=Mathf.Max(0,atlasZoom-1);
+            UiLabel(new Rect(left,top+availableH+4,availableW,28),"국가를 클릭해 선택 · 경계 데이터 Natural Earth (공개 영역)",smallStyle);
             var e=Event.current;
             if(e.type==EventType.ScrollWheel&&map.Contains(e.mousePosition))
             {atlasZoom=Mathf.Clamp(atlasZoom+(e.delta.y<0?1:-1),0,5);e.Use();}
@@ -869,23 +767,22 @@ namespace PeninsulaTime
                 if(Button("하차하고 지도로 돌아가기",true))ReturnMap();
                 return;
             }
-            Label("시대별 3D 탐방",titleStyle);
-            Label(state.era<9?"현재 지명을 기준으로 지역을 고릅니다. 해당 시대의 가상 풍경을 표시하며 현대 건물은 나오지 않습니다.":"현대 도로·건물 윤곽은 OpenStreetMap 자료를 Blender로 모델링했습니다.",smallStyle);
-            Label(state.era<9?"고대 풍경은 위치별 고증 지도가 아닌 시대별 시범 장면입니다.":"건물 높이·외관 중 자료가 없는 부분은 추정치입니다. 지도 데이터 © OpenStreetMap 기여자 (ODbL)",smallStyle);GUILayout.Space(12);
-            if(state.era>=9&&Button("지도 데이터 출처"))Application.OpenURL("https://www.openstreetmap.org/copyright");
+            Label("3D 탐방",titleStyle);
+            Label("현대 도로·건물 윤곽은 OpenStreetMap 자료를 Blender로 모델링했습니다.",smallStyle);
+            Label("건물 높이·외관 중 자료가 없는 부분은 추정치입니다. 지도 데이터 © OpenStreetMap 기여자 (ODbL)",smallStyle);GUILayout.Space(12);
+            if(Button("지도 데이터 출처"))Application.OpenURL("https://www.openstreetmap.org/copyright");
             // Riding: no teleports or district changes until the train, plane or car stops.
-            if(TransitRideActive()||metroConsist!=null){Label("이동 중입니다 · 도착하면 다시 걸을 수 있습니다.",bodyStyle);DrawRideChoices();}
+            if(TransitRideActive()||NetRideActive)Label("이동 중입니다 · 도착하면 다시 걸을 수 있습니다.",bodyStyle);
             else if(InVehicle())Label("차량 탑승 중 · F로 하차",bodyStyle);
             else
             {
-                if(state.era>=9&&Button(world.aerialDistrict?"거리로 내려가기 (V)":"항공 시점으로 보기 (V)",true))world.SetDistrictView(state.district,!world.aerialDistrict);
+                if(Button(world.aerialDistrict?"거리로 내려가기 (V)":"항공 시점으로 보기 (V)",true))world.SetDistrictView(state.district,!world.aerialDistrict);
                 for(int i=0;i<GameContent.DistrictNames.Length;i++)if(Button(GameContent.DistrictNames[i]+(state.district==i&&mode=="district"?"  ●":""),i==state.district&&mode=="district"))EnterDistrict(i);
-                if(state.era>=9&&Button("창원 오픈월드 · 시 전체 자유 탐험",true)){EnterOpenWorld();return;}
-                if(state.era>=9&&Button("창원 · 실제 도로와 버스")){
+                if(Button("창원 · 실제 도로와 버스")){
                     var changwon=TransitNetwork.Lines.Find(l=>l.id.StartsWith("cw-bus-")&&l.shortName=="105");
                     if(changwon!=null){var stop=changwon.stops.Find(s=>s.lat>35.2f&&s.lon>128.65f&&s.lon<128.7f)??changwon.stops[0];VisitNetworkStation(stop,changwon);return;}
                 }
-                if(mode=="district"&&state.era>=9)
+                if(mode=="district")
                 {
                     Label("지도에 기록된 시설: 주차장 "+world.MappedParkingCount+"곳 · 철길 "+world.MappedTrackCount+"구간 · 지하철 출입구 "+world.MappedEntranceCount+"곳 · 버스 정류장 "+world.BusStopCount+"곳",smallStyle);
                     Label(TransitStatus(),bodyStyle);
@@ -898,8 +795,8 @@ namespace PeninsulaTime
                     if(!world.aerialDistrict)DrawIndoorShortcuts();
                 }
             }
-            GUILayout.Space(10);GUILayout.BeginVertical(cardStyle);Label("조작",headingStyle);Label("W/A/S/D 이동 · 마우스로 시선 회전 · Space 점프 · T 1/3인칭 · M 미니맵 · B 정류장 · G 지하철 · P 주차장 · F8 전국 역 방문");Label("가까이서 F/클릭으로 대화·문·단말기·자동차를 사용합니다. 버스와 열차는 열린 문으로 걸어 들어갑니다.",smallStyle);Label("지하철: 출입구 → 자동 개찰구 → 승강장에서 열린 문으로 탑승. 상점은 선택 즉시 구매됩니다. 김포공항: 2층 체크인 → 보안검색 → 3층 탑승구.",smallStyle);
-            if(Button("한반도 지도로 돌아가기"))ReturnMap();GUILayout.EndVertical();
+            GUILayout.Space(10);BeginVerticalDump(cardStyle);Label("조작",headingStyle);Label("W/A/S/D 이동 · 마우스로 시선 회전 · Space 점프 · T 1/3인칭 · M 미니맵 · B 정류장 · G 지하철 · P 주차장 · F8 전국 역 방문");Label("가까이서 F/클릭으로 대화·문·단말기·자동차를 사용합니다. 버스와 열차는 열린 문으로 걸어 들어갑니다.",smallStyle);Label("지하철: 출입구 → 자동 개찰구 → 승강장에서 열린 문으로 탑승. 상점은 선택 즉시 구매됩니다. 김포공항: 2층 체크인 → 보안검색 → 3층 탑승구.",smallStyle);
+            if(Button("한반도 지도로 돌아가기"))ReturnMap();EndVerticalDump();
         }
     }
 }

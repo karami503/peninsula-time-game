@@ -52,7 +52,8 @@ namespace PeninsulaTime
         {
             var o=GameObject.CreatePrimitive(type);o.name=name;o.transform.SetParent(parent,false);o.transform.localPosition=position;o.transform.localScale=scale;o.GetComponent<Renderer>().sharedMaterial=material;return o;
         }
-        void Clear(){openWorld=false;walkGraph=null;MapMarkers.Clear();if(root!=null)DestroyImmediate(root);root=new GameObject("Generated World");root.transform.SetParent(transform,false);vehicle=null;globePivot=null;labels.Clear();cityMarkers.Clear();markerCities.Clear();mapBuildings.Clear();networkLines.Clear();networkWeights.Clear();networkLayer=highlightLayer=null;}
+        float normalFar;FogMode normalFog; // the camera's far plane and the fog before a view that sees to the horizon (진해) changed them
+        void Clear(){if(normalFar>0&&worldCamera!=null){worldCamera.farClipPlane=normalFar;RenderSettings.fogMode=normalFog;normalFar=0;}walkGraph=null;DestinationAirport=null;destinationSite=null;MapMarkers.Clear();if(root!=null)DestroyImmediate(root);root=new GameObject("Generated World");root.transform.SetParent(transform,false);vehicle=null;globePivot=null;labels.Clear();cityMarkers.Clear();markerCities.Clear();mapBuildings.Clear();networkLines.Clear();networkWeights.Clear();networkLayer=highlightLayer=null;}
         Light sun;Color outdoorAmbient;
         static readonly Color IndoorAmbient=new Color(.46f,.46f,.47f);
         // Underground stations and the terminal (far east of the map) are lit by their own lamps, not the sun,
@@ -60,14 +61,16 @@ namespace PeninsulaTime
         public void UpdateInteriorLighting(Vector3 eye)
         {
             if(sun==null)return;
-            bool inside=!openWorld&&(eye.y<-2f||IsDomesticAirportInterior(eye)||IsInternationalAirportInterior(eye));
-            if(sun.enabled==!inside)return;
-            sun.enabled=!inside;RenderSettings.ambientLight=inside?IndoorAmbient:outdoorAmbient;
+            bool inside=Indoors(eye);
+            // Roofs provide the interior shade. Keep the directional light alive so scenery seen
+            // through an entrance does not turn dark with the hall around it.
+            sun.enabled=true;RenderSettings.ambientLight=inside?IndoorAmbient:outdoorAmbient;
         }
         void LateUpdate()
         {
             if(worldCamera==null)return;
-            if(root!=null&&!worldCamera.orthographic&&!openWorld&&root.GetComponent<SceneRenderBudget>()==null){var budget=root.AddComponent<SceneRenderBudget>();budget.world=this;}
+            if(root!=null&&!worldCamera.orthographic&&root.GetComponent<SceneRenderBudget>()==null){var budget=root.AddComponent<SceneRenderBudget>();budget.world=this;}
+            if(root!=null&&!worldCamera.orthographic&&root.GetComponent<ChunkStreamer>()==null){var chunks=root.AddComponent<ChunkStreamer>();chunks.budget=root.GetComponent<SceneRenderBudget>();chunks.focus=worldCamera.transform;}
             ApplyDaylight(Viewer.position);
             foreach(var label in labels)if(label!=null){var renderer=label.GetComponent<Renderer>();if(renderer.enabled&&!renderer.forceRenderingOff)label.transform.rotation=Quaternion.LookRotation(worldCamera.transform.position-label.transform.position);}
             if(worldCamera.orthographic&&cityMarkers.Count>0)UpdateMapMarkers();
@@ -516,16 +519,11 @@ namespace PeninsulaTime
             }
             return null;
         }
-        public void BuildDistrict(int index,int era)
+        public void BuildDistrict(int index)
         {
             Clear();SetupLight(new Color(.49f,.57f,.64f),new Color(1f,.91f,.77f));
             worldCamera.orthographic=false;
             RenderSettings.fogMode=FogMode.ExponentialSquared;RenderSettings.fogDensity=.0018f;
-            if(era<9)
-            {
-                BuildHistoricalDistrict(index,era);
-                return;
-            }
             string[] models={"GangnamOSM","SeoulStationOSM","HongdaeOSM","GimpoAirportOSM"};
             var prefab=Resources.Load<GameObject>("Models/"+models[Mathf.Clamp(index,0,3)]);
             if(prefab!=null)
@@ -550,6 +548,8 @@ namespace PeninsulaTime
                     if(n.Contains("crosswalk"))c=new Color(.92f,.92f,.88f);
                     renderer.sharedMaterial=Mat("osm-"+n,texture!=null?Color.white:c,0,texture);
                 }
+                // One structure per building and per road segment instead of one mesh per surface kind for the whole district.
+                int structures=ModularMesh.Split(district.transform);Debug.Log("District "+models[index]+" split into "+structures+" structures");
                 Primitive(PrimitiveType.Cube,"District ground",root.transform,new Vector3(0,-.16f,0),new Vector3(650,.25f,650),Mat("district-ground",new Color(.58f,.57f,.54f),0,"concrete",160f));
                 // Surrounding land so the horizon is not the bare sky colour.
                 var outer=Primitive(PrimitiveType.Cube,"Surrounding land",root.transform,new Vector3(0,-.3f,0),new Vector3(2400,.2f,2400),Mat("outer-ground",new Color(.36f,.42f,.38f),0,"grass",400f));
@@ -563,7 +563,9 @@ namespace PeninsulaTime
                     if(n=="road"||n=="busway"||n=="sidewalk"||n=="footway"||n=="bridge"||n=="platform"||n=="junction"||n.StartsWith("building")||n.StartsWith("roof")||n=="facadesteel"||n=="facadesoffit"||n.StartsWith("facadeawning"))
                         filter.gameObject.AddComponent<MeshCollider>().sharedMesh=filter.sharedMesh;
                 }
+                ClearFurnitureInBuildings();
                 BuildMappedInfrastructure(models[index].Replace("OSM",""));
+                BuildParkSites(models[index].Replace("OSM",""));
                 SetDistrictView(index,true);
                 vehicle=CreateVehicle(index==3?"bus":"metro",new Vector3(0,.8f,8));vehicle.SetActive(false);
                 return;
@@ -760,33 +762,6 @@ namespace PeninsulaTime
             }
             Debug.LogWarning("No unobstructed street spawn near "+target+" ground "+noGround+" surface "+badSurface+" space "+blockedSpace+" view "+blockedView+" last "+blocker);
             return new Vector3(0,.05f,0);
-        }
-        void BuildHistoricalDistrict(int index,int era)
-        {
-            aerialDistrict=false;
-            var ground=Mat("historic-ground",era<3?new Color(.36f,.46f,.30f):new Color(.42f,.48f,.34f));
-            Primitive(PrimitiveType.Cube,"Historic landscape",root.transform,new Vector3(0,-.2f,0),new Vector3(140,.35f,140),ground);
-            var path=Mat("earth-path",new Color(.48f,.39f,.27f));
-            Primitive(PrimitiveType.Cube,"Unpaved path",root.transform,new Vector3(0,.02f,0),new Vector3(3,.05f,110),path);
-            var random=new System.Random(197+index*7+era*29);
-            int count=era==0?0:era<3?5:era<7?10:15;
-            for(int i=0;i<count;i++)
-            {
-                float side=i%2==0?-1:1;
-                float x=side*(9+random.Next(0,29));
-                float z=-42+i*85f/Mathf.Max(1,count);
-                CreateHistoricBuilding(era,new Vector3(x,0,z),"시대 주거·생산 시설");
-            }
-            for(int i=0;i<55;i++)
-            {
-                float x=random.Next(-62,63),z=random.Next(-62,63);
-                if(Mathf.Abs(x)<5)continue;
-                Primitive(PrimitiveType.Cylinder,"Tree trunk",root.transform,new Vector3(x,1.7f,z),new Vector3(.22f,1.7f,.22f),Mat("historic-bark",new Color(.32f,.24f,.16f)));
-                Primitive(PrimitiveType.Sphere,"Tree crown",root.transform,new Vector3(x,4.1f,z),new Vector3(2.9f,3.8f,2.9f),Mat("historic-leaves",new Color(.20f,.36f,.23f)));
-            }
-            worldCamera.transform.position=new Vector3(0,2.1f,-37);
-            worldCamera.transform.rotation=Quaternion.Euler(0,0,0);
-            worldCamera.fieldOfView=72;
         }
         public void BuildGlobe()
         {

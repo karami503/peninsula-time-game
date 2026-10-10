@@ -35,7 +35,7 @@ namespace PeninsulaTime {
             var eye=new GameObject("minimap state eye").transform;
             Set(game,"world",world);Set(game,"eye",eye);Set(game,"viewCamera",camera);
             try{
-                world.BuildDistrict(0,9);
+                world.BuildDistrict(0);
                 Check(world.MapMarkers.Exists(m=>m.label=="개찰구"),"detailed Gangnam marker fixture populated");
                 var at=TransitNetwork.Named("강남").Find(s=>s.lines.Exists(l=>l.shortName=="신분당선"));
                 Check(at!=null,"Gangnam Shinbundang fixture exists");
@@ -55,7 +55,7 @@ namespace PeninsulaTime {
                     }
                 }
                 world.MapMarkers.Add(new WorldBuilder.MapMarker(Vector3.zero,"previous station marker"));
-                world.BuildDistrict(2,9);
+                world.BuildDistrict(2);
                 Check(!world.MapMarkers.Exists(m=>m.label=="previous station marker"),"returning to a district also clears national marker state");
             }catch(Exception exception){Check(false,exception.ToString());}
             finally{Object.DestroyImmediate(player);Object.DestroyImmediate(eye.gameObject);Object.DestroyImmediate(world.gameObject);Object.DestroyImmediate(camera.gameObject);StationAreaData.ClearTileCache();}

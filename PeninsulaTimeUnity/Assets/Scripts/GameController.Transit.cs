@@ -10,9 +10,10 @@ namespace PeninsulaTime
         // Compatibility accessor for old saves/tools only; no gameplay flow reads or changes this value.
         public int cardBalance{get{return state.transitCard;}set{state.transitCard=value;}}
         bool farePaid,securityPassed;
-        int boardingGate;string boardingFlight="",boardingDestination="",boardingCity="";
-        PlaneFlight flight;string flightCity="",flightName="";
-        float rideTimer,fade;
+        int boardingGate;string boardingFlight="",boardingDestination="",boardingCity="",boardingAirport="";
+        PlaneFlight flight;string flightCity="",flightName="",flightAirport="";bool flightLandingAnnounced;
+        const float FlightLandingCall=9f; // seconds before the arrival fade that the cabin announces the descent
+        float rideTimer,fade,flightBoardedAt;
 
         // Watching a flight take off: the only ride shown from outside the vehicle.
         public bool TransitRideActive(){return flight!=null;}
@@ -62,8 +63,9 @@ namespace PeninsulaTime
             switch(fixture.kind)
             {
                 case "card":Beep.Play("tap");Toast("승강장에서 열린 열차 문으로 바로 탑승하세요. 바닥 안내선을 따라 환승할 수 있습니다.");break; // old scene compatibility
-                case "checkin":IssueBoardingPass(fixture.number);break;
-                case "bis":selectedStation=TransitNetwork.Station(fixture.detail);streetBoard=selectedStation!=null;if(streetBoard)Beep.Play("tap");break;
+                case "checkin":flightDeskAirline=fixture.number;kioskDesk=false;Beep.Play("tap");break;
+                case "kiosk":kioskDesk=true;flightDeskAirline=-1;Beep.Play("tap");break;
+                case "bis":selectedStation=TransitNetwork.Station(fixture.detail)??world.LocalStation(fixture.detail);streetBoard=selectedStation!=null;if(streetBoard)Beep.Play("tap");break;
                 case "gate":BoardAtGate(fixture.number);break;
                 default:if(!UseShopFixture(fixture))Toast(fixture.detail);break;
             }
@@ -85,32 +87,22 @@ namespace PeninsulaTime
             return true;
         }
 
-        void IssueBoardingPass(int airline)
-        {
-            int count=WorldBuilder.Flights.GetLength(0);
-            var random=new System.Random((int)(Time.realtimeSinceStartup*10)+airline);
-            // Only this airline's flights (by flight number prefix).
-            var own=new System.Collections.Generic.List<int>();
-            for(int i=0;i<count;i++)if(WorldBuilder.Flights[i,0].StartsWith(WorldBuilder.AirlineCodes[airline%WorldBuilder.AirlineCodes.Length]))own.Add(i);
-            int pick=own.Count>0?own[random.Next(own.Count)]:random.Next(count);
-            boardingGate=pick+1;boardingFlight=WorldBuilder.Flights[pick,0];boardingDestination=WorldBuilder.Flights[pick,1];boardingCity=WorldBuilder.Flights[pick,2];
-            string seat=(10+random.Next(25))+"ABCDEF".Substring(random.Next(6),1);
-            Beep.Play("tap");
-            Toast("탑승권 발급: "+boardingFlight+" "+boardingDestination+"행 · "+boardingGate+"번 탑승구 · 좌석 "+seat+" · 3층으로 올라가 보안검색");
-        }
-
         void BoardAtGate(int gate)
         {
             if(boardingGate==0){Beep.Play("deny");Toast("탑승권이 없습니다. 2층에서 체크인하세요.");return;}
             if(!securityPassed){Beep.Play("deny");Toast("3층 보안검색을 먼저 통과하세요.");return;}
             if(gate!=boardingGate){Beep.Play("deny");Toast("이 탑승구가 아닙니다. 탑승권의 탑승구는 "+boardingGate+"번입니다.");return;}
             var plane=world.GateAircraft(gate);
-            if(plane==null){ArriveCity(boardingCity,boardingDestination+"에 도착했습니다.");return;}
+            if(plane==null){ArriveAirport(boardingAirport,boardingDestination+"에 도착했습니다.");return;}
             flight=plane.AddComponent<PlaneFlight>();
             world.ConfigureAirportFlight(flight,gate);
-            flight.baseRotation=Quaternion.Euler(0,-180,0)*plane.transform.rotation;
-            flightCity=boardingCity;flightName=boardingFlight+" "+boardingDestination;boardingGate=0;securityPassed=false;rideTimer=0;
-            Beep.Play("chime");Toast("탑승 완료 · "+flightName+"행이 출발합니다");
+            flight.baseRotation=Quaternion.Inverse(Quaternion.LookRotation(world.GateFacing(gate)))*plane.transform.rotation;
+            // The whole trip, boarding to arrival, takes TicketTripSeconds: the animation runs fast enough to finish before the fade.
+            flight.clock=FlightStart(flight.Duration,FadeSeconds);flight.Step(0);
+            flight.speed=FlightPace(flight.Duration,FadeSeconds);flightBoardedAt=Time.unscaledTime;
+            flightCity=boardingCity;flightAirport=boardingAirport;flightName=boardingFlight+" "+boardingDestination;boardingGate=0;securityPassed=false;rideTimer=0;
+            flightLandingAnnounced=false;Announcer.Say("chime",Announcer.FlightDeparture(boardingFlight,boardingDestination));
+            Toast("탑승 완료 · "+flightName+"행이 출발합니다");
         }
 
         void UpdateTransitRide()
@@ -119,14 +111,35 @@ namespace PeninsulaTime
             var t=viewCamera.transform;
             if(flight==null)return;
             var p=flight.transform.position;var forward=flight.transform.rotation*Quaternion.Inverse(flight.baseRotation)*Vector3.forward;
-            t.position=Vector3.Lerp(t.position,p-forward*60f+Vector3.up*16f,1f-Mathf.Exp(-2.5f*Time.deltaTime));t.LookAt(p+Vector3.up*4f);
+            // The first frame cuts to the runway (the taxi is skipped); after that the chase camera eases.
+            t.position=Vector3.Lerp(t.position,p-forward*60f+Vector3.up*16f,rideTimer<=Time.deltaTime?1f:1f-Mathf.Exp(-2.5f*Time.deltaTime));t.LookAt(p+Vector3.up*4f);
+            if(!flightLandingAnnounced&&flight.clock>=flight.Duration-FlightLandingCall*flight.speed)
+            {flightLandingAnnounced=true;Announcer.Say("chime",Announcer.FlightLanding(KoreanAirports.ByCode(flightAirport).name));}
             if(flight.Done)
             {
                 fade=Mathf.MoveTowards(fade,1,Time.deltaTime/FadeSeconds);
-                if(fade>=1){var city=flightCity;var name=flightName;flight=null;ArriveCity(city,name+" 항공편이 도착했습니다.");}
+                if(fade>=1)
+                {
+                    var name=flightName;flight=null;
+                    Debug.Log("Ticket arrived kind=flight flight="+name+" airport="+flightAirport+" after="+(Time.unscaledTime-flightBoardedAt).ToString("F1")+"s");
+                    ArriveAirport(flightAirport,name+" 항공편이 도착했습니다.");
+                }
             }
         }
 
+        // Lands in the destination airport's arrivals hall: Gimpo's surveyed terminal, or the generated terminal of any other airport.
+        void ArriveAirport(string iata,string message)
+        {
+            var a=KoreanAirports.ByCode(iata);
+            flight=null;ClearRides();fade=1;
+            if(a==null){ArriveCity(flightCity,message);return;}
+            if(a.iata==KoreanAirports.Gimpo){EnterDistrict(3,false);Teleport(world.AirportArrivalSpawn,Vector3.forward);Toast(message+" · 김포국제공항 국내선 1층 도착");return;}
+            mode="interior";cityStreet=false;riding=false;undergroundWalk=false;tab="3D";world.dayNight=true;
+            world.BuildDestinationAirport(a);Teleport(world.DestinationArrivalSpawn,world.DestinationArrivalFacing);
+            state.selectedCity=a.City;
+            Debug.Log("Airport arrival "+a.iata+" "+a.name+" gates="+a.Gates);
+            Toast(message+" · "+a.name+" 도착 홀 · 키오스크에서 다음 공항을 고르거나 출구로 나가세요");
+        }
         void ArriveCity(string cityId,string message)
         {
             flight=null;
@@ -141,7 +154,7 @@ namespace PeninsulaTime
             if(!TransitRideActive()&&!holdFade)fade=Mathf.MoveTowards(fade,0,Time.deltaTime/FadeSeconds);
             if(fade<=0)return;
             var previous=GUI.color;GUI.color=new Color(0,0,0,fade);
-            GUI.DrawTexture(new Rect(0,0,w,h),Texture2D.whiteTexture);GUI.color=previous;
+            UiTexture(new Rect(0,0,w,h),Texture2D.whiteTexture);GUI.color=previous;
         }
 
         // Shortcuts inside a station or the terminal; each one respects the fare gate and security rules.

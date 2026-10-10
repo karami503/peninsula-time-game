@@ -67,9 +67,7 @@ namespace PeninsulaTime {
                 var route=world.GangnamPlatformRoutes[side];Start(game,eye,route.points[0]);
                 foreach(var point in route.points)if(!Walk(game,eye,point,route.exitNumber+" down"))return;
                 var train=world.StationTrains[side];var original=train.line;
-                // Keep this local-collider test in the current scene; national onward
-                // handoff is independently exercised by DistrictTransferCheck.
-                var fixture=original;fixture.net=null;fixture.ahead=new[]{2};fixture.destination=2;train.line=fixture;
+                // Boarding starts the real ride, which stays at the platform until the doors close.
                 try{
                     train.Begin(SubwayTrain.Approach+4f);Physics.SyncTransforms();var c=train.Active.cabin;float sign=c.doorSide,door=c.doors[3];
                     var approach=c.transform.TransformPoint(new Vector3(sign*3.9f,c.floor,door));
@@ -101,7 +99,7 @@ namespace PeninsulaTime {
             var host=new GameObject("Gangnam check player");host.SetActive(false);var game=host.AddComponent<GameController>();game.state=new GameState();game.state.era=9;
             var eye=new GameObject("Gangnam check eye").transform;Set(game,"world",world);Set(game,"eye",eye);Set(game,"viewCamera",camera);Set(game,"mode","district");
             try{
-                world.BuildDistrict(0,9);world.SetDistrictView(0,false);Physics.SyncTransforms();Geometry(world);
+                world.BuildDistrict(0);world.SetDistrictView(0,false);Physics.SyncTransforms();Geometry(world);
                 foreach(var belt in world.root.GetComponentsInChildren<MovingWalkway>())belt.enabled=false;
                 RoutesAndBoarding(world,game,eye);
             }catch(Exception e){Check(false,e.ToString());}

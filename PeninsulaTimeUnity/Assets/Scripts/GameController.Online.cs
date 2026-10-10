@@ -218,24 +218,24 @@ namespace PeninsulaTime
         {
             if(battleTexture==null)return;
             if(mapLabelStyle==null)mapLabelStyle=new GUIStyle(smallStyle){alignment=TextAnchor.MiddleCenter,normal={textColor=new Color(1,1,1,.8f)}};
-            GUI.DrawTexture(new Rect(548,92,w-548,h-146),inkTexture);
+            UiTexture(new Rect(548,92,w-548,h-146),inkTexture);
             var map=BattleRect(w,h);
-            GUI.DrawTexture(map,battleTexture,ScaleMode.StretchToFill);
+            UiTexture(map,battleTexture,ScaleMode.StretchToFill);
             foreach(var city in GameContent.Cities)
             {
                 if(!city.featured)continue;
                 float x=map.x+(city.longitude-gridLon0)/(gridLon1-gridLon0)*map.width,y=map.y+(gridLat1-city.latitude)/(gridLat1-gridLat0)*map.height;
-                GUI.Label(new Rect(x-40,y-9,80,18),city.name,mapLabelStyle);
+                UiLabel(new Rect(x-40,y-9,80,18),city.name,mapLabelStyle);
             }
             foreach(var p in battle.players)
             {
                 if(!p.alive)continue;
-                if(p.forts!=null)foreach(int f in p.forts){var c=TileCentre(map,f);GUI.Label(new Rect(c.x-8,c.y-10,16,20),"▲",metricStyle);}
-                if(p.barracks!=null)foreach(int b in p.barracks){var c=TileCentre(map,b);GUI.Label(new Rect(c.x-8,c.y-10,16,20),"■",metricStyle);}
+                if(p.forts!=null)foreach(int f in p.forts){var c=TileCentre(map,f);UiLabel(new Rect(c.x-8,c.y-10,16,20),"▲",metricStyle);}
+                if(p.barracks!=null)foreach(int b in p.barracks){var c=TileCentre(map,b);UiLabel(new Rect(c.x-8,c.y-10,16,20),"■",metricStyle);}
             }
             var winner=BattlePlayer(battle.winner);
             string phase=battle.phase=="spawn"?"배치 단계 · "+battle.spawnSeconds+"초 남음 · 시작 위치를 누르세요":battle.phase=="over"?"전쟁 종료 · 승자 "+(winner!=null?winner.name:"없음"):"전쟁 중";
-            GUI.Label(new Rect(map.x,map.y-24,map.width,22),(battle.you==0?"관전 중 · ":"")+phase,kickerStyle);
+            UiLabel(new Rect(map.x,map.y-24,map.width,22),(battle.you==0?"관전 중 · ":"")+phase,kickerStyle);
             var e=Event.current;
             if(!map.Contains(e.mousePosition))return;
             int tx=Mathf.Clamp(Mathf.FloorToInt((e.mousePosition.x-map.x)/map.width*gridW),0,gridW-1);
@@ -243,7 +243,7 @@ namespace PeninsulaTime
             int tile=ty*gridW+tx;
             if(!koreaLand[tile])return;
             var owner=BattlePlayer(OwnerAt(tile));
-            GUI.Box(new Rect(e.mousePosition.x+14,e.mousePosition.y+8,200,34),owner!=null?owner.name+" · 병력 "+owner.troops.ToString("N0"):"빈 땅",cardStyle);
+            UiBox(new Rect(e.mousePosition.x+14,e.mousePosition.y+8,200,34),owner!=null?owner.name+" · 병력 "+owner.troops.ToString("N0"):"빈 땅",cardStyle);
             if(e.type!=EventType.MouseUp||e.button!=0||battle.you==0)return;
             if(battle.phase=="spawn")SendBattle("spawn",tile);
             else if(battleTool=="attack")SendBattle("attack",tile);
@@ -260,7 +260,7 @@ namespace PeninsulaTime
             var me=BattlePlayer(battle.you);
             if(me!=null)
             {
-                GUILayout.BeginVertical(cardStyle);
+                BeginVerticalDump(cardStyle);
                 Label(me.name+(me.alive?"":" · 멸망"),headingStyle);
                 Label("영토 "+me.tiles+"칸 · 병력 "+me.troops.ToString("N0")+" / "+me.maxTroops.ToString("N0")+" · 금 "+me.gold.ToString("N0"));
                 if(me.alive&&battle.phase!="over")
@@ -279,7 +279,7 @@ namespace PeninsulaTime
                     if(Button("방어 기술 "+me.defenseLevel+"단계 → 금 "+TechCost(me.defenseLevel)))SendBattle("tech",0,"defense");
                     if(Button("경제 기술 "+me.economyLevel+"단계 → 금 "+TechCost(me.economyLevel)))SendBattle("tech",0,"economy");
                 }
-                GUILayout.EndVertical();
+                EndVerticalDump();
             }
             GUILayout.Space(8);Label("세력",headingStyle);
             var ranked=new List<OnlineBattlePlayer>(battle.players);ranked.Sort((a,b)=>b.tiles.CompareTo(a.tiles));
@@ -287,7 +287,7 @@ namespace PeninsulaTime
             {
                 GUILayout.BeginHorizontal();
                 var swatch=GUILayoutUtility.GetRect(14,14,GUILayout.Width(14));swatch.y+=4;
-                GUI.color=Palette[p.index%Palette.Length];GUI.DrawTexture(swatch,Texture2D.whiteTexture);GUI.color=Color.white;
+                GUI.color=Palette[p.index%Palette.Length];UiTexture(swatch,Texture2D.whiteTexture);GUI.color=Color.white;
                 Label((p.index==battle.you?"★ ":"")+p.name+(p.bot?" (AI)":"")+(p.alive?"":" · 멸망")+"  "+p.tiles+"칸 · 병력 "+p.troops.ToString("N0"),smallStyle);
                 GUILayout.EndHorizontal();
             }
@@ -350,7 +350,7 @@ namespace PeninsulaTime
         {
             if(onlineMode=="battle")LeaveBattle();
             var place=GameContent.City(spectating.city);
-            var view=new GameState{era=Mathf.Clamp(spectating.era,0,GameContent.Eras.Length-1),selectedCity=place.id};
+            var view=new GameState{era=GameContent.ModernEra,selectedCity=place.id};
             if(spectating.buildings!=null)foreach(var id in spectating.buildings)view.buildings.Add(new PlacedBuilding{id=id,city=place.id});
             if(spectating.roads!=null)foreach(var r in spectating.roads)view.roads.Add(new RoadSegment{city=place.id,axis=r.axis,row=r.row,column=r.column});
             var position=viewCamera.transform.position;var rotation=viewCamera.transform.rotation;
@@ -361,7 +361,7 @@ namespace PeninsulaTime
         }
         void DrawHealingPanel()
         {
-            GUILayout.BeginVertical(cardStyle);Label("힐링 온라인",headingStyle);
+            BeginVerticalDump(cardStyle);Label("힐링 온라인",headingStyle);
             Label("지금처럼 혼자 건설하고 지켜보며, 내 도시를 공개해 다른 사람이 구경할 수 있게 합니다. 구경하는 사람은 수정할 수 없습니다.",smallStyle);
             string here=GameContent.City(state.selectedCity).name;
             GUI.enabled=LoggedIn()&&!maintenance;
@@ -379,19 +379,19 @@ namespace PeninsulaTime
                 var place=GameContent.City(c.city);
                 if(Button("구경: "+(string.IsNullOrEmpty(c.name)?"이름 없는 시장":c.name)+"의 "+place.name+" (건물 "+c.buildingCount+")"))Spectate(c.id);
             }
-            GUILayout.EndVertical();
+            EndVerticalDump();
         }
         void DrawSpectatePanel()
         {
             var place=GameContent.City(spectating.city);
-            GUILayout.BeginVertical(cardStyle);
+            BeginVerticalDump(cardStyle);
             Label("구경 중 · 읽기 전용",kickerStyle);Label((string.IsNullOrEmpty(spectating.name)?"이름 없는 시장":spectating.name)+"의 "+place.name,headingStyle);
-            Label(GameContent.Eras[Mathf.Clamp(spectating.era,0,GameContent.Eras.Length-1)].name+" · 건물 "+(spectating.buildings!=null?spectating.buildings.Length:0)+" · 도로 "+(spectating.roads!=null?spectating.roads.Length:0)+"구간",smallStyle);
+            Label(GameContent.Modern.name+" · 건물 "+(spectating.buildings!=null?spectating.buildings.Length:0)+" · 도로 "+(spectating.roads!=null?spectating.roads.Length:0)+"구간",smallStyle);
             Label("인구 "+spectating.population+" · 행복도 "+spectating.happiness+"/100",smallStyle);
             if(Button(cityStreet?"위에서 보기 (V)":"3D 거리 보기 (V)",true))ToggleCityStreet();
             Label("15초마다 주인의 변경 사항을 불러옵니다. 3D 거리 보기: WASD 이동 · ←/→ 회전 · Q/E·휠 높이.",smallStyle);
             if(Button("구경 그만하기"))StopSpectating();
-            GUILayout.EndVertical();
+            EndVerticalDump();
         }
 
         void DrawOnlinePanel()
@@ -401,7 +401,7 @@ namespace PeninsulaTime
             if(!string.IsNullOrEmpty(onlineStatus))Label(onlineStatus,smallStyle);
             if(onlineMode=="battle"){DrawBattlePanel();return;}
             if(mode=="spectate"&&spectating!=null){DrawSpectatePanel();return;}
-            GUILayout.BeginVertical(cardStyle);
+            BeginVerticalDump(cardStyle);
             Label("서버 주소",smallStyle);onlineUrl=GUILayout.TextField(onlineUrl,120,textFieldStyle);
             if(!ValidOnlineUrl())Label("http:// 또는 https:// 로 시작하는 주소를 입력하세요.",smallStyle);
             if(LoggedIn())
@@ -419,8 +419,8 @@ namespace PeninsulaTime
                 GUILayout.EndHorizontal();
                 if(onlineUrl.StartsWith("http://")&&!onlineUrl.Contains("127.0.0.1")&&!onlineUrl.Contains("localhost"))Label("주의: http 주소는 비밀번호가 암호화되지 않고 전송됩니다. 인터넷 서버는 https를 쓰세요.",smallStyle);
             }
-            GUILayout.EndVertical();GUILayout.Space(8);
-            GUILayout.BeginVertical(cardStyle);Label("온라인 대전 · 한반도 땅따먹기",headingStyle);
+            EndVerticalDump();GUILayout.Space(8);
+            BeginVerticalDump(cardStyle);Label("온라인 대전 · 한반도 땅따먹기",headingStyle);
             Label("시작 위치를 고르고 병력 일부를 보내 빈 땅과 이웃 세력을 점령합니다. 금으로 공격·방어·경제 기술과 요새·병영을 개발합니다. 땅의 80%를 차지하거나 마지막까지 남으면 승리.",smallStyle);
             GUI.enabled=LoggedIn()&&!maintenance;
             if(Button("대전 참가",true))JoinBattle();
@@ -429,7 +429,7 @@ namespace PeninsulaTime
             if(Button("진행 중인 대전 보기 (관전)"))StartCoroutine(RefreshRooms());
             foreach(var room in battleRooms)
                 if(Button("관전 · 방 "+room.id+" · "+(room.phase=="spawn"?"배치 중":room.phase=="play"?"전쟁 중":"종료")+" · 사람 "+room.humans+"명"))OpenBattle(room.id,"");
-            GUILayout.EndVertical();GUILayout.Space(8);
+            EndVerticalDump();GUILayout.Space(8);
             DrawHealingPanel();
         }
     }
