@@ -24,7 +24,7 @@ var cam=new GameObject("camera").AddComponent<Camera>();
 var world=new GameObject("world").AddComponent<WorldBuilder>();world.worldCamera=cam;
 var g=new GameObject("player");g.SetActive(false);var game=g.AddComponent<GameController>();game.state=new GameState();game.cardBalance=0;Set(game,"world",world);
 var eye=new GameObject("eye").transform;Set(game,"eye",eye);
-world.BuildDistrict(0,9);
+world.BuildDistrict(0);
 foreach(var bus in world.root.GetComponentsInChildren<TrafficVehicle>()){
  if(!bus.Bus||bus.cabin==null)continue;
  // A distant isolated road patch keeps this test focused on the real vehicle collider, at every heading.
@@ -43,7 +43,7 @@ foreach(var bus in world.root.GetComponentsInChildren<TrafficVehicle>()){
 }
 Set(game,"cabin",null);
 foreach(int district in new[]{0,1,2}){
- world.BuildDistrict(district,9);Physics.SyncTransforms();
+ world.BuildDistrict(district);Physics.SyncTransforms();
  Debug.Log("WalkAccessCheck district "+district+": walking "+world.root.GetComponentsInChildren<StationWalkRoute>().Length+" exits both ways");
  foreach(var route in world.root.GetComponentsInChildren<StationWalkRoute>()){
 

@@ -65,8 +65,9 @@ namespace PeninsulaTime
             // Subway platforms under the districts follow the network (홍대입구: 2호선 and 공항철도).
             var hongdae=WorldBuilder.PlatformLines(2);
             Expect(hongdae.Count==4&&hongdae.TrueForAll(s=>s.net!=null),"홍대입구 platforms from the network ("+hongdae.Count+")");
-            var seoulPlatforms=WorldBuilder.PlatformLines(1);
+            var seoulPlatforms=WorldBuilder.PlatformLines(1).FindAll(p=>p.line=="공항철도");
             Expect(seoulPlatforms.Count==2&&seoulPlatforms[0].parity==0&&seoulPlatforms[1].parity==1,"서울역 공항철도 is a terminus with alternate trains");
+            Expect(WorldBuilder.PlatformLines(1).FindAll(p=>(p.line=="1호선"||p.line=="4호선")&&p.net!=null).Count==4,"서울역 1·4호선 platforms from the network");
             foreach(var side in hongdae)foreach(int d in side.ahead)Expect(WorldBuilder.RideSeconds(side,d)>30,"ride from 홍대입구 "+side.toward+" to "+WorldBuilder.StationNames[d]+" takes time");
 
             // Customisation: add a station and a line through it, remove a station and a line, and rebuild.

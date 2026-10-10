@@ -52,7 +52,7 @@ public static class InternationalAirportCheck {
         failures=0;
         var camera=new GameObject("international check camera").AddComponent<Camera>();
         var world=new GameObject("international check world").AddComponent<WorldBuilder>();world.worldCamera=camera;
-        world.BuildDistrict(3,9);world.BuildInternationalAirport();Physics.SyncTransforms();
+        world.BuildDistrict(3);world.BuildInternationalAirport();Physics.SyncTransforms();
         var terminal=world.InternationalAirportRoot;Check(terminal!=null,"terminal exists");
         var host=new GameObject("international check walker");host.SetActive(false);var game=host.AddComponent<GameController>();game.state=new GameState();Set(game,"world",world);
         var eye=new GameObject("international check eye").transform;Set(game,"eye",eye);

@@ -22,7 +22,7 @@ namespace PeninsulaTime
             var eye=new GameObject("Check Eye").transform;Field(game,"eye",eye);game.cardBalance=0;
             for(int district=0;district<4;district++)
             {
-                world.BuildDistrict(district,9);int buses=0;
+                world.BuildDistrict(district);int buses=0;
                 foreach(var bus in world.root.GetComponentsInChildren<TrafficVehicle>())
                 {
                     if(!bus.Bus)continue;buses++;

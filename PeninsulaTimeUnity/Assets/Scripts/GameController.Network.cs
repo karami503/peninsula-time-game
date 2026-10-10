@@ -20,7 +20,7 @@ namespace PeninsulaTime
         Texture2D dotTexture;GUIStyle chipStyle,chipButtonStyle,stationLabelStyle,boardLineStyle,boardTitleStyle;
         readonly List<Rect> labelRects=new List<Rect>();
 
-        bool NetworkMapVisible(){return mode=="map"&&(tab=="지도"||tab=="교통")&&!showIntro;}
+        bool NetworkMapVisible(){return mode=="map"&&(tab=="지도"||tab=="교통");}
         // "서면역을", "강남을": the object particle that fits the last syllable's final consonant.
         static string WithObject(string word)
         {
@@ -41,7 +41,7 @@ namespace PeninsulaTime
             boardTitleStyle=new GUIStyle(chipStyle){fontSize=19};
             chipButtonStyle=new GUIStyle(buttonStyle){richText=true,alignment=TextAnchor.MiddleLeft,wordWrap=true};
             boardLineStyle=new GUIStyle(smallStyle){richText=true,wordWrap=true};
-            stationLabelStyle=new GUIStyle(GUI.skin.label){font=koreanFont,fontSize=11,fontStyle=FontStyle.Bold,alignment=TextAnchor.MiddleLeft,wordWrap=false,clipping=TextClipping.Overflow,padding=new RectOffset(3,3,0,0)};
+            stationLabelStyle=new GUIStyle(GUI.skin.label){font=koreanBoldFont,fontSize=11,alignment=TextAnchor.MiddleLeft,wordWrap=false,clipping=TextClipping.Overflow,padding=new RectOffset(3,3,0,0)};
             stationLabelStyle.normal.textColor=new Color(.08f,.09f,.10f);stationLabelStyle.normal.background=Solid(new Color(1f,1f,1f,.82f));
             const int size=32;dotTexture=new Texture2D(size,size,TextureFormat.RGBA32,false);
             for(int y=0;y<size;y++)for(int x=0;x<size;x++)
@@ -136,13 +136,13 @@ namespace PeninsulaTime
         void DrawRouteMap(NetLine line)
         {
             if(Button("← 노선 목록")){SelectLine(null,false);return;}
-            GUILayout.BeginVertical(cardStyle);
+            BeginVerticalDump(cardStyle);
             GUILayout.Label("<b>"+Chip(line)+"</b>",chipStyle);
             float total=line.offsets[line.offsets.Length-1];
             Label(line.KindLabel+" · 첫차 "+TransitSchedule.Clock(line.firstMinute*60)+" · 막차 "+TransitSchedule.Clock(line.lastMinute*60),smallStyle);
             Label("배차 출퇴근 "+line.peakMinutes+"분 · 평시 "+line.offPeakMinutes+"분 · 전 구간 약 "+Mathf.RoundToInt(total/60f)+"분",smallStyle);
             if(Button("지도에서 보기"))FocusMapOn(line.stops);
-            GUILayout.EndVertical();
+            EndVerticalDump();
             var here=new Dictionary<int,string>();
             var running=TransitSchedule.Running(line,TransitSchedule.Now);
             foreach(var v in running)
@@ -183,16 +183,16 @@ namespace PeninsulaTime
                     var r=GUILayoutUtility.GetRect(34,28,GUILayout.Width(34),GUILayout.Height(28));
                     Color c;ColorUtility.TryParseHtmlString(LinePalette[i],out c);
                     var previous=GUI.color;
-                    if(i==newLineColour)GUI.DrawTexture(r,Texture2D.whiteTexture);
-                    GUI.color=c;GUI.DrawTexture(new Rect(r.x+3,r.y+3,r.width-6,r.height-6),Texture2D.whiteTexture);GUI.color=previous;
-                    if(GUI.Button(r,GUIContent.none,GUIStyle.none))newLineColour=i;
+                    if(i==newLineColour)UiTexture(r,Texture2D.whiteTexture);
+                    GUI.color=c;UiTexture(new Rect(r.x+3,r.y+3,r.width-6,r.height-6),Texture2D.whiteTexture);GUI.color=previous;
+                    if(UiButton(r,GUIContent.none,GUIStyle.none))newLineColour=i;
                 }
                 GUILayout.EndHorizontal();
             }
         }
         void DrawNetworkEditor()
         {
-            GUILayout.BeginVertical(cardStyle);
+            BeginVerticalDump(cardStyle);
             Label("노선·역 편집",headingStyle);
             Label("바꾼 내용은 저장 파일에 남고 노선도·시간표·지도에 바로 반영됩니다.",smallStyle);
             if(selectedLine!=null)
@@ -217,7 +217,7 @@ namespace PeninsulaTime
             var e=state.network;
             Label("추가한 역 "+e.stations.Count+" · 바꾸거나 만든 노선 "+e.lines.Count+" · 지운 역 "+e.removedStations.Count+" · 지운 노선 "+e.removedLines.Count,smallStyle);
             if(ConfirmButton("편집 모두 되돌리기","reset")){state.network=new NetworkEdits();placingStation=false;ApplyNetworkEdits("교통망을 원래대로 되돌렸습니다.");}
-            GUILayout.EndVertical();
+            EndVerticalDump();
         }
         // A destructive button that asks for a second click.
         bool ConfirmButton(string label,string key)
@@ -318,14 +318,20 @@ namespace PeninsulaTime
         {
             hoveredStation=null;
             // In the 3D streets the board opens from a bus stop's BIS screen.
-            if(mode=="district"){if(streetBoard&&selectedStation!=null&&!showIntro){EnsureNetworkStyles();DrawStationBoard(w,h);}else boardRect=new Rect(0,0,0,0);return;}
-            streetBoard=false;
+            if(mode=="district"||mode=="interior")
+            {
+                if((flightDeskAirline>=0||kioskDesk))DrawFlightDesk(w,h);
+                else if(streetBoard&&selectedStation!=null){EnsureNetworkStyles();DrawStationBoard(w,h);}
+                else boardRect=new Rect(0,0,0,0);
+                return;
+            }
+            streetBoard=false;flightDeskAirline=-1;kioskDesk=false;
             if(!NetworkMapVisible()||viewCamera==null||!viewCamera.orthographic){boardRect=new Rect(0,0,0,0);return;}
             EnsureNetworkStyles();
             float zoom=viewCamera.orthographicSize,scale=Mathf.Max(.55f,Mathf.Min(Screen.width/1440f,Screen.height/860f));
             var mouse=Event.current.mousePosition;labelRects.Clear();
             // Keep dots and names off the map's zoom and pan boxes (DrawMapControls).
-            var controls=new[]{new Rect(w-97,116,79,179),new Rect(w-202,h-224,176,140)};labelRects.AddRange(controls);
+            var controls=new[]{MapControlsRect(w),MapPanRect(w,h)};labelRects.AddRange(controls);
             float bestHover=10f;bool repaint=Event.current.type==EventType.Repaint;
             foreach(var s in TransitNetwork.Stations)
             {
@@ -335,14 +341,14 @@ namespace PeninsulaTime
                 var screen=viewCamera.WorldToScreenPoint(s.MapPosition(1.15f));
                 if(screen.z<0)continue;
                 float x=screen.x/scale,y=(Screen.height-screen.y)/scale;
-                if(x<WorldLeft()+4||x>w-8||y<96||y>h-58||controls[0].Contains(new Vector2(x,y))||controls[1].Contains(new Vector2(x,y)))continue;
+                if(x<WorldLeft()+4||x>Mathf.Min(w-8,WorldRight()-4)||y<20||y>h-WorldBottom()-6||controls[0].Contains(new Vector2(x,y))||controls[1].Contains(new Vector2(x,y)))continue;
                 int transfers=0;foreach(var l in s.lines)if(l.kind!="bus")transfers++;
                 float size=picked?13:transfers>1?9:7;
                 float d=Vector2.Distance(mouse,new Vector2(x,y));
                 if(d<bestHover&&!boardRect.Contains(mouse)){bestHover=d;hoveredStation=s;}
                 if(!repaint)continue;
                 var previous=GUI.color;if(picked)GUI.color=new Color(1f,.82f,.3f);
-                GUI.DrawTexture(new Rect(x-size*.5f,y-size*.5f,size,size),dotTexture);
+                UiTexture(new Rect(x-size*.5f,y-size*.5f,size,size),dotTexture);
                 GUI.color=previous;
                 bool named=picked||(onLine&&zoom<(selectedLine.kind=="bus"?2.5f:12f))||(rail&&zoom<(transfers>1||s.lines.Exists(l=>l.kind=="ktx")?16f:7f))||(metro&&zoom<2.4f);
                 if(!named)continue;
@@ -350,13 +356,13 @@ namespace PeninsulaTime
                 var rect=new Rect(x+size*.5f+2,y-labelSize.y*.5f,labelSize.x,labelSize.y);
                 bool overlaps=false;foreach(var r in labelRects)if(r.Overlaps(rect)){overlaps=true;break;}
                 if(overlaps&&!picked)continue;
-                labelRects.Add(rect);GUI.Label(rect,content,stationLabelStyle);
+                labelRects.Add(rect);UiLabel(rect,content,stationLabelStyle);
             }
             if(hoveredStation!=null&&repaint)
             {
                 var tip=StationTitle(hoveredStation)+(placingStation&&selectedLine!=null?" · 클릭해 "+selectedLine.name+"에 추가":" · 클릭해 실시간 도착 정보");
                 var size=stationLabelStyle.CalcSize(new GUIContent(tip));
-                GUI.Label(new Rect(mouse.x+14,mouse.y-22,size.x,size.y),tip,stationLabelStyle);
+                UiLabel(new Rect(mouse.x+14,mouse.y-22,size.x,size.y),tip,stationLabelStyle);
             }
             if(selectedStation!=null)DrawStationBoard(w,h);else boardRect=new Rect(0,0,0,0);
             var e=Event.current;
@@ -373,15 +379,15 @@ namespace PeninsulaTime
         {
             var s=selectedStation;double now=TransitSchedule.Now;
             float width=440,height=Mathf.Min(h-250,580);
-            boardRect=new Rect(WorldLeft()+14,112,width,height);
-            GUI.Box(boardRect,"",boxStyle);
+            boardRect=new Rect(MapControlsRect(w).xMax+14,112,width,height);
+            UiBox(boardRect,"",boxStyle);
             GUILayout.BeginArea(new Rect(boardRect.x+14,boardRect.y+12,width-28,height-24));
             GUILayout.BeginHorizontal();
             GUILayout.Label("<b>"+StationTitle(s)+"</b>",boardTitleStyle);
             bool close=GUILayout.Button("닫기",buttonStyle,GUILayout.Width(64));
             GUILayout.EndHorizontal();
             Label(TransitSchedule.Clock(now)+":"+((int)(now%60)).ToString("00")+" 기준 · 실시간 도착 정보 (시뮬레이션)",smallStyle);
-            if(state.era>=9&&s.lines.Count>0&&Button("이 역·정류장 3D 방문",true))VisitNetworkStation(s);
+            if(s.lines.Count>0&&Button("이 역·정류장 3D 방문",true))VisitNetworkStation(s);
             boardScroll=GUILayout.BeginScrollView(boardScroll);
             DrawDepartures(s,now,8);
             DrawArrivals(s,now);

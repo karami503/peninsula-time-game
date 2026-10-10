@@ -44,6 +44,7 @@ public partial class WorldBuilder {
             Block("대기실 뒷유리",walk,new Vector3(2.2f,.35f,-6.7f),new Vector3(2.25f,2.65f,6.7f),glass);
             foreach(float z in new[]{-6.8f,6.8f})Block("대기실 옆유리",walk,new Vector3(.2f,.35f,z-.04f),new Vector3(2.2f,2.65f,z+.04f),glass);
             Board(service.stops[k].name+" · "+line.shortName,walk,walk.TransformPoint(new Vector3(.5f,2.55f,0)),-right,new Vector2(6,.4f),new Color(.1f,.15f,.14f),Color.white,.21f);
+            BusPanel(service.stops[k],walk,0,7f);
             Marker(walk.position,service.stops[k].name);
         }
         var bus=CityModel("Bus",path[0]);if(bus!=null){service.train=bus.transform;FitBoxCollider(bus);service.doors=AttachBusCabin(bus,379);service.doors.cabin.kind="networkrail";service.doors.Set(1);RouteSign(bus,line.shortName);Sfx.Attach(bus,"bus-engine",.4f,35);service.Step(0);}

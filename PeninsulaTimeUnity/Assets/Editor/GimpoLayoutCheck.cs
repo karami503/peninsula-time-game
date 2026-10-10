@@ -211,14 +211,12 @@ namespace PeninsulaTime
 
         static void CheckBoarding(WorldBuilder world,GameController game,Transform eye)
         {
-            // All sides are tested physically. Lines outside the four detailed game
-            // districts get an isolated synthetic onward destination for this test;
-            // original route metadata is restored afterward. No door/collider is bypassed.
+            // All sides are tested physically with their real lines: boarding starts the ride, which stays at
+            // the platform until the doors close. No door/collider is bypassed.
             for(int index=0;index<world.StationTrains.Count;index++)
             {
                 Call(game,"ClearRides");var train=world.StationTrains[index];var original=train.line;
-                var fixtureLine=original;fixtureLine.net=null;fixtureLine.ahead=new[]{2};fixtureLine.destination=2;train.line=fixtureLine;
-                train.Begin(SubwayTrain.Approach+4f);Physics.SyncTransforms();
+                                train.Begin(SubwayTrain.Approach+4f);Physics.SyncTransforms();
                 var consist=train.Active;Check(consist!=null&&consist.cabin!=null,"side "+index+" has an active cabin");
                 if(consist==null||consist.cabin==null){train.line=original;continue;}
                 var cabin=consist.cabin;float sign=cabin.doorSide;float door=cabin.doors[3];
@@ -251,8 +249,7 @@ namespace PeninsulaTime
             for(int index=0;index<world.StationTrains.Count;index++)
             {
                 Call(game,"ClearRides");var train=world.StationTrains[index];var original=train.line;
-                var fixtureLine=original;fixtureLine.net=null;fixtureLine.ahead=new[]{2};fixtureLine.destination=2;train.line=fixtureLine;
-                try
+                                try
                 {
                     train.Begin(SubwayTrain.Approach+4f);Physics.SyncTransforms();
                     var active=train.Active;Check(active!=null&&active.cabin!=null,"swept side "+index+" requires an active cabin");
@@ -368,7 +365,7 @@ namespace PeninsulaTime
             {
                 var camera=new GameObject("Gimpo layout camera").AddComponent<Camera>();
                 var world=new GameObject("Gimpo layout world").AddComponent<WorldBuilder>();world.worldCamera=camera;
-                world.BuildDistrict(3,9);Physics.SyncTransforms();
+                world.BuildDistrict(3);Physics.SyncTransforms();
                 var host=new GameObject("Gimpo layout walker");host.SetActive(false);var game=host.AddComponent<GameController>();game.state=new GameState();game.cardBalance=0;
                 var eye=new GameObject("Gimpo layout eye").transform;Set(game,"world",world);Set(game,"eye",eye);
                 CheckExits(world);var modules=CheckPlatforms(world);CheckBoardFit(modules);

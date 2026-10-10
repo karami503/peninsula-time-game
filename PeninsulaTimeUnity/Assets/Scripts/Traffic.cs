@@ -280,6 +280,7 @@ namespace PeninsulaTime
         public int HeldFrom{get;private set;}
         public int HeldNext{get;private set;}
         public Vector3 Heading{get;private set;}
+        public float Speed{get{return speed;}}
         int heldNode=-1,previous=-1;float dwell;long servedStop=-1;float kerb;
         TrafficGraph graph;int next;float cruise,speed,height;Quaternion modelRotation;System.Random random;
 

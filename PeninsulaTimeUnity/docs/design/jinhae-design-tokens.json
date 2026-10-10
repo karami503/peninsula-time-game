@@ -1,0 +1,21 @@
+{
+  "name": "PeninsulaTime Jinhae",
+  "colors": {
+    "cream": "#EDE3C7",
+    "granite": "#9E9991",
+    "timber": "#735238",
+    "slate": "#454D59",
+    "tile": "#C2B8A6",
+    "pane": "#546E85",
+    "sill": "#F2F2ED",
+    "concrete": "#B3B0A8",
+    "tactile": "#F2C724",
+    "shingle": "#4A4547",
+    "aluminium": "#C7CCD1",
+    "water": "#1F404D",
+    "foliage": "#4A6B40",
+    "ink": "#0B1214",
+    "card": "#161F20"
+  },
+  "preserve": ["transit line", "traffic signal", "warning", "emissive light"]
+}

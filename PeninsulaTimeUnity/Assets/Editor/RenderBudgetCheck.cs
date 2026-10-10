@@ -127,6 +127,28 @@ namespace PeninsulaTime
                 Expect(Visible(far)&&near!=null&&!Visible(near),"walking to the far cell did not restore its batch");
             }
         }
+        // Batches stay inside one structure even when two buildings share a cell; each building gets a LODGroup with a box proxy.
+        static void CheckStructures()
+        {
+            using(var f=new Fixture())
+            {
+                var a=Child(f.Root,"건물 A",new Vector3(10,0,10));a.gameObject.AddComponent<Structure>().proxy=true;
+                var b=Child(f.Root,"건물 B",new Vector3(20,0,10));b.gameObject.AddComponent<Structure>().proxy=true;
+                for(int i=0;i<4;i++){f.Cube(a,"A wall "+i,new Vector3(i,1,0));f.Cube(b,"B wall "+i,new Vector3(i,1,0));}
+                f.StartBudget();
+                Expect(f.budget.BatchCount==2,"two buildings in one cell must give two batches, got "+f.budget.BatchCount);
+                foreach(var s in new[]{a,b})
+                {
+                    int batches=0;foreach(Transform c in s)if(c.name=="렌더 묶음")batches++;
+                    Expect(batches==1,s.name+" should own exactly its own batch, got "+batches);
+                    var group=s.GetComponent<LODGroup>();
+                    Expect(group!=null&&group.lodCount==2,s.name+" has no two-level LODGroup");
+                    var proxy=s.GetComponent<Structure>().ProxyRenderer;
+                    Expect(proxy!=null&&proxy.GetComponent<Collider>()==null&&proxy.bounds.size.y>1.5f,s.name+" proxy box missing, colliding or flat");
+                }
+                Expect(f.budget.StructureCount==2,"structure count "+f.budget.StructureCount);
+            }
+        }
         static void CheckControllerVisibility()
         {
             using(var f=new Fixture())
@@ -193,7 +215,7 @@ namespace PeninsulaTime
         public static void Run()
         {
             failures=0;int oldQuality=(int)Quality.GetValue(null);
-            try{Quality.SetValue(null,1);CheckStaticAndDynamic();CheckControllerVisibility();CheckLights();}
+            try{Quality.SetValue(null,1);CheckStaticAndDynamic();CheckStructures();CheckControllerVisibility();CheckLights();}
             catch(Exception e){failures++;Debug.LogException(e);}
             finally{Quality.SetValue(null,oldQuality);}
             Debug.Log("RenderBudgetCheck: "+(failures==0?"passed":failures+" failed"));

@@ -13,7 +13,7 @@ namespace PeninsulaTime {
         void DrawPerformanceSettings(){
             Label("화면 품질 · "+performanceText,smallStyle);
             GUILayout.BeginHorizontal();
-            for(int i=0;i<3;i++)if(GUILayout.Button(QualityNames[i]+(PerformanceRuntime.Level==i?" ✓":""),buttonStyle,GUILayout.Height(30)))PerformanceRuntime.Apply(i);
+            for(int i=0;i<3;i++)if(DumpButton(QualityNames[i]+(PerformanceRuntime.Level==i?" ✓":""),buttonStyle,GUILayout.Height(30)))PerformanceRuntime.Apply(i);
             GUILayout.EndHorizontal();
             if(PerformanceRuntime.Level==0)Label("가까운 풍경 위주로 표시 · 조명과 그림자 간소화",smallStyle);
             GUILayout.Space(8);

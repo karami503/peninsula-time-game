@@ -34,7 +34,7 @@ namespace PeninsulaTime
                 int district=int.Parse(parts[0]);
                 if(district!=built)
                 {
-                    world.BuildDistrict(district,9);built=district;
+                    world.BuildDistrict(district);built=district;
                     var director=world.root.GetComponentInChildren<TrafficDirector>();
                     var trains=world.root.GetComponentsInChildren<RailVehicle>();
                     for(float t=0;t<seconds;t+=.05f)

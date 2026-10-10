@@ -8,7 +8,7 @@ public static class StationClearanceCheck {
     public static void Run(){
         var camera=new GameObject("camera").AddComponent<Camera>();var world=new GameObject("world").AddComponent<WorldBuilder>();world.worldCamera=camera;
         for(int district=0;district<4;district++){
-            world.BuildDistrict(district,9);Physics.SyncTransforms();
+            world.BuildDistrict(district);Physics.SyncTransforms();
             if(district==0)foreach(var route in world.GangnamPlatformRoutes){
                 for(int segment=1;segment<route.points.Length;segment++)for(float t=0;t<=1;t+=.025f){
                     var feet=Vector3.Lerp(route.points[segment-1],route.points[segment],t);

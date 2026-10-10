@@ -19,9 +19,12 @@ namespace PeninsulaTime {
             string output=Path.Combine(SaveDirectory,"performance.json");
             int at=Array.IndexOf(args,"--benchmark-output");if(at>=0&&at+1<args.Length)output=args[at+1];
             string[] scenes=Array.IndexOf(args,"--benchmark-expanded")>=0?new[]{"surface","concourse","platform","terminal","international-checkin","international-gates","national-gangnam","national-seomyeon","national-seoul-hall","gangnam-side-platform"}:new[]{"surface","concourse","platform","terminal"};
+            // Fixed 1280x800 window so every run measures the same pixel load (a full Retina surface overloaded the Mac).
+            Screen.SetResolution(1280,800,false);
             int profile=Array.IndexOf(args,"--benchmark-quality");if(profile>=0&&profile+1<args.Length){int value;if(int.TryParse(args[profile+1],out value))PerformanceRuntime.Apply(value);}
-            state.era=9;showIntro=false;EnterDistrict(3,false);
-            Application.targetFrameRate=60;
+            EnterDistrict(3,false);
+            // --benchmark-uncapped removes the 60 fps cap so frame time shows real headroom.
+            Application.targetFrameRate=Array.IndexOf(args,"--benchmark-uncapped")>=0?-1:60;
             Cursor.lockState=CursorLockMode.None;Cursor.visible=true;
             var result=new PerformanceReport{version=Application.version,device=SystemInfo.deviceModel,gpu=SystemInfo.graphicsDeviceName,width=Screen.width,height=Screen.height};
             using(var draws=ProfilerRecorder.StartNew(ProfilerCategory.Render,"Draw Calls Count",1))

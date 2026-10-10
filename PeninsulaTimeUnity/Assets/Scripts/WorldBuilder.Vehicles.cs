@@ -132,6 +132,7 @@ namespace PeninsulaTime
                     foreach(float s in new[]{-1f,1f})foreach(float half in new[]{-1f,1f})
                     {
                         var leaf=Leaf(consistRoot,new Vector3(s*1.51f,MetroFloor+.95f,z+d+half*.325f),1.9f,.64f,body,glass,band);
+                        consist.sideLeaves.Add(leaf);consist.leafSides.Add(s);consist.leafRest.Add(leaf.localPosition);consist.leafSlides.Add(new Vector3(0,0,half*.62f));
                         if(s!=open)continue;
                         consist.doorLeaves.Add(leaf);consist.doorClosed.Add(leaf.localPosition);consist.doorOpen.Add(leaf.localPosition+new Vector3(0,0,half*.62f));
                     }

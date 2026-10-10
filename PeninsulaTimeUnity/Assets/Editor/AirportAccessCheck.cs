@@ -59,7 +59,7 @@ public static class AirportAccessCheck {
         AirportModelImport.Prepare();failures=0;
         var camera=new GameObject("airport check camera").AddComponent<Camera>();
         var world=new GameObject("airport check world").AddComponent<WorldBuilder>();world.worldCamera=camera;
-        world.BuildDistrict(3,9);Physics.SyncTransforms();
+        world.BuildDistrict(3);Physics.SyncTransforms();
         var host=new GameObject("airport check walker");host.SetActive(false);
         var game=host.AddComponent<GameController>();game.state=new GameState();Set(game,"world",world);
         var eye=new GameObject("airport check eye").transform;Set(game,"eye",eye);

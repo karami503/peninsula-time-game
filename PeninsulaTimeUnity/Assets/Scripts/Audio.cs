@@ -73,6 +73,7 @@ namespace PeninsulaTime
                 if(s.volume<=0&&i!=ambienceSide&&s.isPlaying)s.Stop();
             }
         }
+        public static void StopAmbience(){Ambience(null,0);}
 
         // ---------- synthesis ----------
         static System.Random noise=new System.Random(7);

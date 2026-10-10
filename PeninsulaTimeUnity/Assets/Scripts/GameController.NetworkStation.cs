@@ -9,14 +9,15 @@ namespace PeninsulaTime
         int stationAnnounced;
         void VisitNetworkStation(NetStation station,NetLine preferred=null,int direction=0)
         {
-            if(state.era<9){Toast("현대 시대에 역을 방문할 수 있습니다.");return;}
             var line=preferred??station.lines.Find(l=>l.kind=="metro"||l.kind=="ktx"||l.kind=="mugunghwa"||l.kind=="bus"||l.kind=="brt");
             if(line==null){Toast("이 역에 연결된 철도 노선이 없습니다.");return;}
+            if(WorldBuilder.JinhaeArea.Contains(new Vector2(station.lon,station.lat))&&(line.kind=="bus"||line.kind=="brt")){EnterOpenWorldAt(station.lon,station.lat);return;}
+            var jinhae=JinhaeStopNear(station,line);if(jinhae!=null){EnterJinhae(jinhae);return;} // 진해구 is carved whole
             if(StationJourney.Next(line,station,direction).Count<2)direction=1-direction;
             ClearRides();networkPassengerJourney=null;ridingCar=null;flight=null;cityStreet=false;undergroundWalk=false;
             stationJourney=world.BuildNetworkStation(station,line,direction);stationAnnounced=0;
             state.selectedCity=WorldBuilder.NearestCity(TransitNetwork.Bare(station.name));
-            mode="rail";tab="서울 3D";streetBoard=false;selectedStation=null;world.dayNight=true;
+            mode="rail";tab="3D";streetBoard=false;selectedStation=null;world.dayNight=true;
             float doorway=stationJourney.doors!=null?stationJourney.doors.cabin.doors[stationJourney.doors.cabin.doors.Length-1]:7.55f;
             if(stationJourney.doors!=null){var c=stationJourney.doors.cabin;var p=c.transform.TransformPoint(new Vector3(c.halfWidth+1.1f,0,doorway));if(!stationJourney.Bus)p.y=world.NetworkSpawn.y;Teleport(p+Vector3.up*EyeHeight,-c.transform.right);}
             else Teleport(world.NetworkSpawn+Vector3.up*EyeHeight,Vector3.left);
@@ -32,6 +33,7 @@ namespace PeninsulaTime
         {
             stationJourney=c.GetComponentInParent<StationJourney>();
             if(stationJourney==null)return;
+            if(!stationJourney.Bus){StartNetRideFromHub(stationJourney);return;}
             networkPassengerJourney=stationJourney;
             world.PrepareNetworkJourney(stationJourney);stationAnnounced=stationJourney.index;
             stationJourney.Board();Beep.Play("tap");
@@ -62,9 +64,18 @@ namespace PeninsulaTime
                 stationAnnounced=stationJourney.index;
                 if(!stationJourney.Bus)world.RefreshNetworkArea(stationJourney.Current,stationJourney.origin+Vector3.forward*(stationJourney.index*StationJourney.Spacing));
                 Toast(stationJourney.Current.name+" 도착 · 문이 열리면 걸어서 하차");
+                AnnounceNetworkStop();
                 state.selectedCity=WorldBuilder.NearestCity(TransitNetwork.Bare(stationJourney.Current.name));
             }
             if(cabin!=null&&cabin.kind=="networkrail")CarryInCabin();
+        }
+        // The on-board announcement for the stop just reached, in the wording of that kind of service.
+        void AnnounceNetworkStop()
+        {
+            var j=stationJourney;string here=TransitNetwork.Bare(j.Current.name);
+            if(j.Bus){Announcer.Say("door-chime",j.index>=j.stops.Count-1?Announcer.BusTerminus():Announcer.BusNext(here,TransitNetwork.Bare(j.stops[j.index+1].name)));return;}
+            if(j.line.kind=="ktx"||j.line.kind=="mugunghwa"){Announcer.Say("chime",Announcer.TrainNext(j.line.kind=="ktx"?"KTX":"무궁화호",here));return;}
+            Announcer.Say("chime",Announcer.MetroNext(here));
         }
         void RebuildNetworkInterchangeAfterAlighting(){
             if(cabin!=null||stationJourney==null||stationJourney.Bus||stationJourney.index<=0)return;
@@ -116,6 +127,7 @@ namespace PeninsulaTime
                 foreach(var route in world.NetworkTransfers)
                     Label(route.line.name+" · "+route.toward+(route.line.planned?" (계획 시나리오)":""),smallStyle);
             }
+            if(cabin==null&&!stationJourney.Bus)DrawTicketPurchase();
             if(Button("전국 교통 지도로 돌아가기")){ReturnMap();tab="교통";}
         }
     }

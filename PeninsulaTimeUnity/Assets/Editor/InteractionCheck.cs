@@ -74,7 +74,7 @@ namespace PeninsulaTime
             for(int i=0;i<20;i++)car.ManualDrive(1f,0f,.1f);
             Expect(Vector3.Distance(drivingStart,car.transform.position)>1f,"W accelerates the car under player control");
 
-            world.BuildDistrict(0,9);
+            world.BuildDistrict(0);
             int crowd=0;foreach(var d in world.root.GetComponentsInChildren<TrafficDirector>())crowd+=d.Walkers.Count;
             Expect(crowd>=50,"Seoul district has crowds ("+crowd+")");
             // Street walkers use sidewalks and zebra crossings, not the carriageway.

@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace PeninsulaTime
 {
-    // The local Seoul Station train becomes a manual service while the player is aboard.
-    // Arrival uses a small walkable station scene and keeps the same cabin coordinates.
+    // The local Seoul Station train becomes a manual service while the player is aboard; past the end of its mapped
+    // track it carries on as a national-network ride (GameController.NetRide) to its first stop.
     public partial class GameController
     {
         RailVehicle railRide;
@@ -55,22 +55,18 @@ namespace PeninsulaTime
             // Keep the doors open long enough to board, then accelerate away from the buffer end.
             float travel=Mathf.Max(0,railClock-4.8f)*TransitSpeed.RailMultiplier;
             if(railRide.doors!=null)railRide.doors.Move(railClock<4f,dt);
-            railRide.manualOffset=railRide.doors!=null&&railRide.doors.amount>.001f?0:Mathf.Min(railRide.reach+30f,travel*travel*.62f);
+            float run=travel*travel*.62f;
+            var before=railRide.transform.position;
+            railRide.manualOffset=railRide.doors!=null&&railRide.doors.amount>.001f?0:Mathf.Min(railRide.reach+30f,run);
             railRide.Step(0);
             CarryInCabin();
-            if(railClock<4.8f+3.2f/TransitSpeed.RailMultiplier)return;
-            var feet=cabinFeet;var yaw=cabinYaw;
+            if(railRide.manualOffset<railRide.reach+30f)return;
+            // Past the end of the mapped track: the same train runs on along the line to its first stop.
             var line=railTicket.line;int direction=railTicket.direction;
             var start=line.stops.Find(s=>TransitNetwork.Bare(s.name)=="서울")??line.stops[0];
-            railRide.manual=false;railRide=null;cabin=null;
-            VisitNetworkStation(start,line,direction);
-            cabin=stationJourney!=null&&stationJourney.doors!=null?stationJourney.doors.cabin:null;
-            if(cabin!=null)
-            {
-                cabinFeet=cabin.Clamp(feet,feet);cabinYaw=yaw;
-                BoardNetworkRail(cabin,true);stationJourney.wait=0;stationJourney.doors.Set(0);CarryInCabin();
-            }
-
+            var rail=railRide;railRide=null;
+            var heading=rail.transform.position-before;if(heading.sqrMagnitude<1e-6f)heading=-rail.Direction;
+            StartNetRideFromRail(rail,line,direction,start,heading,2f*.62f*travel*TransitSpeed.RailMultiplier);
         }
     }
 }

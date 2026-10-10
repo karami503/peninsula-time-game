@@ -214,9 +214,9 @@ namespace PeninsulaTime {
             foreach(float z in c.doors)foreach(float side in new[]{-1f,1f})foreach(float half in new[]{-1f,1f})
             {
                 var leaf=Leaf(frame,new Vector3(side*1.51f,MetroFloor+.95f,z+half*.325f),1.9f,.64f,body,VehicleGlass());
-                if(side>0)doors.Add(leaf,new Vector3(0,0,half*.62f));
+                doors.Add(leaf,new Vector3(0,0,half*.62f),side);
             }
-            doors.Set(0);c.Register();return doors;
+            doors.side=1;doors.Set(0);c.Register();return doors; // network platforms are on the +x side
         }
     }
 }
