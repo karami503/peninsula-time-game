@@ -22,6 +22,9 @@ namespace PeninsulaTime
         // Returns the number of Structures made.
         public static int Split(Transform district)
         {
+            // The district is one authored/carved city mass. Its render chunks stay below this single root so
+            // distance culling can hide individual blocks without changing the continuous exterior design.
+            var mass=new GameObject("진해 기준 통합 도시 매스").transform;mass.SetParent(district,false);
             var sources=new List<MeshFilter>();
             foreach(var f in district.GetComponentsInChildren<MeshFilter>())
             {
@@ -58,7 +61,7 @@ namespace PeninsulaTime
             }
             // 3. One child mesh per (structure, surface kind), with the source's materials and transform.
             var structures=new Dictionary<string,Transform>();
-            foreach(var pair in keys)Cut(pair.Key,pair.Value,district,structures);
+            foreach(var pair in keys)Cut(pair.Key,pair.Value,mass,structures);
             return structures.Count;
         }
 

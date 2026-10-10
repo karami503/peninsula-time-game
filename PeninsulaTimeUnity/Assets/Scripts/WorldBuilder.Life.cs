@@ -8,8 +8,11 @@ namespace PeninsulaTime
     {
         public static readonly string[] DoorBuildings={"house","hanok","apartment","school","workshop","factory"};
         const float HipHeight=.9f,ShoulderHeight=1.44f,HipSpread=.09f,ShoulderSpread=.27f,WalkSpeed=1.3f;
-        static readonly Color[] Shirts={new Color(.30f,.42f,.62f),new Color(.72f,.22f,.20f),new Color(.88f,.86f,.80f),new Color(.25f,.50f,.30f),new Color(.85f,.65f,.20f),new Color(.45f,.30f,.55f),new Color(.15f,.15f,.18f)};
-        static readonly Color[] Trousers={new Color(.18f,.19f,.24f),new Color(.30f,.28f,.25f),new Color(.12f,.20f,.38f),new Color(.40f,.36f,.30f)};
+        static readonly Color[] Shirts={JinhaeDesign.Slate,JinhaeDesign.Timber,JinhaeDesign.Cream,JinhaeDesign.Foliage,JinhaeDesign.Tactile,JinhaeDesign.Tile,JinhaeDesign.Ink};
+        static readonly Color[] Trousers={JinhaeDesign.Ink,JinhaeDesign.Timber,JinhaeDesign.Slate,JinhaeDesign.Granite};
+        public static int ShirtCount{get{return Shirts.Length;}} public static int TrouserCount{get{return Trousers.Length;}}
+        public static Color ShirtColor(int index){return Shirts[Mathf.Abs(index)%Shirts.Length];}
+        public static Color TrouserColor(int index){return Trousers[Mathf.Abs(index)%Trousers.Length];}
 
         static Bounds RendererBounds(GameObject o)
         {
@@ -36,6 +39,7 @@ namespace PeninsulaTime
                 }
             }
         }
+        public void TintPerson(GameObject person,int shirt,int trousers){if(person!=null)Tint(person,ShirtColor(shirt),TrouserColor(trousers));}
         // A person assembled from the Blender parts, facing +Z, feet at the root.
         public Pedestrian CreatePerson(Vector3 position,float scale,System.Random random,out Transform[] legs,out Transform[] arms)
         {

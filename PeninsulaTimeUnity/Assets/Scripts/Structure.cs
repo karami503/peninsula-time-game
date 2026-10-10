@@ -34,7 +34,7 @@ namespace PeninsulaTime
         // An axis-aligned box over the building, without a collider: walking and clicking always use the detailed model.
         Renderer MakeProxy(Bounds bounds)
         {
-            if(proxyMaterial==null){var shader=Shader.Find("Standard");proxyMaterial=new Material(shader!=null?shader:Shader.Find("Sprites/Default")){name="Structure proxy",color=new Color(.6f,.62f,.62f)};}
+            if(proxyMaterial==null){var shader=Shader.Find("Standard");proxyMaterial=new Material(shader!=null?shader:Shader.Find("Sprites/Default")){name="Structure proxy",color=JinhaeDesign.Concrete};}
             var box=GameObject.CreatePrimitive(PrimitiveType.Cube);box.name="저상세 블록";
             DestroyImmediate(box.GetComponent<Collider>());
             box.transform.SetParent(transform,false);

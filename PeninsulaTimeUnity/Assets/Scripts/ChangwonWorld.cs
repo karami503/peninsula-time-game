@@ -61,6 +61,7 @@ namespace PeninsulaTime
         Material NewMat(Color color,string texture,float tiling,float smooth=.2f,float metal=0){
             var baseMaterial=Resources.Load<Material>("RuntimeBase");
             var m=baseMaterial!=null?new Material(baseMaterial):new Material(Shader.Find("Standard"));
+            color=JinhaeDesign.Harmonize(texture??"surface",color);
             m.color=color;if(m.HasProperty("_Glossiness"))m.SetFloat("_Glossiness",smooth);if(m.HasProperty("_Smoothness"))m.SetFloat("_Smoothness",smooth);if(m.HasProperty("_Metallic"))m.SetFloat("_Metallic",metal);
             if(texture!=null){var t=Resources.Load<Texture2D>("Textures/City/"+texture);if(t!=null){m.mainTexture=t;m.mainTextureScale=Vector2.one*tiling;}}
             return m;

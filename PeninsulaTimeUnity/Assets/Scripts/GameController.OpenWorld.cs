@@ -12,7 +12,7 @@ namespace PeninsulaTime
     {
         public float x=float.NaN,z=float.NaN,yaw;public int score;public float distance;
         public List<string> stamps=new List<string>();public List<string> done=new List<string>();
-        public float clock=100f;public int missionsDone;public float bestRace;
+        public float clock=100f;public int missionsDone;public float bestRace;public int shirt,trousers;public bool gun;
     }
 
     // Shared state for the open-world systems (traffic, people, buses, missions) so they need not reach into GameController.
@@ -72,6 +72,7 @@ namespace PeninsulaTime
             ChangwonSession.EnterCar=EnterChangwonCar;ChangwonSession.LeaveCar=LeaveChangwonCar;thirdPerson=true;
             ChangwonSession.SetWaypoint=(at,name)=>{if(at.HasValue)SetChangwonWaypoint(at.Value,name);else{ChangwonSession.Waypoint=null;ChangwonSession.WaypointName="";cwRoute=null;}};
             LoadChangwonProgress();
+            playerShirt=ChangwonSession.Progress.shirt;playerTrousers=ChangwonSession.Progress.trousers;playerGunHeld=ChangwonSession.Progress.gun;ApplyPlayerAppearance();
             cw=world.BuildChangwonWorld(eye);ChangwonSession.Root=world.root.transform;world.root.AddComponent<ChangwonLandmarkModels>(); // before the data loads, so it flattens the replaced footprints first
             StartCoroutine(OpenWorldStart());
         }
@@ -199,7 +200,7 @@ namespace PeninsulaTime
         void SaveChangwonProgress()
         {
             if(!ChangwonSession.Active||!cwReady)return;
-            var p=ChangwonSession.Progress;var feet=cwCar!=null?cwCar.transform.position:Feet;p.x=feet.x;p.z=feet.z;p.yaw=Yaw;p.clock=DayCycle.Seconds;
+            var p=ChangwonSession.Progress;var feet=cwCar!=null?cwCar.transform.position:Feet;p.x=feet.x;p.z=feet.z;p.yaw=Yaw;p.clock=DayCycle.Seconds;p.shirt=playerShirt;p.trousers=playerTrousers;p.gun=playerGunHeld;
             try{
                 Directory.CreateDirectory(SaveDirectory);string tmp=ChangwonSavePath+".tmp";File.WriteAllText(tmp,JsonUtility.ToJson(p,true));
                 if(File.Exists(ChangwonSavePath))File.Delete(ChangwonSavePath);File.Move(tmp,ChangwonSavePath);
@@ -497,7 +498,7 @@ namespace PeninsulaTime
             }
             foreach(var lm in ChangwonLandmarks.All){var g=toGui(lm.pos);if(rect.Contains(g))Blip(g,ChangwonSession.Progress.stamps.Contains(lm.id)?new Color(.55f,.55f,.55f):new Color(1f,.78f,.25f),7);}
             foreach(var b in ChangwonSession.Blips){var g=toGui(new Vector2(b.Key.x,b.Key.z));if(rect.Contains(g))Blip(g,b.Value,8);}
-            if(ChangwonSession.Waypoint.HasValue){var g=toGui(ChangwonSession.Waypoint.Value);var d=g-rect.center;float lim=size*.47f;if(d.magnitude>lim)g=rect.center+d.normalized*lim;Blip(g,new Color(.75f,.35f,1f),11);}
+            if(ChangwonSession.Waypoint.HasValue){var g=toGui(ChangwonSession.Waypoint.Value);var d=g-rect.center;float lim=size*.47f;if(d.magnitude>lim)g=rect.center+d.normalized*lim;Blip(g,JinhaeDesign.Tactile,11);}
             // Player arrow (always up) and the north marker.
             Blip(rect.center,Color.white,10);Blip(rect.center+new Vector2(0,-6),new Color(.2f,.85f,1f),6);
             var north=toGui(center+new Vector2(0,1)*mpp*size*.44f);GUI.Label(new Rect(north.x-6,north.y-10,20,20),"N",cwHudSmall);
@@ -507,7 +508,7 @@ namespace PeninsulaTime
         void DrawRouteGL(Rect clip,Func<Vector2,Vector2> toGui,float scale,float h)
         {
             var route=cwRoute;if(route==null||route.Count<2)return;
-            GL.PushMatrix();GL.LoadPixelMatrix();GLMat(cwDot).SetPass(0);GL.Begin(GL.QUADS);GL.Color(new Color(.72f,.33f,1f,.95f));
+            GL.PushMatrix();GL.LoadPixelMatrix();GLMat(cwDot).SetPass(0);GL.Begin(GL.QUADS);GL.Color(new Color(JinhaeDesign.Tactile.r,JinhaeDesign.Tactile.g,JinhaeDesign.Tactile.b,.95f));
             for(int i=1;i<route.Count;i++){
                 Vector2 a=toGui(new Vector2(route[i-1].x,route[i-1].z)),b=toGui(new Vector2(route[i].x,route[i].z));
                 if(!ClipSegment(clip,ref a,ref b))continue;
@@ -548,7 +549,7 @@ namespace PeninsulaTime
                 if((e.mousePosition-view.position-at).sqrMagnitude<100)hovered=lm;
             }
             foreach(var b in ChangwonSession.Blips){var d=(new Vector2(b.Key.x,b.Key.z)-cwMapCenter)/mpp;Blip(local.center+new Vector2(d.x,-d.y),b.Value,10);}
-            if(ChangwonSession.Waypoint.HasValue){var d=(ChangwonSession.Waypoint.Value-cwMapCenter)/mpp;Blip(local.center+new Vector2(d.x,-d.y),new Color(.75f,.35f,1f),14);}
+            if(ChangwonSession.Waypoint.HasValue){var d=(ChangwonSession.Waypoint.Value-cwMapCenter)/mpp;Blip(local.center+new Vector2(d.x,-d.y),JinhaeDesign.Tactile,14);}
             var feet=cwCar!=null?cwCar.transform.position:Feet;var pd=(new Vector2(feet.x,feet.z)-cwMapCenter)/mpp;Blip(local.center+new Vector2(pd.x,-pd.y),Color.white,12);Blip(local.center+new Vector2(pd.x,-pd.y),new Color(.2f,.85f,1f),7);
             GUI.EndGroup();
             GUI.DrawTexture(new Rect(view.x,view.y,view.width,40),softTexture);
@@ -564,16 +565,21 @@ namespace PeninsulaTime
         void DrawChangwonMenu(float w,float h)
         {
             GUI.DrawTexture(new Rect(0,0,w,h),softTexture);
-            var box=new Rect(w*.5f-300,h*.5f-250,600,500);GUI.Box(box,"",boxStyle);
+            var box=new Rect(w*.5f-300,h*.5f-310,600,620);GUI.Box(box,"",boxStyle);
             GUI.Label(new Rect(box.x+30,box.y+24,540,44),"창원 오픈월드 · 일시정지",titleStyle);
             var p=ChangwonSession.Progress;
             GUI.Label(new Rect(box.x+30,box.y+80,540,90),"명소 도장 "+p.stamps.Count+"/"+ChangwonLandmarks.All.Count+"  ·  임무 완료 "+p.missionsDone+"  ·  점수 "+p.score.ToString("N0")+"\n총 이동 거리 "+(p.distance/1000f).ToString("0.0")+" km  ·  "+DayCycle.Clock+"\n"+(cwArea.Length>0?cwArea:"창원특례시"),bodyStyle);
             GUI.Label(new Rect(box.x+30,box.y+170,540,120),"조작: WASD 이동·운전 · Shift 달리기 · Space 점프/브레이크 · F 차 타기·내리기·대화·이용 · T 시점 · M 지도 · H 경적 · Tab 마우스\n차량 근처에서 F를 누르면 운전합니다. 버스 정류장에서 F로 시내버스를 기다려 탈 수 있습니다. 노란 명소에 가면 도장을 받고, 임무 지점(초록)에서 F로 택시·배달·레이스 임무를 시작합니다.",smallStyle);
-            if(GUI.Button(new Rect(box.x+30,box.y+300,260,52),"계속하기",accentButtonStyle))cwMenuOpen=false;
-            if(GUI.Button(new Rect(box.x+310,box.y+300,260,52),"지도 열기",buttonStyle)){cwMenuOpen=false;cwMapOpen=true;cwMapCenter=new Vector2(Feet.x,Feet.z);}
-            if(GUI.Button(new Rect(box.x+30,box.y+364,260,52),"진행 저장",buttonStyle)){SaveChangwonProgress();Save();Toast("창원 오픈월드 진행을 저장했습니다.");}
-            if(GUI.Button(new Rect(box.x+310,box.y+364,260,52),"창원시청으로 이동",buttonStyle)){Vector3 s,f;ChangwonSpawn(out s,out f);ChangwonSession.Ride=null;if(cwCar!=null)LeaveChangwonCar();RaycastHit hit;if(Physics.Raycast(s+Vector3.up*60,Vector3.down,out hit,140))s=hit.point;Teleport(s+Vector3.up*EyeHeight,f);cwMenuOpen=false;}
-            if(GUI.Button(new Rect(box.x+30,box.y+428,540,52),"오픈월드 나가기 (한반도 지도로)",buttonStyle)){cwMenuOpen=false;ExitOpenWorld();}
+            if(GUI.Button(new Rect(box.x+30,box.y+292,165,44),"상의 이전",buttonStyle))CyclePlayerShirt(-1);
+            if(GUI.Button(new Rect(box.x+205,box.y+292,165,44),"상의 다음",buttonStyle))CyclePlayerShirt(1);
+            if(GUI.Button(new Rect(box.x+380,box.y+292,190,44),playerGunHeld?"장비 내리기 (U)":"장비 들기 (U)",buttonStyle))TogglePlayerGun();
+            if(GUI.Button(new Rect(box.x+30,box.y+344,260,44),"하의 이전",buttonStyle))CyclePlayerTrousers(-1);
+            if(GUI.Button(new Rect(box.x+310,box.y+344,260,44),"하의 다음",buttonStyle))CyclePlayerTrousers(1);
+            if(GUI.Button(new Rect(box.x+30,box.y+404,260,52),"계속하기",accentButtonStyle))cwMenuOpen=false;
+            if(GUI.Button(new Rect(box.x+310,box.y+404,260,52),"지도 열기",buttonStyle)){cwMenuOpen=false;cwMapOpen=true;cwMapCenter=new Vector2(Feet.x,Feet.z);}
+            if(GUI.Button(new Rect(box.x+30,box.y+468,260,52),"진행 저장",buttonStyle)){SaveChangwonProgress();Save();Toast("창원 오픈월드 진행을 저장했습니다.");}
+            if(GUI.Button(new Rect(box.x+310,box.y+468,260,52),"창원시청으로 이동",buttonStyle)){Vector3 s,f;ChangwonSpawn(out s,out f);ChangwonSession.Ride=null;if(cwCar!=null)LeaveChangwonCar();RaycastHit hit;if(Physics.Raycast(s+Vector3.up*60,Vector3.down,out hit,140))s=hit.point;Teleport(s+Vector3.up*EyeHeight,f);cwMenuOpen=false;}
+            if(GUI.Button(new Rect(box.x+30,box.y+532,540,52),"오픈월드 나가기 (한반도 지도로)",buttonStyle)){cwMenuOpen=false;ExitOpenWorld();}
         }
     }
 

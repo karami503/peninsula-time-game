@@ -27,6 +27,7 @@ namespace PeninsulaTime
         Material Mat(string key,Color color,float metallic=0,string texture=null,float tiling=1f)
         {
             if(materials.ContainsKey(key))return materials[key];
+            color=JinhaeDesign.Harmonize(key+" "+texture,color);
             var baseMaterial=Resources.Load<Material>(key.StartsWith("osm-")?"DistrictBase":"RuntimeBase");
             Material m;
             if(baseMaterial!=null)m=new Material(baseMaterial);
@@ -208,7 +209,7 @@ namespace PeninsulaTime
                 {
                     string key=source[i]!=null?source[i].name:"default";
                     Color c=source[i]!=null&&source[i].HasProperty("_Color")?source[i].color:Color.gray;
-                    bool vehicleGlass=(id.StartsWith("Bus")||id=="Metro"||id=="Ktx"||id.StartsWith("Car"))&&(key=="glass"||key=="vglass");
+                    bool vehicleGlass=(id.StartsWith("Bus")||id=="Metro"||id=="Ktx"||id=="Airplane"||id.StartsWith("Car"))&&(key=="glass"||key=="vglass");
                     result[i]=vehicleGlass?VehicleGlass():Mat("city-"+key,c,key=="metal"||key=="chrome"||key=="darkmetal"?.45f:0,key);
                 }
                 renderer.sharedMaterials=result;

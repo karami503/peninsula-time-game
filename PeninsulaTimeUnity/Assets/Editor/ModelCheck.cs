@@ -22,11 +22,18 @@ namespace PeninsulaTime
                 bool ok=b.size.x<=LotSize&&b.size.z<=LotSize&&Mathf.Abs(b.min.y)<.05f&&b.size.y>1f;
                 if(!ok){failed++;Debug.LogError("ModelCheck: "+info.id+" bounds "+b);}
             }
-            foreach(var id in new[]{"Bus","BusBlue","BusRed","BusYellow","Metro","Ktx","Car","CarRed","CarWhite","CarBlack","CarBlue","BusCabin","MetroCabin"})
+            foreach(var id in new[]{"Bus","BusBlue","BusRed","BusYellow","Metro","Ktx","Airplane","Car","CarRed","CarWhite","CarBlack","CarBlue","BusCabin","MetroCabin"})
             {
                 var model=world.CityModel(id,Vector3.zero);
                 var b=model!=null?Bounds(model):new Bounds();
                 if(model==null||b.size.z<=b.size.x||Mathf.Abs(b.min.y)>.05f){failed++;Debug.LogError("ModelCheck: "+id+" bounds "+b);}
+            }
+            foreach(var id in new[]{"Bus","Metro","Ktx","Airplane"})
+            {
+                var model=world.CityModel(id,Vector3.zero);bool transparent=false;
+                if(model!=null)foreach(var renderer in model.GetComponentsInChildren<Renderer>())foreach(var material in renderer.sharedMaterials)
+                    if(material!=null&&material.renderQueue>=3000){transparent=true;break;}
+                if(!transparent){failed++;Debug.LogError("ModelCheck: "+id+" has no transparent passenger window");}
             }
             // Doors hang on the street-facing (-Z) wall, inside the lot.
             foreach(var id in WorldBuilder.DoorBuildings)

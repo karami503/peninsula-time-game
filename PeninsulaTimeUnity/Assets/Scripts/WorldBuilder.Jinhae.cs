@@ -151,10 +151,10 @@ namespace PeninsulaTime
             return go;
         }
 
-        static readonly Color Cream=new Color(.93f,.89f,.78f),Granite=new Color(.62f,.6f,.57f),Timber=new Color(.45f,.32f,.22f),Slate=new Color(.27f,.3f,.35f),
-            Tile=new Color(.76f,.72f,.65f),Pane=new Color(.33f,.43f,.52f),Sill=new Color(.95f,.95f,.93f),Concrete=new Color(.7f,.69f,.66f),Tactile=new Color(.95f,.78f,.15f);
+        static readonly Color Cream=JinhaeDesign.Cream,Granite=JinhaeDesign.Granite,Timber=JinhaeDesign.Timber,Slate=JinhaeDesign.Slate,
+            Tile=JinhaeDesign.Tile,Pane=JinhaeDesign.Pane,Sill=JinhaeDesign.Sill,Concrete=JinhaeDesign.Concrete,Tactile=JinhaeDesign.Tactile;
 
-        static readonly Color Shingle=new Color(.29f,.27f,.28f),Aluminium=new Color(.78f,.8f,.82f);
+        static readonly Color Shingle=JinhaeDesign.Shingle,Aluminium=JinhaeDesign.Aluminium;
 
         // The station building, in the station frame: walls x -12.25..12.25, front (south) at z=-4.25, back at z=6; a
         // gabled porch over the front entrance out to z=-6.75. Floor at .25, eaves at 4.5, ridge along x.

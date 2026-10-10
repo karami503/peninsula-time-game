@@ -359,7 +359,7 @@ namespace PeninsulaTime
             UpdatePerformanceMeter();
             if(maintenance)return;
             bool typing=GUIUtility.keyboardControl!=0;
-            if(Input.GetKeyDown(KeyCode.Escape)){if(ReleaseCursorOnEscape()){}else if(typing)GUIUtility.keyboardControl=0;else if(TransitRideActive()){}else if(InVehicle())LeaveVehicle();else if(cityStreet)ToggleCityStreet();else if(mode=="spectate")StopSpectating();else if(mode!="map")ReturnMap();}
+            if(Input.GetKeyDown(KeyCode.Escape)){if(InOpenWorld)OpenWorldEscape();else if(streetMenu)streetMenu=false;else if(ReleaseCursorOnEscape()){}else if(typing)GUIUtility.keyboardControl=0;else if(TransitRideActive()){}else if(InVehicle())LeaveVehicle();else if(StreetView())streetMenu=true;else if(mode=="spectate")StopSpectating();else if(mode!="map")ReturnMap();}
             if(!typing)
             {
                 for(int i=0;i<tabs.Length;i++)if(Input.GetKeyDown((KeyCode)((int)KeyCode.F1+i)))SelectTab(i);
@@ -469,18 +469,18 @@ namespace PeninsulaTime
             koreanBoldFont=Resources.Load<Font>("Fonts/NotoSansKR-Bold");
             if(koreanFont==null)koreanFont=Font.CreateDynamicFontFromOSFont(new[]{"Apple SD Gothic Neo","Arial Unicode MS"},18);
             if(koreanBoldFont==null)koreanBoldFont=koreanFont;
-            panelTexture=Solid(new Color(.045f,.071f,.077f,.97f));
-            cardTexture=Solid(new Color(.085f,.12f,.127f,.97f));
-            goldTexture=Solid(new Color(.78f,.55f,.28f));
-            buttonTexture=Solid(new Color(.12f,.17f,.18f));
-            inkTexture=Solid(new Color(.025f,.041f,.046f));
+            panelTexture=Solid(new Color(JinhaeDesign.Ink.r,JinhaeDesign.Ink.g,JinhaeDesign.Ink.b,.97f));
+            cardTexture=Solid(new Color(JinhaeDesign.Card.r,JinhaeDesign.Card.g,JinhaeDesign.Card.b,.97f));
+            goldTexture=Solid(JinhaeDesign.Tactile);
+            buttonTexture=Solid(Color.Lerp(JinhaeDesign.Ink,JinhaeDesign.Slate,.35f));
+            inkTexture=Solid(Color.Lerp(Color.black,JinhaeDesign.Ink,.65f));
             softTexture=Solid(new Color(.02f,.035f,.04f,.78f));
-            lineTexture=Solid(new Color(.45f,.34f,.21f,.68f));
+            lineTexture=Solid(new Color(JinhaeDesign.Timber.r,JinhaeDesign.Timber.g,JinhaeDesign.Timber.b,.68f));
             worldAtlas=Resources.Load<Texture2D>("Geo/WorldAtlas");
             var maskAsset=Resources.Load<TextAsset>("Geo/WorldCountryMask");
             worldCountryMask=maskAsset!=null?maskAsset.bytes:null;
-            titleStyle=new GUIStyle(GUI.skin.label){font=koreanBoldFont,fontSize=29,normal={textColor=new Color(.96f,.93f,.85f)},wordWrap=true};
-            headingStyle=new GUIStyle(GUI.skin.label){font=koreanBoldFont,fontSize=19,normal={textColor=new Color(.94f,.73f,.43f)},wordWrap=true};
+            titleStyle=new GUIStyle(GUI.skin.label){font=koreanBoldFont,fontSize=29,normal={textColor=JinhaeDesign.Cream},wordWrap=true};
+            headingStyle=new GUIStyle(GUI.skin.label){font=koreanBoldFont,fontSize=19,normal={textColor=JinhaeDesign.Tactile},wordWrap=true};
             bodyStyle=new GUIStyle(GUI.skin.label){font=koreanFont,fontSize=15,normal={textColor=new Color(.91f,.93f,.89f)},wordWrap=true,padding=new RectOffset(0,0,2,3)};
             smallStyle=new GUIStyle(bodyStyle){fontSize=12,normal={textColor=new Color(.69f,.75f,.72f)}};
             kickerStyle=new GUIStyle(smallStyle){font=koreanBoldFont,fontSize=11,normal={textColor=new Color(.79f,.61f,.37f)}};
@@ -771,6 +771,9 @@ namespace PeninsulaTime
             Label("현대 도로·건물 윤곽은 OpenStreetMap 자료를 Blender로 모델링했습니다.",smallStyle);
             Label("건물 높이·외관 중 자료가 없는 부분은 추정치입니다. 지도 데이터 © OpenStreetMap 기여자 (ODbL)",smallStyle);GUILayout.Space(12);
             if(Button("지도 데이터 출처"))Application.OpenURL("https://www.openstreetmap.org/copyright");
+            GUILayout.BeginHorizontal();if(Button("상의 이전"))CyclePlayerShirt(-1);if(Button("상의 다음"))CyclePlayerShirt(1);GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();if(Button("하의 이전"))CyclePlayerTrousers(-1);if(Button("하의 다음"))CyclePlayerTrousers(1);GUILayout.EndHorizontal();
+            if(Button(playerGunHeld?"블록형 장비 내리기 (U)":"블록형 장비 들기 (U)"))TogglePlayerGun();
             // Riding: no teleports or district changes until the train, plane or car stops.
             if(TransitRideActive()||NetRideActive)Label("이동 중입니다 · 도착하면 다시 걸을 수 있습니다.",bodyStyle);
             else if(InVehicle())Label("차량 탑승 중 · F로 하차",bodyStyle);
