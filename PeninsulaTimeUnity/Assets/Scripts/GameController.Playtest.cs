@@ -13,14 +13,15 @@ namespace PeninsulaTime {
         // --playtest-interval <seconds> walks the checkpoints unattended; F11 still steps by hand.
         void StartPlaytest(){
             var args=Environment.GetCommandLineArgs();
-            playtest=Array.IndexOf(args,"--playtest")>=0&&Array.IndexOf(args,"--save-directory")>=0;
+            bool changwonQa=Array.IndexOf(args,"--changwon-qa-train")>=0||Array.IndexOf(args,"--changwon-qa-bus")>=0;
+            playtest=changwonQa&&Array.IndexOf(args,"--save-directory")>=0;
             int at=Array.IndexOf(args,"--playtest-interval");
             if(playtest&&at>=0&&at+1<args.Length)float.TryParse(args[at+1],System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out playtestInterval);
             // QA runs use a small window and 30 fps: a full-size Retina surface plus the district rebuilds overloaded the GPU and froze the Mac.
             // --playtest-start <N> begins at checkpoint N (QA re-runs of one stretch).
             int from=Array.IndexOf(args,"--playtest-start");
             if(playtest&&from>=0&&from+1<args.Length)int.TryParse(args[from+1],out playtestPoint);
-            if(playtest){var size=PlaytestWindow(args);Screen.SetResolution(size.x,size.y,false);Application.targetFrameRate=30;NextPlaytestPoint();}
+            if(playtest){var size=PlaytestWindow(args);Screen.SetResolution(size.x,size.y,false);Application.targetFrameRate=30;}
         }
         // --playtest-size <W>x<H>: default 1280x800, the size approved for QA runs.
         static Vector2Int PlaytestWindow(string[] args){

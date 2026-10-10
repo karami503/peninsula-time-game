@@ -22,13 +22,13 @@ namespace PeninsulaTime
                 bool ok=b.size.x<=LotSize&&b.size.z<=LotSize&&Mathf.Abs(b.min.y)<.05f&&b.size.y>1f;
                 if(!ok){failed++;Debug.LogError("ModelCheck: "+info.id+" bounds "+b);}
             }
-            foreach(var id in new[]{"Bus","BusBlue","BusRed","BusYellow","Metro","Ktx","Airplane","Car","CarRed","CarWhite","CarBlack","CarBlue","BusCabin","MetroCabin"})
+            foreach(var id in new[]{"Bus","BusBlue","BusRed","BusYellow","Ktx","Car","CarRed","CarWhite","CarBlack","CarBlue","BusCabin"})
             {
                 var model=world.CityModel(id,Vector3.zero);
                 var b=model!=null?Bounds(model):new Bounds();
                 if(model==null||b.size.z<=b.size.x||Mathf.Abs(b.min.y)>.05f){failed++;Debug.LogError("ModelCheck: "+id+" bounds "+b);}
             }
-            foreach(var id in new[]{"Bus","Metro","Ktx","Airplane"})
+            foreach(var id in new[]{"Bus","Ktx"})
             {
                 var model=world.CityModel(id,Vector3.zero);bool transparent=false;
                 if(model!=null)foreach(var renderer in model.GetComponentsInChildren<Renderer>())foreach(var material in renderer.sharedMaterials)

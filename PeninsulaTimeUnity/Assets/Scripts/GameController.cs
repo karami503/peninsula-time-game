@@ -87,9 +87,9 @@ namespace PeninsulaTime
             if(state.purchases==null)state.purchases=new List<string>();
             TransitNetwork.Build(state.network);
             // The game starts in modern Korea; saves from versions with earlier eras open there too.
-            state.era=GameContent.ModernEra;world.BuildMap(state);CreatePlayer();
+            state.era=GameContent.ModernEra;CreatePlayer();
         }
-        void Start(){StartCoroutine(CheckServerLoop());StartPlaytest();}
+        void Start(){StartCoroutine(CheckServerLoop());StartPlaytest();EnterOpenWorld();}
         IEnumerator CheckServerLoop()
         {
             string path=Path.Combine(Application.streamingAssetsPath,"server.json");

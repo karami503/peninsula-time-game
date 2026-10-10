@@ -51,7 +51,7 @@ namespace PeninsulaTime
 
     public partial class GameController
     {
-        ChangwonWorld cw;ChangwonCar cwCar;bool cwReady,cwMapOpen,cwMenuOpen,cwFirstPerson;string cwStage="";
+        ChangwonWorld cw;ChangwonCar cwCar;bool cwReady,cwMapOpen,cwMenuOpen,cwFirstPerson,cwLoadFailed;string cwStage="";
         Texture2D cwMap,cwDot,cwRadarMask;Vector2 cwMapCenter;float cwMapZoom=1f;Vector3 cwCamPos;float cwCamYaw,cwCamPitch=12f;float cwCamYawUser;
         string cwArea="",cwAreaShown="";float cwAreaUntil,cwNextArea;List<Vector3> cwRoute;volatile bool cwRouting;float cwNextRoute;
         bool cwRequestedSpawn;Vector2 cwRequestedGeo;
@@ -66,7 +66,7 @@ namespace PeninsulaTime
             if(state.era<9)return;
             ClearRides();networkPassengerJourney=null;ridingCar=null;flight=null;cityStreet=false;undergroundWalk=false;riding=false;
             spectating=null;spectateSession++;selectedStation=null;streetBoard=false;if(onlineMode=="battle")LeaveBattle();
-            mode="openworld";tab="서울 3D";cwReady=false;cwMapOpen=cwMenuOpen=false;cwCar=null;cwRoute=null;
+            mode="openworld";tab="창원시 3D";cwReady=false;cwLoadFailed=false;cwMapOpen=cwMenuOpen=false;cwCar=null;cwRoute=null;
             ChangwonSession.Reset();ChangwonSession.Active=true;ChangwonSession.Game=this;ChangwonSession.Builder=world;ChangwonSession.ToastHandler=Toast;ChangwonSession.PlayerCar=null;
             ChangwonSession.TeleportPlayer=(feet,facing)=>{if(cwCar!=null)LeaveChangwonCar();Teleport(feet+Vector3.up*EyeHeight,facing);};
             ChangwonSession.EnterCar=EnterChangwonCar;ChangwonSession.LeaveCar=LeaveChangwonCar;thirdPerson=true;
@@ -82,7 +82,7 @@ namespace PeninsulaTime
             cwStage="창원 지형·도로·건물 자료를 불러오는 중…";
             yield return ChangwonData.Load();
             if(!InOpenWorld)yield break;
-            if(!ChangwonData.Loaded){Toast(ChangwonData.Error??"창원 자료를 불러오지 못했습니다.");ExitOpenWorld();yield break;}
+            if(!ChangwonData.Loaded){cwLoadFailed=true;cwStage=ChangwonData.Error??"창원 자료를 불러오지 못했습니다.";Toast(cwStage);yield break;}
             if(cwMap==null)cwMap=LoadChangwonMap();
             var p=ChangwonSession.Progress;Vector3 spawn;Vector3 facing;
             if(!float.IsNaN(p.x)&&ChangwonData.Inside(p.x,p.z)){spawn=new Vector3(p.x,ChangwonData.Height(p.x,p.z),p.z);facing=Quaternion.Euler(0,p.yaw,0)*Vector3.forward;}
@@ -178,7 +178,35 @@ namespace PeninsulaTime
             if(path.Contains("://")||!File.Exists(path))return null;
             var tex=new Texture2D(2,2,TextureFormat.RGB24,false);tex.LoadImage(File.ReadAllBytes(path));tex.wrapMode=TextureWrapMode.Clamp;return tex;
         }
-        void ExitOpenWorld(){ReturnMap();}
+        void ExitOpenWorld(){SaveChangwonProgress();cwMenuOpen=false;cwMapOpen=false;}
+
+        struct ChangwonDistrictDestination
+        {
+            public string name;public double lon,lat;
+            public ChangwonDistrictDestination(string name,double lon,double lat){this.name=name;this.lon=lon;this.lat=lat;}
+        }
+        static readonly ChangwonDistrictDestination[] ChangwonDistricts={
+            new ChangwonDistrictDestination("진해구",128.7103,35.1495),
+            new ChangwonDistrictDestination("성산구",128.6812,35.2278),
+            new ChangwonDistrictDestination("의창구",128.6391,35.2538),
+            new ChangwonDistrictDestination("마산합포구",128.5667,35.1969),
+            new ChangwonDistrictDestination("마산회원구",128.5798,35.2209)
+        };
+        void MoveToChangwonDistrict(int index)
+        {
+            if(index<0||index>=ChangwonDistricts.Length||!ChangwonData.Loaded)return;
+            var destination=ChangwonDistricts[index];var xz=ChangwonData.ToXZ(destination.lon,destination.lat);
+            var probe=new Vector3(xz.x,ChangwonData.Height(xz.x,xz.y),xz.y);
+            ChangwonData.Road road;float along;Vector3 point;Vector3 facing=Vector3.forward;
+            if(ChangwonData.NearestRoad(probe,900f,out road,out along,out point)){
+                road.At(along,out facing);facing.y=0;if(facing.sqrMagnitude<.01f)facing=Vector3.forward;else facing.Normalize();
+                var right=new Vector3(facing.z,0,-facing.x);probe=point+right*(road.width*.5f+2.5f);facing=-right;
+            }
+            ChangwonSession.Ride=null;if(cwCar!=null)LeaveChangwonCar();
+            RaycastHit hit;if(Physics.Raycast(probe+Vector3.up*80f,Vector3.down,out hit,180f,~0,QueryTriggerInteraction.Ignore))probe=hit.point;
+            Teleport(probe+Vector3.up*EyeHeight,facing);cwMapCenter=new Vector2(probe.x,probe.z);cwMapZoom=5f;cwMenuOpen=false;
+            Toast(destination.name+"로 이동했습니다 · 다른 구까지 도로로 계속 이동할 수 있습니다");
+        }
         // Called by ReturnMap (and so by every way out of the mode) before the scene is torn down.
         void LeaveOpenWorldState()
         {
@@ -411,6 +439,7 @@ namespace PeninsulaTime
                 GUI.Label(new Rect(w*.5f-320,h*.5f-80,640,50),"창원특례시 오픈월드",titleStyle);
                 GUI.Label(new Rect(w*.5f-320,h*.5f-20,640,30),cwStage.Length>0?cwStage:ChangwonData.StatusText,bodyStyle);
                 GUI.Label(new Rect(w*.5f-320,h*.5f+20,640,60),"의창구 · 성산구 · 마산합포구 · 마산회원구 · 진해구 전역 · 지형 고도(AWS Terrain Tiles), 건물·도로·장소(Overture Maps, OpenStreetMap ODbL), 시내버스(창원 BIS)",smallStyle);
+                if(cwLoadFailed&&GUI.Button(new Rect(w*.5f-130,h*.5f+90,260,52),"창원 자료 다시 불러오기",accentButtonStyle)){cwLoadFailed=false;cwStage="";StartCoroutine(OpenWorldStart());}
                 return;
             }
             DrawChangwonRadar(w,h);
@@ -565,7 +594,7 @@ namespace PeninsulaTime
         void DrawChangwonMenu(float w,float h)
         {
             GUI.DrawTexture(new Rect(0,0,w,h),softTexture);
-            var box=new Rect(Mathf.Max(30,w*.08f),h*.5f-310,600,620);GUI.Box(box,"",boxStyle);
+            var box=new Rect(Mathf.Max(30,w*.08f),h*.5f-360,600,720);GUI.Box(box,"",boxStyle);
             float previewX=Mathf.Min(w-390,box.xMax+40);
             GUI.Label(new Rect(previewX+25,h*.5f-222,290,42),"내 캐릭터 미리보기",headingStyle);
             GUI.Label(new Rect(previewX+25,h*.5f+180,290,42),"선택한 옷이 즉시 게임 캐릭터에 적용됩니다.",smallStyle);
@@ -578,11 +607,15 @@ namespace PeninsulaTime
             if(GUI.Button(new Rect(box.x+380,box.y+292,190,44),playerGunHeld?"장비 내리기 (U)":"장비 들기 (U)",buttonStyle))TogglePlayerGun();
             if(GUI.Button(new Rect(box.x+30,box.y+344,260,44),"하의 이전",buttonStyle))CyclePlayerTrousers(-1);
             if(GUI.Button(new Rect(box.x+310,box.y+344,260,44),"하의 다음",buttonStyle))CyclePlayerTrousers(1);
-            if(GUI.Button(new Rect(box.x+30,box.y+404,260,52),"계속하기",accentButtonStyle))cwMenuOpen=false;
-            if(GUI.Button(new Rect(box.x+310,box.y+404,260,52),"지도 열기",buttonStyle)){cwMenuOpen=false;cwMapOpen=true;cwMapCenter=new Vector2(Feet.x,Feet.z);}
-            if(GUI.Button(new Rect(box.x+30,box.y+468,260,52),"진행 저장",buttonStyle)){SaveChangwonProgress();Save();Toast("창원 오픈월드 진행을 저장했습니다.");}
-            if(GUI.Button(new Rect(box.x+310,box.y+468,260,52),"창원시청으로 이동",buttonStyle)){Vector3 s,f;ChangwonSpawn(out s,out f);ChangwonSession.Ride=null;if(cwCar!=null)LeaveChangwonCar();RaycastHit hit;if(Physics.Raycast(s+Vector3.up*60,Vector3.down,out hit,140))s=hit.point;Teleport(s+Vector3.up*EyeHeight,f);cwMenuOpen=false;}
-            if(GUI.Button(new Rect(box.x+30,box.y+532,540,52),"오픈월드 나가기 (한반도 지도로)",buttonStyle)){cwMenuOpen=false;ExitOpenWorld();}
+            if(GUI.Button(new Rect(box.x+30,box.y+404,260,48),"계속하기",accentButtonStyle))cwMenuOpen=false;
+            if(GUI.Button(new Rect(box.x+310,box.y+404,260,48),"창원 전체 지도",buttonStyle)){cwMenuOpen=false;cwMapOpen=true;cwMapCenter=new Vector2(Feet.x,Feet.z);}
+            GUI.Label(new Rect(box.x+30,box.y+458,540,28),"구별 확인 지점 · 이동 후 도로를 따라 다른 구까지 계속 갈 수 있습니다",smallStyle);
+            for(int i=0;i<ChangwonDistricts.Length;i++){
+                int column=i%2,row=i/2;float width=column==0?260:260;
+                if(GUI.Button(new Rect(box.x+30+column*280,box.y+490+row*48,width,40),ChangwonDistricts[i].name,buttonStyle))MoveToChangwonDistrict(i);
+            }
+            if(GUI.Button(new Rect(box.x+30,box.y+638,260,46),"진행 저장",buttonStyle)){SaveChangwonProgress();Save();Toast("창원 오픈월드 진행을 저장했습니다.");}
+            if(GUI.Button(new Rect(box.x+310,box.y+638,260,46),"창원시청으로 이동",buttonStyle)){Vector3 s,f;ChangwonSpawn(out s,out f);ChangwonSession.Ride=null;if(cwCar!=null)LeaveChangwonCar();RaycastHit hit;if(Physics.Raycast(s+Vector3.up*60,Vector3.down,out hit,140))s=hit.point;Teleport(s+Vector3.up*EyeHeight,f);cwMenuOpen=false;}
         }
     }
 
