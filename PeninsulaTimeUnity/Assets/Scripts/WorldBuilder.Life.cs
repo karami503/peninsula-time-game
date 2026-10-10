@@ -40,6 +40,31 @@ namespace PeninsulaTime
             }
         }
         public void TintPerson(GameObject person,int shirt,int trousers){if(person!=null)Tint(person,ShirtColor(shirt),TrouserColor(trousers));}
+        // The player's low-poly block figure. The same object is used by the wardrobe preview and gameplay.
+        public GameObject CreatePlayerCharacter(Vector3 position,out Transform[] legs,out Transform[] arms)
+        {
+            var person=new GameObject("Block player");person.transform.SetParent(root.transform,false);
+            var skin=Mat("city-skin",new Color(.86f,.68f,.52f));var shirt=Mat("city-shirt",Shirts[0]);
+            var pants=Mat("city-pants",Trousers[0]);var hair=Mat("city-hair",JinhaeDesign.Ink);var shoe=Mat("city-shoe",new Color(.08f,.09f,.1f));
+            Primitive(PrimitiveType.Cube,"Torso",person.transform,new Vector3(0,1.18f,0),new Vector3(.56f,.58f,.32f),shirt);
+            Primitive(PrimitiveType.Cube,"Head",person.transform,new Vector3(0,1.66f,0),new Vector3(.44f,.42f,.42f),skin);
+            Primitive(PrimitiveType.Cube,"Block hair",person.transform,new Vector3(0,1.9f,-.015f),new Vector3(.48f,.12f,.45f),hair);
+            Primitive(PrimitiveType.Cube,"Hair back",person.transform,new Vector3(0,1.72f,-.22f),new Vector3(.46f,.3f,.08f),hair);
+            foreach(float x in new[]{-.10f,.10f})Primitive(PrimitiveType.Cube,"Eye",person.transform,new Vector3(x,1.7f,.216f),new Vector3(.045f,.045f,.025f),hair);
+            legs=new Transform[2];arms=new Transform[2];
+            for(int i=0;i<2;i++)
+            {
+                float side=i==0?-1f:1f;
+                var leg=new GameObject(i==0?"Left leg pivot":"Right leg pivot");leg.transform.SetParent(person.transform,false);leg.transform.localPosition=new Vector3(side*.15f,.88f,0);legs[i]=leg.transform;
+                Primitive(PrimitiveType.Cube,"Trouser leg",leg.transform,new Vector3(0,-.34f,0),new Vector3(.22f,.68f,.25f),pants);
+                Primitive(PrimitiveType.Cube,"Shoe",leg.transform,new Vector3(0,-.7f,.055f),new Vector3(.23f,.12f,.34f),shoe);
+                var arm=new GameObject(i==0?"Left arm pivot":"Right arm pivot");arm.transform.SetParent(person.transform,false);arm.transform.localPosition=new Vector3(side*.39f,1.43f,0);arms[i]=arm.transform;
+                Primitive(PrimitiveType.Cube,"Sleeve",arm.transform,new Vector3(0,-.16f,0),new Vector3(.20f,.34f,.24f),shirt);
+                Primitive(PrimitiveType.Cube,"Hand",arm.transform,new Vector3(0,-.43f,0),new Vector3(.18f,.22f,.22f),skin);
+            }
+            person.transform.position=position;return person;
+        }
+
         // A person assembled from the Blender parts, facing +Z, feet at the root.
         public Pedestrian CreatePerson(Vector3 position,float scale,System.Random random,out Transform[] legs,out Transform[] arms)
         {

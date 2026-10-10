@@ -49,7 +49,7 @@ namespace PeninsulaTime.Editor
             // Keep the executable name ASCII. A Korean CFBundleExecutable can be normalized
             // differently by the file system and codesign, which invalidates the app seal.
             PlayerSettings.companyName="Kim Garam";PlayerSettings.productName="PeninsulaTime";
-            PlayerSettings.bundleVersion="0.9.9-preview.8";
+            PlayerSettings.bundleVersion="0.9.9-preview.9";
             // Online servers on a LAN or home PC speak plain HTTP; public servers should sit behind HTTPS.
             PlayerSettings.insecureHttpOption=InsecureHttpOption.AlwaysAllowed;
             PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.Standalone,"com.kimgaram.peninsulatime");

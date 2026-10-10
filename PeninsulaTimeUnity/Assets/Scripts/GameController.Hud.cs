@@ -274,7 +274,7 @@ namespace PeninsulaTime
         {
             if(StreetHud())
             {
-                if(GUIUtility.keyboardControl==0&&Input.GetKeyDown(KeyCode.H))streetMenu=!streetMenu;
+                if(GUIUtility.keyboardControl==0&&Input.GetKeyDown(KeyCode.H)){streetMenu=!streetMenu;if(streetMenu){lookLocked=false;Cursor.lockState=CursorLockMode.None;Cursor.visible=true;}}
                 return;
             }
             streetMenu=false;

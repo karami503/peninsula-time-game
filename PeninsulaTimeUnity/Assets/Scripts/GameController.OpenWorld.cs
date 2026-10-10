@@ -226,8 +226,8 @@ namespace PeninsulaTime
             if(world.dayNight)DayCycle.Advance(dt);
             if(!cwReady){hoverHint="";return;}
             bool ui=cwMapOpen||cwMenuOpen||typing||ChangwonSession.UiCapture;
-            if(!typing&&Input.GetKeyDown(KeyCode.M)){cwMapOpen=!cwMapOpen;cwMenuOpen=false;if(cwMapOpen)cwMapCenter=new Vector2(Feet.x,Feet.z);}
-            if(ui){Cursor.lockState=CursorLockMode.None;Cursor.visible=true;hoverHint="";if(cwCar!=null)cwCar.Drive(0,0,true,dt);ChangwonSessionUpdate();return;}
+            if(!typing&&Input.GetKeyDown(KeyCode.M)){cwMapOpen=!cwMapOpen;cwMenuOpen=false;if(cwMapOpen)cwMapCenter=new Vector2(Feet.x,Feet.z);ui=cwMapOpen||cwMenuOpen||ChangwonSession.UiCapture;}
+            if(ui){Cursor.lockState=CursorLockMode.None;Cursor.visible=true;hoverHint="";if(cwMenuOpen&&cwCar==null){UpdateAvatar(true);PlaceViewCamera();}if(cwCar!=null)cwCar.Drive(0,0,true,dt);ChangwonSessionUpdate();return;}
             if(playtest&&Input.GetKeyDown(KeyCode.F11)&&ChangwonLandmarks.All.Count>0)ChangwonTourNext();
             if(playtest&&Input.GetKeyDown(KeyCode.F10)&&cwCar==null&&ChangwonSession.Ride==null)ChangwonTestCar();
             if(Input.GetKeyDown(KeyCode.P)&&!cwPhoto)StartCoroutine(ChangwonPhoto());
@@ -565,7 +565,10 @@ namespace PeninsulaTime
         void DrawChangwonMenu(float w,float h)
         {
             GUI.DrawTexture(new Rect(0,0,w,h),softTexture);
-            var box=new Rect(w*.5f-300,h*.5f-310,600,620);GUI.Box(box,"",boxStyle);
+            var box=new Rect(Mathf.Max(30,w*.08f),h*.5f-310,600,620);GUI.Box(box,"",boxStyle);
+            float previewX=Mathf.Min(w-390,box.xMax+40);
+            GUI.Label(new Rect(previewX+25,h*.5f-222,290,42),"내 캐릭터 미리보기",headingStyle);
+            GUI.Label(new Rect(previewX+25,h*.5f+180,290,42),"선택한 옷이 즉시 게임 캐릭터에 적용됩니다.",smallStyle);
             GUI.Label(new Rect(box.x+30,box.y+24,540,44),"창원 오픈월드 · 일시정지",titleStyle);
             var p=ChangwonSession.Progress;
             GUI.Label(new Rect(box.x+30,box.y+80,540,90),"명소 도장 "+p.stamps.Count+"/"+ChangwonLandmarks.All.Count+"  ·  임무 완료 "+p.missionsDone+"  ·  점수 "+p.score.ToString("N0")+"\n총 이동 거리 "+(p.distance/1000f).ToString("0.0")+" km  ·  "+DayCycle.Clock+"\n"+(cwArea.Length>0?cwArea:"창원특례시"),bodyStyle);

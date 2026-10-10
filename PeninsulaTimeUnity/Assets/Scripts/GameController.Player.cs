@@ -12,7 +12,7 @@ namespace PeninsulaTime
         const float ThirdPersonDistance=3.4f,ThirdPersonLift=.3f,StepLength=.75f;
         Transform eye;
         float verticalSpeed;bool grounded=true,jumpQueued;
-        bool thirdPerson,lookLocked=true,wasWalking,clickConsumed;
+        bool thirdPerson,lookLocked=true,wasWalking,clickConsumed,menuHadPointer;
         float stepTravel,walkPace;
         GameObject avatar,avatarGun;Transform[] avatarLegs,avatarArms;Quaternion[] avatarLegRest,avatarArmRest;float avatarPhase;
         int playerShirt,playerTrousers;bool playerGunHeld;
@@ -24,15 +24,23 @@ namespace PeninsulaTime
         void CreatePlayer(){eye=new GameObject("Player").transform;world.viewer=eye;eye.position=viewCamera.transform.position;}
 
         // On foot in a street view, a station, a terminal, a shop, or standing in a bus or train.
-        bool OnFoot(){return StreetView()&&!InVehicle()&&flight==null;}
+        bool OnFoot(){return (StreetView()||InOpenWorld)&&!InVehicle()&&flight==null;}
         bool LookLocked{get{return Cursor.lockState==CursorLockMode.Locked;}}
+        bool PointerMenuOpen(){return streetMenu||(InOpenWorld&&(cwMenuOpen||cwMapOpen||ChangwonSession.UiCapture));}
+        bool CharacterPreviewOpen(){return streetMenu||(InOpenWorld&&cwMenuOpen);}
         // The ray through the crosshair while the cursor is locked, otherwise through the mouse.
         Ray AimRay(){return LookLocked?viewCamera.ViewportPointToRay(new Vector3(.5f,.5f,0)):viewCamera.ScreenPointToRay(Input.mousePosition);}
 
         // Locks the cursor while walking (on desktop); Tab or Esc frees it, a click on the 3D view locks it again.
         void UpdateCursor()
         {
+            if(PointerMenuOpen())
+            {
+                lookLocked=false;menuHadPointer=true;wasWalking=false;clickConsumed=Input.GetMouseButtonDown(0);
+                Cursor.lockState=CursorLockMode.None;Cursor.visible=true;return;
+            }
             bool walking=OnFoot()&&GUIUtility.keyboardControl==0;
+            if(menuHadPointer){lookLocked=walking;menuHadPointer=false;}
             if(walking&&!wasWalking)lookLocked=true;
             wasWalking=walking;clickConsumed=false;
             if(walking&&Input.GetKeyDown(KeyCode.Tab))lookLocked=!lookLocked;
@@ -50,6 +58,7 @@ namespace PeninsulaTime
 
         void UpdateLook(float dt)
         {
+            if(PointerMenuOpen())return;
             float yaw=Yaw,pitch=Pitch;
             yaw+=((Input.GetKey(KeyCode.RightArrow)?1:0)-(Input.GetKey(KeyCode.LeftArrow)?1:0)+touchYaw)*KeyTurnSpeed*dt;
             pitch+=((Input.GetKey(KeyCode.DownArrow)?1:0)-(Input.GetKey(KeyCode.UpArrow)?1:0))*KeyTurnSpeed*.6f*dt;
@@ -68,6 +77,7 @@ namespace PeninsulaTime
         // First-person walking for districts; fly=true also allows changing height for city street views.
         void WalkCamera(float limit,bool fly)
         {
+            if(PointerMenuOpen()){walkPace=0;return;}
             float dt=Time.deltaTime;
             if(cabin!=null&&!CarryInCabin())cabin=null;
             UpdateLook(dt);
@@ -170,12 +180,20 @@ namespace PeninsulaTime
         void PlaceViewCamera()
         {
             bool walking=OnFoot();
-            UpdateAvatar(walking&&thirdPerson);
+            bool preview=walking&&CharacterPreviewOpen();
+            UpdateAvatar(walking&&(thirdPerson||preview));
             if(!walking)return;
             var look=eye.rotation;
-            if(!thirdPerson){viewCamera.transform.SetPositionAndRotation(eye.position,look);return;}
-            var pivot=eye.position+Vector3.up*ThirdPersonLift;var back=look*Vector3.back;
-            float distance=ThirdPersonDistance;RaycastHit hit;
+            if(!thirdPerson&&!preview){viewCamera.transform.SetPositionAndRotation(eye.position,look);return;}
+            var pivot=eye.position+Vector3.up*ThirdPersonLift;
+            if(preview)
+            {
+                var front=look*Vector3.forward;float previewDistance=4.4f;RaycastHit previewHit;
+                if(Physics.SphereCast(pivot,.22f,front,out previewHit,previewDistance,~0,QueryTriggerInteraction.Ignore))previewDistance=Mathf.Max(1.7f,previewHit.distance-.08f);
+                var previewPosition=pivot+front*previewDistance+Vector3.up*.15f;
+                viewCamera.transform.SetPositionAndRotation(previewPosition,Quaternion.LookRotation((eye.position+Vector3.up*.05f)-previewPosition,Vector3.up));return;
+            }
+            var back=look*Vector3.back;float distance=ThirdPersonDistance;RaycastHit hit;
             if(Physics.SphereCast(pivot,.22f,back,out hit,distance,~0,QueryTriggerInteraction.Ignore))distance=Mathf.Max(.35f,hit.distance-.08f);
             viewCamera.transform.SetPositionAndRotation(pivot+back*distance,look);
         }
@@ -186,10 +204,10 @@ namespace PeninsulaTime
             if(avatar==null)
             {
                 Transform[] legs,arms;
-                var person=world.CreatePerson(Feet,1f,new System.Random(2026),out legs,out arms);
-                if(person==null)return;
-                avatar=person.gameObject;avatar.name="Player figure";
-                DestroyImmediate(person);foreach(var c in avatar.GetComponentsInChildren<Collider>())DestroyImmediate(c);
+                avatar=world.CreatePlayerCharacter(Feet,out legs,out arms);
+                if(avatar==null)return;
+                avatar.name="Player block figure";
+                foreach(var c in avatar.GetComponentsInChildren<Collider>())DestroyImmediate(c);
                 avatarLegs=legs;avatarArms=arms;avatarLegRest=new Quaternion[legs.Length];avatarArmRest=new Quaternion[arms.Length];
                 for(int i=0;i<legs.Length;i++)avatarLegRest[i]=legs[i].localRotation;
                 for(int i=0;i<arms.Length;i++)avatarArmRest[i]=arms[i].localRotation;

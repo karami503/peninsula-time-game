@@ -285,6 +285,7 @@ namespace PeninsulaTime
         }
         bool PointerOverWorld()
         {
+            if(PointerMenuOpen())return false;
             // Same scale as the GUI matrix in OnGUI.
             float scale=Mathf.Max(.55f,Mathf.Min(Screen.width/1440f,Screen.height/860f));
             float x=Input.mousePosition.x/scale;
@@ -360,6 +361,7 @@ namespace PeninsulaTime
             if(maintenance)return;
             bool typing=GUIUtility.keyboardControl!=0;
             if(Input.GetKeyDown(KeyCode.Escape)){if(InOpenWorld)OpenWorldEscape();else if(streetMenu)streetMenu=false;else if(ReleaseCursorOnEscape()){}else if(typing)GUIUtility.keyboardControl=0;else if(TransitRideActive()){}else if(InVehicle())LeaveVehicle();else if(StreetView())streetMenu=true;else if(mode=="spectate")StopSpectating();else if(mode!="map")ReturnMap();}
+            if(InOpenWorld){UpdateOpenWorld(typing);return;}
             if(!typing)
             {
                 for(int i=0;i<tabs.Length;i++)if(Input.GetKeyDown((KeyCode)((int)KeyCode.F1+i)))SelectTab(i);
@@ -406,11 +408,12 @@ namespace PeninsulaTime
             UpdateHudInput();
             UpdateTicketTrip(Time.deltaTime);
             UpdateCityTime(Time.deltaTime);
-            if(!typing&&OnFoot()&&Input.GetKeyDown(KeyCode.T))thirdPerson=!thirdPerson;
+            bool pointerMenu=PointerMenuOpen();
+            if(!typing&&!pointerMenu&&OnFoot()&&Input.GetKeyDown(KeyCode.T))thirdPerson=!thirdPerson;
             // Cars stop for the player on foot in a street view, as for any pedestrian.
             bool onFoot=!InVehicle()&&!TransitRideActive()&&((mode=="district"&&!world.aerialDistrict)||mode=="rail"||mode=="interior"||mode=="carved"||cityStreet);
             TrafficVehicle.PlayerFeet=onFoot?Feet:(Vector3?)null;
-            if(!typing)
+            if(!typing&&!pointerMenu)
             {
                 if(InVehicle()||TransitRideActive()){}
                 else if(mode=="rail"||mode=="interior")WalkCamera(mode=="rail"?2000:55,false);
@@ -516,6 +519,11 @@ namespace PeninsulaTime
             float w=Screen.width/scale,h=Screen.height/scale;
             hudWidth=w;hudHeight=h;
             MarkUiOrigin();
+            if(InOpenWorld)
+            {
+                if(viewCamera!=null)viewCamera.rect=new Rect(0f,0f,1f,1f);
+                DrawOpenWorldGUI(w,h);DrawFade(w,h);GUI.enabled=true;FlushUiDump();return;
+            }
             // The world fills the screen and the side panel floats over it, as Cities: Skylines panels do.
             if(viewCamera!=null)viewCamera.rect=new Rect(0f,0f,1f,1f);
             if(playtestBare){if(!StreetHud())DrawNetworkOverlay(w,h);GUI.enabled=true;return;} // QA capture without the HUD

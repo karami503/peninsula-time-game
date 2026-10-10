@@ -143,11 +143,16 @@ namespace PeninsulaTime {
                 case 96:break;
                 case 97:QaRideJinhaeTo("경화");break;
                 case 98:if(cabin!=null&&cabin.kind=="jinhae")ExitCabin(cabin.doorSide);break;
+                // Visual-style regression: every legacy Seoul 3D entry must rebuild through the current Jinhae-style generator.
+                case 99:EnterDistrict(0,false);break;
+                case 100:EnterDistrict(1,false);break;
+                case 101:EnterDistrict(2,false);break;
+                case 102:EnterDistrict(3,false);break;
             }
             lookLocked=false;Cursor.lockState=CursorLockMode.None;Cursor.visible=true;
             capturePoint=playtestPoint;captureAt=Time.time+CaptureDelaySeconds;
             Debug.Log("Playtest checkpoint "+playtestPoint+" feet="+Feet+" mode="+mode+" cabin="+(cabin!=null?cabin.kind:"none")+" fps="+(1f/Mathf.Max(Time.smoothDeltaTime,1e-4f)).ToString("F0"));
-            playtestPoint=(playtestPoint+1)%99;
+            playtestPoint=(playtestPoint+1)%103;
         }
         // QA: a station that has a line of this kind, visited on that line.
         void StationWithKind(string kind)
