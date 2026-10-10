@@ -194,6 +194,10 @@ namespace PeninsulaTime
         // Blender-made models from AssetSources/Blender/make_city_models.py, keeping their material colours.
         public GameObject CityModel(string id,Vector3 position,float scale=1f,float yaw=0f)
         {
+            // Trees are generated from cubes so every city reached from the map uses the
+            // same square-built silhouette as Jinhae.  Keep the legacy object names: the
+            // infrastructure culler and interaction checks use them as stable identifiers.
+            if(id=="Tree"||id=="Pine")return CreatePixelTree(id,position,scale,yaw);
             var prefab=Resources.Load<GameObject>("Models/City/"+id);
             if(prefab==null)return null;
             var instance=Instantiate(prefab,root.transform);instance.name=id+" model";
@@ -213,17 +217,6 @@ namespace PeninsulaTime
                     result[i]=vehicleGlass?VehicleGlass():Mat("city-"+key,c,key=="metal"||key=="chrome"||key=="darkmetal"?.45f:0,key);
                 }
                 renderer.sharedMaterials=result;
-            }
-            if(id=="Tree"||id=="Pine")
-            {
-                // FBX roots carry an axis conversion and scale; a collider on that root
-                // becomes much wider than the visible trunk. Keep its physics in world metres.
-                var trunkObject=new GameObject("Tree trunk collider");
-                trunkObject.transform.SetParent(root.transform,false);
-                trunkObject.transform.position=position+Vector3.up*1.08f;
-                var trunk=trunkObject.AddComponent<CapsuleCollider>();
-                trunk.height=2.16f;trunk.radius=.16f;
-                trunkObject.AddComponent<StreetFurnitureCollider>().visual=instance;
             }
             return instance;
         }
@@ -285,7 +278,7 @@ namespace PeninsulaTime
                     var pole=graph.nodes[node]-travel*(graph.JunctionRadius(node)+.8f)+right*(graph.Width(node,from)*.5f+.8f);
                     var pole3=new Vector3(pole.x,graph.nodes[node].y+height,pole.z);
                     if(CityModel("TrafficLight",pole3,scale,Mathf.Atan2(-right.x,-right.z)*Mathf.Rad2Deg)==null)continue;
-                    var lamp=GameObject.CreatePrimitive(PrimitiveType.Sphere);lamp.name="Signal lamp";
+                    var lamp=GameObject.CreatePrimitive(PrimitiveType.Cube);lamp.name="Signal lamp";
                     DestroyImmediate(lamp.GetComponent<Collider>());
                     lamp.transform.SetParent(root.transform,false);
                     lamp.transform.position=pole3-right*2.5f*scale+Vector3.up*4.45f*scale;lamp.transform.localScale=Vector3.one*.42f*scale;
@@ -455,70 +448,11 @@ namespace PeninsulaTime
             return null;
         }
         static bool UnderRoof(Vector3 p){return Physics.Raycast(p+Vector3.up*300f,Vector3.down,299.9f);}
-        static string EraModelId(int era){return era<1?"camp":era<3?"pit-house":era<7?"hanok":era<9?"house":"apartment";}
         GameObject CreateHistoricBuilding(int era,Vector3 p,string id,float scale=1f)
         {
-            var made=CityModel(Resources.Load<GameObject>("Models/City/"+id)!=null?id:EraModelId(era),p,scale);
-            if(made!=null)
-            {
-                foreach(var filter in made.GetComponentsInChildren<MeshFilter>())
-                    if(filter.sharedMesh!=null&&filter.sharedMesh.isReadable&&filter.GetComponent<MeshCollider>()==null)
-                        filter.gameObject.AddComponent<MeshCollider>().sharedMesh=filter.sharedMesh;
-                return made;
-            }
-            if(id=="apartment"||id=="house"||id=="wind"||id=="nuclear"||id=="coal-power"||id=="oil-power")
-            {
-                var model=new GameObject(id);model.transform.SetParent(root.transform,false);model.transform.position=p;
-                if(id=="apartment")
-                {
-                    Primitive(PrimitiveType.Cube,"아파트 동",model.transform,new Vector3(0,5,0),new Vector3(3.3f,10,2.5f),Mat("apartment-wall",new Color(.74f,.75f,.70f)));
-                    for(int floor=1;floor<=9;floor++)for(int column=-1;column<=1;column++)
-                        Primitive(PrimitiveType.Cube,"창",model.transform,new Vector3(column*.9f,floor+.15f,-1.26f),new Vector3(.5f,.42f,.06f),Mat("apartment-glass",new Color(.19f,.30f,.35f),.2f));
-                    Primitive(PrimitiveType.Cube,"옥상",model.transform,new Vector3(0,10.15f,0),new Vector3(3.5f,.3f,2.7f),Mat("apartment-roof",new Color(.29f,.34f,.35f)));
-                }
-                else if(id=="house")
-                {
-                    Primitive(PrimitiveType.Cube,"주택 본채",model.transform,new Vector3(0,1.45f,0),new Vector3(3,2.9f,2.5f),Mat("house-wall",new Color(.75f,.68f,.59f)));
-                    var roof=Primitive(PrimitiveType.Cube,"경사지붕",model.transform,new Vector3(0,3.08f,0),new Vector3(3.5f,.4f,2.9f),Mat("house-roof",new Color(.29f,.31f,.33f)));roof.transform.localRotation=Quaternion.Euler(0,0,8);
-                    Primitive(PrimitiveType.Cube,"창",model.transform,new Vector3(-.7f,1.55f,-1.27f),new Vector3(.8f,.8f,.05f),Mat("house-glass",new Color(.21f,.38f,.45f),.1f));
-                }
-                else if(id=="wind")
-                {
-                    Primitive(PrimitiveType.Cylinder,"풍력 타워",model.transform,new Vector3(0,3.5f,0),new Vector3(.32f,3.5f,.32f),Mat("wind-tower",new Color(.86f,.88f,.85f)));
-                    Primitive(PrimitiveType.Sphere,"허브",model.transform,new Vector3(0,7,0),new Vector3(.65f,.65f,.65f),Mat("wind-hub",new Color(.92f,.93f,.90f)));
-                    for(int blade=0;blade<3;blade++){var part=Primitive(PrimitiveType.Cube,"날개",model.transform,new Vector3(0,7,0),new Vector3(.2f,3.8f,.12f),Mat("wind-blade",new Color(.87f,.89f,.86f)));part.transform.localRotation=Quaternion.Euler(0,0,blade*120f);part.transform.localPosition+=part.transform.up*1.8f;}
-                }
-                else
-                {
-                    Primitive(PrimitiveType.Cube,"발전 시설",model.transform,new Vector3(0,1.5f,0),new Vector3(3.5f,3,2.8f),Mat("power-wall",new Color(.56f,.61f,.62f)));
-                    if(id=="nuclear")Primitive(PrimitiveType.Sphere,"원자로 돔",model.transform,new Vector3(0,3.15f,0),new Vector3(2.7f,1.5f,2.7f),Mat("reactor-dome",new Color(.84f,.85f,.82f)));
-                    else for(int stack=0;stack<2;stack++)Primitive(PrimitiveType.Cylinder,"배기 굴뚝",model.transform,new Vector3(-.8f+stack*1.6f,4.15f,.65f),new Vector3(.35f,2f,.35f),Mat("power-stack",new Color(.44f,.37f,.34f)));
-                }
-                return null;
-            }
-            if(era<7)
-            {
-                var model=Resources.Load<GameObject>(era<3?"Models/Dwelling":"Models/Hanok");
-                if(model!=null){var instance=Instantiate(model,p,Quaternion.identity,root.transform);instance.name=id+" model";TintModel(instance);return null;}
-            }
-            var parent=new GameObject(id);parent.transform.SetParent(root.transform,false);parent.transform.position=p;
-            if(era<3)
-            {
-                Primitive(PrimitiveType.Cylinder,"Stone foundation",parent.transform,new Vector3(0,.3f,0),new Vector3(1.6f,.3f,1.6f),Mat("stone",new Color(.55f,.55f,.49f)));
-                var roof=Primitive(PrimitiveType.Cylinder,"Thatch roof",parent.transform,new Vector3(0,1.8f,0),new Vector3(1.9f,.7f,1.9f),Mat("thatch",new Color(.59f,.45f,.27f)));roof.transform.localRotation=Quaternion.Euler(0,0,180);
-            }
-            else if(era<7)
-            {
-                Primitive(PrimitiveType.Cube,"Timber body",parent.transform,new Vector3(0,1,0),new Vector3(2.7f,1.8f,2.4f),Mat("timber",new Color(.53f,.32f,.19f)));
-                var roof=Primitive(PrimitiveType.Cube,"Tiled roof",parent.transform,new Vector3(0,2.1f,0),new Vector3(3.2f,.35f,2.8f),Mat("tile",new Color(.18f,.24f,.26f)));
-                roof.transform.rotation=Quaternion.Euler(0,0,8);
-            }
-            else
-            {
-                var h=era>=9?4.3f:3.2f;Primitive(PrimitiveType.Cube,"Industrial body",parent.transform,new Vector3(0,h*.5f,0),new Vector3(3,h,2.5f),Mat("concrete",new Color(.56f,.62f,.64f)));
-                Primitive(PrimitiveType.Cylinder,"Chimney",parent.transform,new Vector3(1,4.1f,.7f),new Vector3(.28f,1.8f,.28f),Mat("chimney",new Color(.49f,.25f,.22f)));
-            }
-            return null;
+            // Map-city lots must never fall back to the old smooth FBX set.  The procedural
+            // model retains each lot/door anchor while giving every era a readable block form.
+            return CreatePixelPlotBuilding(era,p,id,scale);
         }
         public void BuildDistrict(int index)
         {
@@ -551,6 +485,7 @@ namespace PeninsulaTime
                 }
                 // One structure per building and per road segment instead of one mesh per surface kind for the whole district.
                 int structures=ModularMesh.Split(district.transform);Debug.Log("District "+models[index]+" split into "+structures+" structures");
+                ApplyPixelDistrictStyle(district.transform);
                 Primitive(PrimitiveType.Cube,"District ground",root.transform,new Vector3(0,-.16f,0),new Vector3(650,.25f,650),Mat("district-ground",new Color(.58f,.57f,.54f),0,"concrete",160f));
                 // Surrounding land so the horizon is not the bare sky colour.
                 var outer=Primitive(PrimitiveType.Cube,"Surrounding land",root.transform,new Vector3(0,-.3f,0),new Vector3(2400,.2f,2400),Mat("outer-ground",new Color(.36f,.42f,.38f),0,"grass",400f));
@@ -598,8 +533,7 @@ namespace PeninsulaTime
             }
             for(int n=-3;n<=3;n++)
             {
-                Primitive(PrimitiveType.Cylinder,"Street tree",root.transform,new Vector3(3.8f,1.5f,n*11),new Vector3(.22f,1.5f,.22f),Mat("treebark",new Color(.35f,.27f,.19f)));
-                Primitive(PrimitiveType.Sphere,"Tree crown",root.transform,new Vector3(3.8f,3.3f,n*11),new Vector3(2.3f,2.5f,2.3f),Mat("leaves",new Color(.27f,.43f,.32f)));
+                CreatePixelTree("Tree",new Vector3(3.8f,0,n*11),1f,0);
             }
             worldCamera.transform.position=new Vector3(0,2.1f,-10);worldCamera.transform.rotation=Quaternion.Euler(0,0,0);worldCamera.fieldOfView=72;
             vehicle=CreateVehicle(index==3?"bus":"metro",new Vector3(0,.8f,8));vehicle.SetActive(false);
